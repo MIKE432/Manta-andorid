@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Manta</string>
+    <string name="pick_athlete">Wybierz zawodnika</string>
+    <string name="athlete">Zawodnik</string>
+</resources>
