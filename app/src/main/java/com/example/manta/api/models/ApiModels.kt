@@ -27,3 +27,36 @@ class Athlete(
     val cath_code: String?,
     val ath_swimrankings_id: Int?
 )
+
+class Meet(
+    val meet_id: Int,
+    val season_id: Int,
+    val gallery_folder_id: Int?,
+    val mt_status: String,
+    val mt_grade_abbr: String,
+    val mt_entry_count: Int,
+    val mt_best_entry_count: Int,
+    val mt_name: String,
+    val coach_id: Int,
+    val mt_city: String,
+    val mt_nation_abbr: String,
+    val mt_flag: String,
+    val mt_from: Date,
+    val mt_to: Date,
+    val mt_entry_deadline: Date,
+    val mt_course_abbr: String,
+    val sr_meet_id: Int?,
+    val mt_place: Any,
+    val mt_images_folder: String,
+    val mt_main_page: String,
+    val mt_org_message_page: String,
+    val mt_athletes_list_page: String,
+    val mt_start_list_page: String,
+    val mt_results_page: String,
+    val mt_summary_page: String,
+    val mt_newspaper_clipping: String,
+    val mt_lxf_url_message: String,
+    val mt_lxf_url_entries: String,
+    val mt_lxf_url_entries_k: String,
+    val mt_lxf_url_results: String
+)

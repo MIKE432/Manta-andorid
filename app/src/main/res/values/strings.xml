@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">Manta</string>
-    <string name="pick_athlete">Wybierz zawodnika</string>
+    <string name="pick_athlete">Kim jesteś?</string>
     <string name="athlete">Zawodnik</string>
+    <string name="next">Dalej</string>
+    <string name="competition">Zawody</string>
+    <string name="articles">Artykuły</string>
+    <string name="records">Rekordy</string>
+    <string name="profile">Profil</string>
+    <string name="incoming_meets">Najbliższe zawody</string>
+    <string name="performed_meets">Odbyte zawody</string>
 </resources>

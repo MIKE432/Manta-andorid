@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/logged_athlete_nav_graph.xml"
+    app:startDestination="@id/meetsFragment">
+
+    <fragment
+        android:id="@+id/articlesFragment"
+        android:name="com.example.manta.ui.user_module.ArticlesFragment"
+        android:label="ArticlesFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.manta.ui.user_module.ProfileFragment"
+        android:label="ProfileFragment" />
+    <fragment
+        android:id="@+id/recordsFragment"
+        android:name="com.example.manta.ui.user_module.RecordsFragment"
+        android:label="RecordsFragment" />
+    <fragment
+        android:id="@+id/meetsFragment"
+        android:name="com.example.manta.ui.user_module.meets.MeetsPager"
+        android:label="MeetsPager" />
+</navigation>
