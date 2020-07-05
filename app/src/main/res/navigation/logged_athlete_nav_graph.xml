@@ -6,18 +6,18 @@
 
     <fragment
         android:id="@+id/articlesFragment"
-        android:name="com.example.manta.ui.user_module.ArticlesFragment"
+        android:name="com.apusart.manta.ui.user_module.ArticlesFragment"
         android:label="ArticlesFragment" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.manta.ui.user_module.ProfileFragment"
+        android:name="com.apusart.manta.ui.user_module.profile.ProfileFragment"
         android:label="ProfileFragment" />
     <fragment
         android:id="@+id/recordsFragment"
-        android:name="com.example.manta.ui.user_module.RecordsFragment"
+        android:name="com.apusart.manta.ui.user_module.RecordsFragment"
         android:label="RecordsFragment" />
     <fragment
         android:id="@+id/meetsFragment"
-        android:name="com.example.manta.ui.user_module.meets.MeetsPager"
+        android:name="com.apusart.manta.ui.user_module.meets.MeetsPager"
         android:label="MeetsPager" />
 </navigation>
