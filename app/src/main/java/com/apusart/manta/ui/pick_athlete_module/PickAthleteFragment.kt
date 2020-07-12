@@ -95,6 +95,7 @@ class AthleteViewHolder(viewContainer: View, val context: Context): RecyclerView
                 Glide
                     .with(this)
                     .load(url)
+                    .apply(Const.glideAthleteIconOptions)
                     .into(pick_athlete_item_image)
             }
 

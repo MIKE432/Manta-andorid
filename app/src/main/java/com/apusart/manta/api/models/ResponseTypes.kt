@@ -10,6 +10,7 @@ class LastMeetsResponse(
 class PersonalBestsResponse(
     val personalBestResults: List<PersonalBest>
 )
+
 class MostValuableResultsResponse(
     val mostValuableResults: List<MostValuableResult>
 )

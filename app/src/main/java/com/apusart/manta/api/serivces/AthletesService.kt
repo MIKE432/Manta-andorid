@@ -1,9 +1,11 @@
 package com.apusart.manta.api.serivces
 
+import android.util.Log
 import com.apusart.manta.Const
 import com.apusart.manta.api.calls.MantaEndpoints
 import com.apusart.manta.api.models.Athlete
 import com.apusart.manta.api.models.MostValuableResult
+import com.apusart.manta.api.models.PersonalBest
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -37,6 +39,11 @@ class AthletesService {
     suspend fun getMostValuableResultsByAthleteId(id: Int, limit: Int? = Const.defaultLimit): List<MostValuableResult> {
         val result = endpoints.getMostValuableResultsByAthleteId(id, limit)
         return result.mostValuableResults ?: listOf()
+    }
+
+    suspend fun getPersonalBestsByAthleteId(id: Int, limit: Int? = Const.defaultLimit): List<PersonalBest> {
+        val result = endpoints.getPersonalBestsByAthleteId(id, limit)
+        return result.personalBestResults ?: listOf()
     }
 
 }

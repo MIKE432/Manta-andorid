@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -62,13 +63,31 @@ class LastMeetsFragment: Fragment(R.layout.last_meets_fragment) {
         lastMeetsAdapter = LastMeetsAdapter()
 
         meetsViewModel.lastMeets.observe(viewLifecycleOwner, Observer { lastMeets ->
+            if(lastMeets.isEmpty()) {
+                meets_fragment_last_meets_empty_list_info.isVisible = true
+                meets_fragment_last_meets_list.isVisible = false
+            } else {
+                meets_fragment_last_meets_list.isVisible = true
+                meets_fragment_last_meets_empty_list_info.isVisible = false
+            }
             lastMeetsAdapter.submitList(lastMeets)
+            meets_fragment_last_meets_swipe_layout.isRefreshing = false
+        })
+
+        meetsViewModel.inProgressLastMeets.observe(viewLifecycleOwner, Observer {
+            meets_fragment_last_meets_list.isVisible = !it
         })
 
         meets_fragment_last_meets_list.apply {
             adapter = lastMeetsAdapter
         }
+
         meetsViewModel.getLastMeetsByAthleteId(athlete!!.athlete_id)
+
+        meets_fragment_last_meets_swipe_layout.setOnRefreshListener {
+            meetsViewModel.getLastMeetsByAthleteId(athlete.athlete_id)
+
+        }
     }
 }
 
@@ -82,13 +101,32 @@ class IncomingMeetsFragment: Fragment(R.layout.incoming_meets_fragment) {
         incomingMeetsAdapter = IncomingMeetsAdapter()
 
         meetsViewModel.lastMeets.observe(viewLifecycleOwner, Observer { lastMeets ->
+            if(lastMeets.isEmpty())
+
             incomingMeetsAdapter.submitList(lastMeets)
         })
 
         meets_fragment_incoming_meets_list.apply {
             adapter = incomingMeetsAdapter
         }
-        //implement get incomingMeetsGetter
+
+        meetsViewModel.incomingMeets.observe(viewLifecycleOwner, Observer { incMeets ->
+            if(incMeets.isEmpty()) {
+                meets_fragment_incoming_meets_empty_list_info.isVisible = true
+                meets_fragment_incoming_meets_list.isVisible = false
+            } else {
+                meets_fragment_incoming_meets_list.isVisible = true
+                meets_fragment_incoming_meets_empty_list_info.isVisible = false
+            }
+            meets_fragment_incoming_meets_swipe_layout.isRefreshing = false
+            incomingMeetsAdapter.submitList(incMeets)
+        })
+
+        meetsViewModel.getIncomingMeetsByAthleteId(athlete!!.athlete_id)
+
+        meets_fragment_incoming_meets_swipe_layout.setOnRefreshListener {
+            meetsViewModel.getIncomingMeetsByAthleteId(athlete.athlete_id)
+        }
     }
 }
 
@@ -102,7 +140,6 @@ class IncomingMeetsAdapter: ListAdapter<Meet, MeetViewHolder>(diffUtil) {
         override fun areContentsTheSame(oldItem: Meet, newItem: Meet): Boolean {
             return oldItem.meet_id == newItem.meet_id
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeetViewHolder {

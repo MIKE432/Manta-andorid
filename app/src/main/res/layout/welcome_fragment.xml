@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/welcome_fragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -17,14 +18,19 @@
 
         android:src="@drawable/manta_welcome">
     </ImageView>
-    <Button
+    <TextView
         android:id="@+id/welcome_fragment_pick_athlete_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/next"
+        style="@style/h1"
+        android:background="@color/colorAccent"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.7"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,13 +3,17 @@ package com.apusart.manta
 import android.content.Context
 import android.content.SharedPreferences
 import com.apusart.manta.api.models.Athlete
+import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 
 
 object Const {
     const val pageUrl = "http://ukp-manta.pl/api/"
     const val baseUrl = "http://ukp-manta.pl"
-    const val defaultLimit = 10
+    const val defaultLimit = 100
+    val glideAthleteIconOptions = RequestOptions()
+        .placeholder(R.drawable.athlete_icon)
+        .error(R.drawable.athlete_icon)
 }
 
 object Prefs {
@@ -27,9 +31,13 @@ object Prefs {
 
             editor = settings?.edit()
         }
-
     }
 
+    fun removeUser() {
+        editor?.remove(ATHLETE)
+        editor?.commit()
+        actualAthlete = null
+    }
     fun storeUser(athlete: Athlete) {
         val stringifiedAthlete = gson.toJson(athlete)
         editor?.putString(ATHLETE, stringifiedAthlete)

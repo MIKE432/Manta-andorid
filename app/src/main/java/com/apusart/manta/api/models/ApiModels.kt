@@ -41,7 +41,8 @@ class PersonalBest(
     val mt_from: Date,
     val mt_city: String,
     val mt_nation_abbr: String,
-    val sr_meet_id: Int?
+    val sr_meet_id: Int?,
+    val mt_name: String
 )
 class MostValuableResult(
     val athlete_id: Int,

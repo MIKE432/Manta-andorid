@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.welcome_fragment.*
 class WelcomeFragment: Fragment(R.layout.welcome_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        welcome_fragment_pick_athlete_button.setOnClickListener {
+        welcome_fragment.setOnClickListener {
             findNavController().navigate(R.id.action_welcomeFragment_to_pickAthleteFragment)
         }
     }
