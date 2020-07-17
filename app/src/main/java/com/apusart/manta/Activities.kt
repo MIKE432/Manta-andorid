@@ -1,23 +1,23 @@
 package com.apusart.manta
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.ViewTreeObserver
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.apusart.manta.api.models.Athlete
 import com.apusart.manta.ui.Animations
+import com.apusart.manta.ui.MedalStatsViewModel
+import com.apusart.manta.ui.pick_athlete_module.PickAthleteActivity
+import com.apusart.manta.ui.pick_athlete_module.WelcomeActivity
+import com.apusart.manta.ui.tools.Const
+import com.apusart.manta.ui.tools.Prefs
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.personal_best_item.view.*
 import kotlinx.android.synthetic.main.user_activity.*
 
-
-class PickAthleteActivity : AppCompatActivity(R.layout.activity_main) {}
 
 class InitialActivity: AppCompatActivity() {
 
@@ -29,7 +29,7 @@ class InitialActivity: AppCompatActivity() {
            startActivity(Intent(this, UserActivity::class.java)
                .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
         } else {
-            startActivity(Intent(this, PickAthleteActivity::class.java)
+            startActivity(Intent(this, WelcomeActivity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
         }
         finish()
@@ -37,12 +37,13 @@ class InitialActivity: AppCompatActivity() {
 }
 
 class UserActivity: AppCompatActivity(R.layout.user_activity) {
-    private var user: Athlete? = null
-    private var userMenuStatus = false
+    private var mUser: Athlete? = null
+    private var mUserMenuStatus = false
     private var mMenuHeight = 0
+    private val mMedalStatsViewModel: MedalStatsViewModel by viewModels()
 
     private fun handleMenu() {
-        if(userMenuStatus.also { userMenuStatus = !userMenuStatus }) {
+        if(mUserMenuStatus.also { mUserMenuStatus = !mUserMenuStatus }) {
             Animations.slideView(user_menu, mMenuHeight, 0)
             app_bar_out.isVisible = false
         } else {
@@ -53,37 +54,28 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
         }
     }
 
-    override fun onBackPressed() {
-        when(findNavController(R.id.logged_athlete_navigation_host).currentDestination?.id) {
-            R.id.meetsFragment -> finish()
-            R.id.articlesFragment -> finish()
-            R.id.recordsFragment -> finish()
-            R.id.profileFragment -> finish()
-            else -> super.onBackPressed()
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Prefs.AthletePreference(applicationContext)
-        user = Prefs.getUser()
-        user_firstname.text = user?.ath_firstname
-        user_lastname.text = user?.ath_lastname
+        mUser = Prefs.getUser()
+        user_name.text = getString(R.string.user_name, mUser?.ath_lastname, mUser?.ath_firstname)
+        user_licence_no.text = getString(R.string.licence_no, if(mUser?.ath_licence_no != "") mUser?.ath_licence_no else "(Brak)")
 
         user_menu.viewTreeObserver.addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 mMenuHeight = user_menu.measuredHeight
                 user_menu.layoutParams.height = 0
                 user_menu.requestLayout()
-                user_menu.viewTreeObserver.removeOnGlobalLayoutListener(this);
+                user_menu.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
         })
 
         Glide
             .with(this)
-            .load(Const.baseUrl + user?.ath_image_min_url)
+            .load(Const.baseUrl + mUser?.ath_image_min_url)
             .apply(Const.glideAthleteIconOptions)
             .into(user_image)
+
 
         user_information_container.setOnClickListener {
             handleMenu()
@@ -99,18 +91,20 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
         app_bar_out.setOnClickListener {
             handleMenu()
         }
+
+
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             val navController = findNavController(R.id.logged_athlete_navigation_host)
-            if(userMenuStatus) {
+            if(mUserMenuStatus) {
                 handleMenu()
             }
             when(item.itemId) {
-                R.id.navigation_competition -> {
-                    navController.navigate(R.id.meetsFragment)
+                R.id.navigation_dashboard -> {
+                    navController.navigate(R.id.dashboardFragment)
                     return@setOnNavigationItemSelectedListener true
                 }
-                R.id.navigation_articles -> {
-                    navController.navigate(R.id.articlesFragment)
+                R.id.navigation_competition -> {
+                    navController.navigate(R.id.meetsFragment)
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.navigation_records -> {

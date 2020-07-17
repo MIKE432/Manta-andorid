@@ -7,88 +7,114 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/list_item">
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingHorizontal="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/personal_best_item_main_data"
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:paddingVertical="30dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/personal_best_item_guideline2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5"/>
-            <TextView
-                android:id="@+id/personal_best_item_distance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="50m"
-                style="@style/h3.bold"
-                />
-            <TextView
-                android:id="@+id/personal_best_item_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/personal_best_item_distance"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginStart="10dp"
-                tools:text="dowolny:"
-                style="@style/h3.bold"
-                >
-            </TextView>
-            <TextView
-                android:id="@+id/personal_best_item_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/personal_best_item_guideline2"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:gravity="start"
-                style="@style/h3"
-                />
-            <TextView
-                android:id="@+id/personal_best_item_points"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/personal_best_item_time"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:gravity="end"
-                style="@style/h3" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/personal_best_item_additional_info"
+        <TextView
+            android:id="@+id/personal_best_item_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/personal_best_item_main_data"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            >
+            tools:text="50m dowolny"
+            style="@style/h3.bold"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <LinearLayout
+            android:id="@+id/personal_best_item_25_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/personal_best_item_header"
+            android:orientation="vertical">
             <TextView
-                android:id="@+id/personal_best_item_meeting_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                style="@style/h3"
-                tools:text="dsadsadsadsa"
-                />
+                style="@style/h6"
+                android:text="25m"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/personal_best_item_25_total_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/personal_best_item_25_date"
+                    tools:text="26.05"
+                    android:gravity="center"
+                    style="@style/h4" />
+                <TextView
+                    android:id="@+id/personal_best_item_25_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/personal_best_item_25_total_time"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/personal_best_item_25_points"
+                    tools:text="27-05-2020"
+                    android:layout_marginEnd="5dp"
+                    android:gravity="end"
+                    style="@style/h4" />
+                <TextView
+                    android:id="@+id/personal_best_item_25_points"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/personal_best_item_25_date"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="701"
+                    style="@style/h4" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/personal_best_item_50_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/personal_best_item_25_container"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/h6"
+                android:text="50m"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/personal_best_item_50_total_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/personal_best_item_50_date"
+                    tools:text="26.05"
+                    android:gravity="center"
+                    style="@style/h4" />
+                <TextView
+                    android:id="@+id/personal_best_item_50_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/personal_best_item_50_total_time"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/personal_best_item_50_points"
+                    tools:text="27-05-2020"
+                    android:layout_marginEnd="5dp"
+                    android:gravity="end"
+                    style="@style/h4" />
+                <TextView
+                    android:id="@+id/personal_best_item_50_points"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/personal_best_item_50_date"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="701"
+                    style="@style/h4" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

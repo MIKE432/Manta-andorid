@@ -14,15 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/personal_best_header25"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Krótki basen"
-                android:background="@color/colorAccent"
-                android:textColor="@android:color/holo_red_dark"
-                android:textSize="14sp" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/personal_best_25_list"
                 android:layout_width="match_parent"
@@ -33,17 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/personal_best_header50"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:text="Długi basen"
-                android:background="@color/colorAccent"
-                android:textColor="@android:color/holo_red_dark"
-                android:textSize="14sp" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/personal_best_50_list"
                 android:layout_width="match_parent"

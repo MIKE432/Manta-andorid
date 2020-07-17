@@ -9,4 +9,24 @@
     <string name="profile">Profil</string>
     <string name="incoming_meets">Najbliższe zawody</string>
     <string name="performed_meets">Odbyte zawody</string>
+    <string name="athlete_medals_statistics">Dorobek pływacki</string>
+    <string name="athlete_information">Informacje o pływaku</string>
+    <string name="licence_no">Numer licencji: %1$s</string>
+    <string name="licence_number">Numer licencji</string>
+    <string name="birth_date">Data urodzenia</string>
+    <string name="train_from">Trenuje od</string>
+    <string name="train_from_m">Trenował od</string>
+    <string name="train_from_f">Trenowała od</string>
+    <string name="train_to_m">Trenował do</string>
+    <string name="train_to_f">Trenowała do</string>
+    <string name="no_data">Brak danych</string>
+    <string name="no_athlete_statistics">Brak trofeów</string>
+    <string name="no_mvr">Brak \n najwartościowszych \n wyników</string>
+    <string name="user_name">%1$s %2$s</string>
+    <string name="dashboard">Strona główna</string>
+    <string name="mvr_25">Najlepszy wynik na basenie 25m</string>
+    <string name="mvr_50">Najlepszy wynik na basenie 50m</string>
+    <string name="mvr">Najwartościowsze wyniki</string>
+    <string name="medal_statistics">Statystyka medalowa</string>
+    <string name="apusart">Apusart</string>
 </resources>

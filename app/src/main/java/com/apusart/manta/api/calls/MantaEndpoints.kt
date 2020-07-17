@@ -1,10 +1,7 @@
 package com.apusart.manta.api.calls
 
 
-import com.apusart.manta.api.models.AthletesResponse
-import com.apusart.manta.api.models.LastMeetsResponse
-import com.apusart.manta.api.models.MostValuableResultsResponse
-import com.apusart.manta.api.models.PersonalBestsResponse
+import com.apusart.manta.api.models.*
 
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -23,4 +20,6 @@ interface MantaEndpoints {
     @GET("athletes/{id}/personal-best-results")
     suspend fun getPersonalBestsByAthleteId(@Path("id") id: Int, @Query("limit") limit: Int?): PersonalBestsResponse
 
+    @GET("athletes/{id}/medal-stats")
+    suspend fun getMedalStatsByAthleteId(@Path("id") id: Int, @Query("grade-abbr") grade: String?,  @Query("up-to-place") upToPlace: Int? = 3): MedalStatsResponse
 }

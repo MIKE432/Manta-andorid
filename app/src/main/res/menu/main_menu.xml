@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_competition"
+        android:id="@+id/navigation_dashboard"
         android:enabled="true"
-        android:icon="@drawable/copetition_flag_icon"
-        android:title="@string/competition"
+        android:icon="@drawable/home_icon"
+        android:title="@string/dashboard"
         />
     <item
-        android:id="@+id/navigation_articles"
+        android:id="@+id/navigation_competition"
         android:enabled="true"
-        android:icon="@drawable/articles_icon"
-        android:title="@string/articles"
+        android:icon="@drawable/swimmer_icon"
+        android:title="@string/competition"
         />
     <item
         android:id="@+id/navigation_records"
         android:enabled="true"
-        android:icon="@drawable/records_icon"
+        android:icon="@drawable/plot_icon"
         android:title="@string/records"
         />
     <item

@@ -1,6 +1,6 @@
 package com.apusart.manta.api.serivces
 
-import com.apusart.manta.Const
+import com.apusart.manta.ui.tools.Const
 import com.apusart.manta.api.calls.MantaEndpoints
 import com.apusart.manta.api.models.Meet
 import okhttp3.OkHttpClient

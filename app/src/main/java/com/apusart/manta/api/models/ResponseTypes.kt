@@ -14,3 +14,6 @@ class PersonalBestsResponse(
 class MostValuableResultsResponse(
     val mostValuableResults: List<MostValuableResult>
 )
+class MedalStatsResponse(
+    val medalStats: List<MedalStat>
+)

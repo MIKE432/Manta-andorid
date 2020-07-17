@@ -1,0 +1,106 @@
+package com.apusart.manta.ui.user_module.dashboard
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.apusart.manta.ui.tools.Prefs
+import com.apusart.manta.R
+import com.apusart.manta.api.models.Athlete
+import com.apusart.manta.ui.MedalStatsViewModel
+import com.apusart.manta.ui.tools.Tools
+import com.apusart.manta.ui.user_module.results.MostValuableResultsViewModel
+import com.apusart.manta.ui.user_module.results.ResultsFragment
+import kotlinx.android.synthetic.main.medals_statistics_item.view.*
+import kotlinx.android.synthetic.main.dashboard_fragment.*
+import kotlinx.android.synthetic.main.most_valuable_results_for_dashboard.view.*
+
+class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
+    private var mUser: Athlete? = Prefs.getUser()
+    private val medalStatsViewModel: MedalStatsViewModel by viewModels()
+    private val mostValuableResultsViewModel: MostValuableResultsViewModel by viewModels()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+//        -----------------Medal statsistics--------------------
+
+        val medalStats = LayoutInflater.from(this.context)
+            .inflate(R.layout.medals_statistics_item, profile_fragment_athlete_medals_statistics_container, false)
+        profile_fragment_athlete_medals_statistics_container.addView(medalStats)
+
+        medalStatsViewModel.mGeneralMedalStats.observe(viewLifecycleOwner, Observer {
+            medalStats.medal_stats_item_gold_medal_count.text = "${it.gold}"
+            medalStats.medal_stats_item_silver_medal_count.text = "${it.silver}"
+            medalStats.medal_stats_item_bronze_medal_count.text = "${it.bronze}"
+
+            profile_fragment_athlete_medals_statistics.isVisible =
+                !(it.gold == 0 && it.silver == 0 && it.bronze == 0)
+
+            if(it.gold == 0)
+                medalStats.medal_stats_item_gold_medals_stats.visibility = View.INVISIBLE
+            else
+                medalStats.medal_stats_item_gold_medals_stats.visibility = View.VISIBLE
+
+            if(it.silver == 0)
+                medalStats.medal_stats_item_silver_medals_stats.visibility = View.INVISIBLE
+            else
+                medalStats.medal_stats_item_silver_medals_stats.visibility = View.VISIBLE
+
+            if(it.bronze == 0)
+                medalStats.medal_stats_item_bronze_medals_stats.visibility = View.INVISIBLE
+            else
+                medalStats.medal_stats_item_bronze_medals_stats.visibility = View.VISIBLE
+        })
+        profile_fragment_athlete_medals_statistics_container.setOnClickListener {
+            findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToRecordsFragment(1))
+        }
+
+//        -----------------MVR statsistics--------------------
+        val mvrs = LayoutInflater.from(this.context)
+            .inflate(R.layout.most_valuable_results_for_dashboard, dashboard_information, false)
+        dashboard_information.addView(mvrs)
+
+        mostValuableResultsViewModel.isInProgress.observe(viewLifecycleOwner, Observer {
+            val best50 = mostValuableResultsViewModel.mostValuableResults.value?.firstOrNull { mvr -> mvr.res_course_abbr == "LCM" }
+            val best25 = mostValuableResultsViewModel.mostValuableResults.value?.firstOrNull { mvr -> mvr.res_course_abbr == "SCM" }
+            mvrs.mvr_for_dashboard_container.isVisible = (!it and (best25 != null || best50 != null))
+            mvrs.mvr_for_dashboard_spinner.isVisible = it
+        })
+
+        mostValuableResultsViewModel.mostValuableResults.observe(viewLifecycleOwner, Observer {
+            val best50 = it.firstOrNull { mvr -> mvr.res_course_abbr == "LCM" }
+            val best25 = it.firstOrNull { mvr -> mvr.res_course_abbr == "SCM" }
+
+            //for 25
+            mvrs.mvr_for_dashboard_25_distance.text = best25?.sev_distance.toString()
+            mvrs.mvr_for_dashboard_25_style.text = best25?.sst_name_pl.toString()
+            mvrs.mvr_for_dashboard_25_total_time.text = Tools.convertResult(
+                best25?.res_total_time?.toFloat() ?: 0f)
+            mvrs.mvr_for_dashboard_25_points.text = best25?.res_points.toString()
+
+            //for 50
+            mvrs.mvr_for_dashboard_50_distance.text = best50?.sev_distance.toString()
+            mvrs.mvr_for_dashboard_50_style.text = best50?.sst_name_pl.toString()
+            mvrs.mvr_for_dashboard_50_total_time.text = Tools.convertResult(
+                best50?.res_total_time?.toFloat() ?: 0f)
+            mvrs.mvr_for_dashboard_50_points.text = best50?.res_points.toString()
+
+            mvrs.isVisible = (best25 != null && best50 != null)
+            mvrs.mvr_for_dashboard_50_container.isVisible = best50 != null
+            mvrs.mvr_for_dashboard_25_container.isVisible = best25 != null
+        })
+
+        mvrs.setOnClickListener {
+            findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToRecordsFragment(0))
+        }
+
+        mostValuableResultsViewModel.getMostValuableResultsByAthleteId(mUser!!.athlete_id)
+        medalStatsViewModel.getGeneralMedalStatsByAthleteId(mUser!!.athlete_id)
+    }
+}

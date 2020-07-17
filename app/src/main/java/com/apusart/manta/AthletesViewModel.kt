@@ -12,12 +12,25 @@ class AthletesViewModel: ViewModel() {
     val athletes = MutableLiveData<List<Athlete>>()
     private val athletesService = AthletesService()
     val inProgress = MutableLiveData(false)
-
+    val mantaAlph = MutableLiveData<List<String>>()
     fun getAthletes() {
         inProgress.value = true
         viewModelScope.launch {
             try {
-                athletes.value =  athletesService.getAthletes()
+                val res = athletesService.getAthletes()
+                athletes.value =  res
+                mantaAlph.value = res.fold(ArrayList()) { total, item ->
+                    var hasItem = false
+
+                    total.forEach {
+                        if(it == item.ath_lastname.substring(0, 1))
+                            hasItem = true
+                    }
+                    if(!hasItem)
+                        total.add(item.ath_lastname.substring(0, 1))
+
+                    return@fold total
+                }
                 inProgress.value = false
             } catch(e: Exception) {}
         }

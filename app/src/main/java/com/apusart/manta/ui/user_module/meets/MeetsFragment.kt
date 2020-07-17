@@ -13,7 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.apusart.manta.Prefs
+import com.apusart.manta.ui.tools.Prefs
 import com.apusart.manta.R
 import com.apusart.manta.api.models.Meet
 import kotlinx.android.synthetic.main.incoming_meets_fragment.*

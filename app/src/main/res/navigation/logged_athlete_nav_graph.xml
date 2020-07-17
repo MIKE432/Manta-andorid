@@ -2,22 +2,37 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/logged_athlete_nav_graph.xml"
-    app:startDestination="@id/meetsFragment">
+    app:startDestination="@id/dashboardFragment">
 
     <fragment
         android:id="@+id/articlesFragment"
         android:name="com.apusart.manta.ui.user_module.ArticlesFragment"
         android:label="ArticlesFragment" />
     <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.apusart.manta.ui.user_module.ProfileFragment"
-        android:label="ProfileFragment" />
+        android:id="@+id/dashboardFragment"
+        android:name="com.apusart.manta.ui.user_module.dashboard.DashBoardFragment"
+        android:label="ProfileFragment" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_recordsFragment"
+            app:destination="@id/recordsFragment">
+
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/recordsFragment"
         android:name="com.apusart.manta.ui.user_module.results.ResultsFragment"
-        android:label="RecordsFragment" />
+        android:label="RecordsFragment" >
+        <argument
+            android:name="openOnPage"
+            app:argType="integer"
+            android:defaultValue="0"/>
+    </fragment>
     <fragment
         android:id="@+id/meetsFragment"
         android:name="com.apusart.manta.ui.user_module.meets.MeetsPager"
         android:label="MeetsPager" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.apusart.manta.ui.user_module.profile.ProfileFragment"
+        android:label="ProfileFragment" />
 </navigation>

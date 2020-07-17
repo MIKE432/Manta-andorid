@@ -11,13 +11,19 @@ import java.lang.Exception
 class MostValuableResultsViewModel: ViewModel() {
     private val athletesService = AthletesService()
     val mostValuableResults = MutableLiveData<List<MostValuableResult>>()
+    val isInProgress = MutableLiveData(false)
 
     fun getMostValuableResultsByAthleteId(id: Int) {
         viewModelScope.launch {
-
+            isInProgress.value = true
             try {
                 mostValuableResults.value = athletesService.getMostValuableResultsByAthleteId(id)
-            } catch(e: Exception) {}
+                isInProgress.value = false
+            } catch(e: Exception) {
+
+            } finally {
+                isInProgress.value = false
+            }
         }
     }
 }

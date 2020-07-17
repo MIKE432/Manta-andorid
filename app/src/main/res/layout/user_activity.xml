@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/app_bar"
         app:layout_constraintTop_toTopOf="parent"
@@ -46,36 +45,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toEndOf="@id/user_image_container"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintHorizontal_bias="0"
                 >
                 <TextView
-                    android:id="@+id/user_firstname"
+                    android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/user_lastname"
                     app:layout_constraintVertical_bias="0"
-                    android:textSize="17sp"
-                    app:layout_constraintHorizontal_bias="0"
-                    tools:text="Zofia" />
-
-                <TextView
-                    android:id="@+id/user_lastname"
                     style="@style/h3.bold"
+                    app:layout_constraintHorizontal_bias="0"
+                    tools:text="Zofia Raszczuk" />
+                <TextView
+                    android:id="@+id/user_licence_no"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintTop_toBottomOf="@id/user_name"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/user_firstname"
-                    app:layout_constraintVertical_bias="1.0"
-                    tools:text="Raszczuk" />
+                    tools:text="@string/licence_no"
+                    style="@style/h6"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -94,121 +86,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:orientation="vertical">
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp">
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/user_menu_gold_medals_stats"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/user_menu_silver_medals_stats">
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent">
-                            <ImageView
-                                android:id="@+id/user_menu_gold_medal"
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
-                                android:src="@drawable/medal_gold_icon32"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="0dp"
-                                app:layout_constraintEnd_toStartOf="@id/user_menu_gold_medal"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                android:layout_marginEnd="5dp"
-                                tools:text="32 x"
-                                style="@style/h3"
-                                android:gravity="center" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/user_menu_silver_medals_stats"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/user_menu_gold_medals_stats"
-                        app:layout_constraintEnd_toStartOf="@id/user_menu_silver_bronze_stats">
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent">
-                            <ImageView
-                                android:id="@+id/user_menu_silver_medal"
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
-                                android:src="@drawable/medal_silver_icon32"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="0dp"
-                                app:layout_constraintEnd_toStartOf="@id/user_menu_silver_medal"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                android:layout_marginEnd="5dp"
-                                tools:text="32 x"
-                                style="@style/h3"
-                                android:gravity="center" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/user_menu_silver_bronze_stats"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/user_menu_silver_medals_stats">
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            >
-                            <ImageView
-                                android:id="@+id/user_menu_bronze_medal"
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
-                                android:src="@drawable/medal_bronze_icon32"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="0dp"
-                                app:layout_constraintEnd_toStartOf="@id/user_menu_bronze_medal"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                android:layout_marginEnd="5dp"
-                                tools:text="32 x"
-                                style="@style/h3"
-                                android:gravity="center" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-               <androidx.constraintlayout.widget.ConstraintLayout
+           <androidx.constraintlayout.widget.ConstraintLayout
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content">
                    <LinearLayout
@@ -265,7 +143,7 @@
         android:visibility="gone"
         android:background="@color/grayTransparent"/>
 
-    <androidx.fragment.app.FragmentContainerView
+    <fragment
         android:id="@+id/logged_athlete_navigation_host"
         android:name="androidx.navigation.fragment.NavHostFragment"
         app:defaultNavHost="true"
@@ -282,6 +160,8 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -289,5 +169,4 @@
         android:layout_gravity="bottom"
         app:menu="@menu/main_menu"
         />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

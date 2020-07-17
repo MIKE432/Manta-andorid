@@ -4,14 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.apusart.manta.Prefs
+import com.apusart.manta.ui.tools.Prefs
 import com.apusart.manta.R
+import com.apusart.manta.ui.tools.Tools
 import com.apusart.manta.api.models.MostValuableResult
 import kotlinx.android.synthetic.main.most_valuable_result_item.view.*
 import kotlinx.android.synthetic.main.most_valuable_results_fragment.*
@@ -29,6 +31,13 @@ class MostValuableResultsFragment: Fragment(R.layout.most_valuable_results_fragm
         }
         mostValuableResultsViewModel.mostValuableResults.observe(viewLifecycleOwner, Observer { mvrList ->
             mostValuableResultsAdapter.submitList(mvrList)
+            most_valuable_results_list_no_mvr.isVisible = mvrList.isEmpty()
+            most_valuable_results_list.isVisible = mvrList.isNotEmpty()
+        })
+
+        mostValuableResultsViewModel.isInProgress.observe(viewLifecycleOwner, Observer {
+             most_valuable_results_list.isVisible = !it
+            most_valuable_results_list_spinner.isVisible = it
         })
         mostValuableResultsViewModel.getMostValuableResultsByAthleteId(Prefs.getUser()!!.athlete_id)
     }
@@ -72,7 +81,7 @@ class MostValuableResultViewHolder(viewContainer: View): RecyclerView.ViewHolder
     fun bind(mvr: MostValuableResult) {
         itemView.apply {
             most_valuable_result_item_points.text = "${mvr.res_points}"
-            most_valuable_result_item_time.text = mvr.res_total_time
+            most_valuable_result_item_time.text = Tools.convertResult(mvr.res_total_time.toFloat())
             most_valuable_result_item_distance.text = "${mvr.sev_distance}"
             most_valuable_result_item_style.text = mvr.sst_name_pl
         }

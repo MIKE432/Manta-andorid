@@ -1,12 +1,10 @@
 package com.apusart.manta.api.models
 
-import java.util.*
-
 class Athlete(
     val athlete_id: Int,
     val club_id: Int,
-    val ath_from: Date,
-    val ath_to: Date,
+    val ath_from: String?,
+    val ath_to: String?,
     val section_id: Int,
     val gender_abbr: String,
     val ath_firstname: String,
@@ -15,7 +13,7 @@ class Athlete(
     val ath_image_min_url: String?,
     val ath_image_max_url: String?,
     val ath_birth_year: Int,
-    val ath_birth_date: Date,
+    val ath_birth_date: String,
     val ath_birth_month: Int,
     val ath_birth_day: Int,
     val ath_status: String,
@@ -24,7 +22,7 @@ class Athlete(
     val ath_contact_email: String,
     val ath_contact_phone: Long,
     val ath_address: String?,
-    val cath_code: String?,
+    val cath_code: String,
     val ath_swimrankings_id: Int?
 )
 
@@ -38,7 +36,7 @@ class PersonalBest(
     val res_dsq_abbr: String,
     val res_total_time: String,
     val res_count: Int,
-    val mt_from: Date,
+    val mt_from: String,
     val mt_city: String,
     val mt_nation_abbr: String,
     val sr_meet_id: Int?,
@@ -75,9 +73,9 @@ class MostValuableResult(
     val mt_city: String,
     val mt_nation_abbr: String,
     val mt_flag: String,
-    val mt_from: Date,
-    val mt_to: Date,
-    val mt_entry_deadline: Date?,
+    val mt_from: String,
+    val mt_to: String,
+    val mt_entry_deadline: String?,
     val mt_course_abbr: String,
     val sr_meet_id: Int?,
     val mt_place: String?,
@@ -127,9 +125,9 @@ class Meet(
     val mt_city: String,
     val mt_nation_abbr: String,
     val mt_flag: String,
-    val mt_from: Date,
-    val mt_to: Date,
-    val mt_entry_deadline: Date,
+    val mt_from: String,
+    val mt_to: String,
+    val mt_entry_deadline: String,
     val mt_course_abbr: String,
     val sr_meet_id: Int?,
     val mt_place: Any,
@@ -145,4 +143,11 @@ class Meet(
     val mt_lxf_url_entries: String,
     val mt_lxf_url_entries_k: String,
     val mt_lxf_url_results: String
+)
+
+class MedalStat(
+    val mt_grade: String,
+    val mt_grade_abbr: String,
+    val res_place: Int,
+    val res_count: Int
 )

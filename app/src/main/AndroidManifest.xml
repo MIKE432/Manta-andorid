@@ -18,10 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.apusart.manta.PickAthleteActivity">
-
-        </activity>
-        <activity android:name="com.apusart.manta.UserActivity"/>
+        <activity android:name="com.apusart.manta.ui.pick_athlete_module.WelcomeActivity"/>
+        <activity android:name=".ui.pick_athlete_module.PickAthleteActivity"/>
+        <activity android:name="com.apusart.manta.UserActivity" android:screenOrientation="portrait" />
     </application>
 
 </manifest>
