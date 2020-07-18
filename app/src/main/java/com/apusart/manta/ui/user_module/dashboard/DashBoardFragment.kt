@@ -15,15 +15,17 @@ import com.apusart.manta.ui.MedalStatsViewModel
 import com.apusart.manta.ui.tools.Tools
 import com.apusart.manta.ui.user_module.results.MostValuableResultsViewModel
 import com.apusart.manta.ui.user_module.results.ResultsFragment
+import com.apusart.manta.ui.user_module.results.ResultsViewModel
 import kotlinx.android.synthetic.main.medals_statistics_item.view.*
 import kotlinx.android.synthetic.main.dashboard_fragment.*
+import kotlinx.android.synthetic.main.last_results_for_dashboard.view.*
 import kotlinx.android.synthetic.main.most_valuable_results_for_dashboard.view.*
 
 class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
     private var mUser: Athlete? = Prefs.getUser()
     private val medalStatsViewModel: MedalStatsViewModel by viewModels()
     private val mostValuableResultsViewModel: MostValuableResultsViewModel by viewModels()
-
+    private val resultsViewModel: ResultsViewModel by viewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -57,6 +59,7 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
             else
                 medalStats.medal_stats_item_bronze_medals_stats.visibility = View.VISIBLE
         })
+
         profile_fragment_athlete_medals_statistics_container.setOnClickListener {
             findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToRecordsFragment(1))
         }
@@ -100,6 +103,38 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
             findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToRecordsFragment(0))
         }
 
+//        -----------------Last results statsistics--------------------
+        val lastResults = LayoutInflater.from(this.context)
+            .inflate(R.layout.last_results_for_dashboard, dashboard_information, false)
+
+        dashboard_information.addView(lastResults)
+
+        resultsViewModel.results.observe(viewLifecycleOwner, Observer {
+
+            when(it.size > 0) {
+                false -> lastResults.isVisible = false
+                true -> {
+                    lastResults.last_results_2_container.isVisible = false
+                    lastResults.last_results_1_header.text = getString(R.string.meet_header, it[0].mt_name, it[0].mt_from)
+                    lastResults.last_results_1_distance.text = getString(R.string.distance, it[0].sev_distance.toString())
+                    lastResults.last_results_1_style.text = it[0].sst_name_pl
+                    lastResults.last_results_1_time.text = Tools.convertResult(it[0].res_total_time?.toFloat() ?: 0f)
+                    lastResults.last_results_1_points.text = it[0].res_points.toString()
+
+                    if(it.size > 2) {
+                        lastResults.last_results_2_container.isVisible = true
+
+                        lastResults.last_results_2_header.text = getString(R.string.meet_header, it[1].mt_name, it[1].mt_from)
+                        lastResults.last_results_2_distance.text = getString(R.string.distance, it[1].sev_distance.toString())
+                        lastResults.last_results_2_style.text = it[1].sst_name_pl
+                        lastResults.last_results_2_time.text = Tools.convertResult(it[1].res_total_time?.toFloat() ?: 0f)
+                        lastResults.last_results_2_points.text = it[1].res_points.toString()
+                    }
+                }
+            }
+        })
+
+        resultsViewModel.getResultsByAthleteId(mUser!!.athlete_id)
         mostValuableResultsViewModel.getMostValuableResultsByAthleteId(mUser!!.athlete_id)
         medalStatsViewModel.getGeneralMedalStatsByAthleteId(mUser!!.athlete_id)
     }

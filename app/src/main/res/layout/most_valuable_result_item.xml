@@ -32,7 +32,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:text="50m"
-                style="@style/h4.bold"
+                style="@style/Body1Roboto14Pt"
                 />
             <TextView
                 android:id="@+id/most_valuable_result_item_style"
@@ -43,7 +43,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginStart="10dp"
                 tools:text="dowolny:"
-                style="@style/h4.bold"
+                style="@style/Body1Roboto14Pt"
                 >
             </TextView>
             <TextView
@@ -54,7 +54,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:gravity="start"
-                style="@style/h4"
+                style="@style/Body2MenuRoboto14Pt"
                 />
             <TextView
                 android:id="@+id/most_valuable_result_item_points"
@@ -65,7 +65,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:gravity="end"
-                style="@style/h4" />
+                style="@style/Body1Roboto14Pt" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

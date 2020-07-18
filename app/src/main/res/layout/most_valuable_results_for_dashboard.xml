@@ -19,6 +19,11 @@
        android:layout_height="wrap_content"
        app:layout_constraintTop_toTopOf="parent"
        android:orientation="vertical">
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           style="@style/TitleRoboto20Pt"
+           android:text="Najlepsze wyniki"/>
     <LinearLayout
         android:id="@+id/mvr_for_dashboard_25_container"
         android:layout_width="match_parent"
@@ -29,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            style="@style/h6"
+            style="@style/CaptionRoboto12Pt"
             android:text="@string/mvr_25"
             />
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,13 +49,13 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                style="@style/h3.bold"
+                style="@style/Roboto14Pt"
                 tools:text="400m"
                 />
 
             <TextView
                 android:id="@+id/mvr_for_dashboard_25_style"
-                style="@style/h3.bold"
+                style="@style/Roboto14Pt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -62,7 +67,7 @@
 
             <TextView
                 android:id="@+id/mvr_for_dashboard_25_total_time"
-                style="@style/h3.bold"
+                style="@style/Roboto14Pt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -75,7 +80,7 @@
 
             <TextView
                 android:id="@+id/mvr_for_dashboard_25_points"
-                style="@style/h3.bold"
+                style="@style/Roboto14Pt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -95,7 +100,7 @@
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                app:layout_constraintTop_toTopOf="parent"
-               style="@style/h6"
+               style="@style/CaptionRoboto12Pt"
                android:text="@string/mvr_50"
                />
            <androidx.constraintlayout.widget.ConstraintLayout
@@ -110,13 +115,13 @@
                    android:layout_height="wrap_content"
                    app:layout_constraintTop_toTopOf="parent"
                    app:layout_constraintStart_toStartOf="parent"
-                   style="@style/h3.bold"
+                   style="@style/Roboto14Pt"
                    tools:text="400m"
                    />
 
                <TextView
                    android:id="@+id/mvr_for_dashboard_50_style"
-                   style="@style/h3.bold"
+                   style="@style/Roboto14Pt"
                    android:layout_width="0dp"
                    android:layout_height="wrap_content"
                    app:layout_constraintBottom_toBottomOf="parent"
@@ -128,7 +133,7 @@
 
                <TextView
                    android:id="@+id/mvr_for_dashboard_50_total_time"
-                   style="@style/h3.bold"
+                   style="@style/Roboto14Pt"
                    android:layout_width="0dp"
                    android:layout_height="wrap_content"
                    app:layout_constraintBottom_toBottomOf="parent"
@@ -141,7 +146,7 @@
 
                <TextView
                    android:id="@+id/mvr_for_dashboard_50_points"
-                   style="@style/h3.bold"
+                   style="@style/Roboto14Pt"
                    android:layout_width="0dp"
                    android:layout_height="wrap_content"
                    app:layout_constraintBottom_toBottomOf="parent"

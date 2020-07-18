@@ -29,4 +29,7 @@
     <string name="mvr">Najwartościowsze wyniki</string>
     <string name="medal_statistics">Statystyka medalowa</string>
     <string name="apusart">Apusart</string>
+    <string name="last_results">Ostatnie konkurencje</string>
+    <string name="meet_header">%1$s (%2$s)</string>
+    <string name="distance">%1$sm</string>
 </resources>

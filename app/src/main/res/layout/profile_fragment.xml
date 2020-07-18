@@ -18,9 +18,8 @@
             android:text="@string/athlete_information"
             android:gravity="center"
             android:background="@color/headerColor"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp"
-            style="@style/h3"
+            android:paddingVertical="8dp"
+            style="@style/Body3Roboto14Pt"
             android:textColor="@color/white"
             />
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,6 +34,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/profile_fragment_athlete_licence_value"
+                style="@style/Body1Roboto14Pt"
                 android:text="@string/licence_no"/>
             <TextView
                 android:id="@+id/profile_fragment_athlete_licence_value"
@@ -45,6 +45,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/profile_fragment_athlete_licence_title"
                 tools:text="03-06-2002"
+                style="@style/Roboto14Pt"
                 android:gravity="end"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,6 +60,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/profile_fragment_athlete_birth_date_value"
+                style="@style/Body1Roboto14Pt"
                 android:text="@string/birth_date"/>
             <TextView
                 android:id="@+id/profile_fragment_athlete_birth_date_value"
@@ -69,6 +71,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/profile_fragment_athlete_birth_date_title"
                 tools:text="03-06-2002"
+                style="@style/Roboto14Pt"
                 android:gravity="end"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -82,7 +85,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/profile_fragment_athlete_train_from_value" />
+                app:layout_constraintEnd_toStartOf="@id/profile_fragment_athlete_train_from_value"
+                style="@style/Body1Roboto14Pt"
+                />
             <TextView
                 android:id="@+id/profile_fragment_athlete_train_from_value"
                 android:layout_width="0dp"
@@ -92,6 +97,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/profile_fragment_athlete_train_from_title"
                 tools:text="03-06-2002"
+                style="@style/Roboto14Pt"
                 android:gravity="end"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -105,7 +111,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/profile_fragment_athlete_train_to_value" />
+                app:layout_constraintEnd_toStartOf="@id/profile_fragment_athlete_train_to_value"
+                style="@style/Body1Roboto14Pt"
+                />
             <TextView
                 android:id="@+id/profile_fragment_athlete_train_to_value"
                 android:layout_width="0dp"
@@ -115,6 +123,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/profile_fragment_athlete_train_to_title"
                 tools:text="03-06-2002"
+                style="@style/Roboto14Pt"
                 android:gravity="end"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

@@ -16,7 +16,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:gravity="start"
-            style="@style/h4.bold"
+            style="@style/TitleRoboto20Pt"
             tools:text="IV Og\u00f3lnopolskie mistrzostwa O\u0142awy w p\u0142ywaniu" />
         <TextView
             android:id="@+id/meet_item_meet_city"
@@ -26,6 +26,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
+            style="@style/Body3Roboto14Pt"
             tools:text="Oława"/>
 
         <TextView
@@ -36,6 +37,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
+            style="@style/Body3Roboto14Pt"
             tools:text="POL"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

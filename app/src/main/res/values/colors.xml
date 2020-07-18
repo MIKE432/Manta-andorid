@@ -8,4 +8,14 @@
     <color name="borderColor">#8198c7</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000</color>
+    <color name="pale_grey">#FAFAFC</color>
+    <color name="pale_grey_two">#F7F7FA</color>
+    <color name="pale_grey_three">#DFE0E6</color>
+    <color name="cool_grey">#A2A4AD</color>
+    <color name="battleship_grey">#6B6E7D</color>
+    <color name="dark_sky_blue">#3F6CEA</color>
+    <color name="light_periwinkle">#D4E4FC</color>
+    <color name="dark_seafoam">#18AF68</color>
+    <color name="light_teal">#BFEDD7</color>
+    <color name="golden_rod">#EEB507</color>
 </resources>

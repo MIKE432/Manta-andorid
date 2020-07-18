@@ -12,7 +12,8 @@ class WelcomeActivity: AppCompatActivity(R.layout.welcome_fragment) {
 
         welcome_fragment.setOnClickListener {
             startActivity(Intent(this, PickAthleteActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+                .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
+
         }
     }
 }

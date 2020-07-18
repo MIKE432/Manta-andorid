@@ -21,8 +21,8 @@
             android:text="@string/dashboard"
             android:gravity="center"
             android:background="@color/headerColor"
-            android:paddingVertical="4dp"
-            style="@style/h3"
+            android:paddingVertical="8dp"
+            style="@style/Body3Roboto14Pt"
             android:textColor="@color/white"
             />
         <ScrollView
@@ -51,7 +51,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/athlete_medals_statistics"
-                            style="@style/h6"
+                            style="@style/TitleRoboto20Pt"
                             android:gravity="start" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

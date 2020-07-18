@@ -50,6 +50,26 @@ object Const {
     )
 }
 
+object Font {
+    const val ROBOTO_BLACK = "fonts/Roboto-Black.ttf"
+    const val ROBOTO_BLACK_ITALIC = "fonts/Roboto-BlackItalic.ttf"
+    const val ROBOTO_BOLD = "fonts/Roboto-Bold.ttf"
+    const val ROBOTO_BOLD_ITALIC = "fonts/Roboto-BoldItalic.ttf"
+    const val ROBOTO_ITALIC = "fonts/Roboto-Italic.ttf"
+    const val ROBOTO_LIGHT = "fonts/Roboto-Light.ttf"
+    const val ROBOTO_LIGHT_ITALIC = "fonts/Roboto-LightItalic.ttf"
+    const val ROBOTO_MEDIUM = "fonts/Roboto-Medium.ttf"
+    const val ROBOTO_MEDIUM_ITALIC = "fonts/Roboto-MediumItalic.ttf"
+    const val ROBOTO_REGULAR = "fonts/Roboto-Regular.ttf"
+    const val ROBOTO_THIN = "fonts/Roboto-Thin.ttf"
+    const val ROBOTO_THIN_ITALIC = "fonts/Roboto-ThinItalic.ttf"
+
+}
+
+fun xd() {
+
+}
+
 object Tools {
     private val monthsNames = bundleOf(
         "Jan" to 1,
@@ -201,8 +221,5 @@ open class OnSwipeTouchListener(val ctx: Context): View.OnTouchListener {
 
             return result
         }
-
-
     }
-
 }

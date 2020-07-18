@@ -54,7 +54,7 @@
 
                 <TextView
                     android:id="@+id/medal_stats_item_gold_medal_count"
-                    style="@style/h3"
+                    style="@style/Body1Roboto14Pt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_colored"
@@ -108,7 +108,7 @@
                 app:layout_constraintStart_toEndOf="@id/medal_stats_item_guideline_silver">
                 <TextView
                     android:id="@+id/medal_stats_item_silver_medal_count"
-                    style="@style/h3"
+                    style="@style/Body1Roboto14Pt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_colored"
@@ -163,7 +163,7 @@
                 app:layout_constraintStart_toEndOf="@id/medal_stats_item_guideline_bronze">
                 <TextView
                     android:id="@+id/medal_stats_item_bronze_medal_count"
-                    style="@style/h3"
+                    style="@style/Body1Roboto14Pt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"

@@ -54,6 +54,20 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
+//    override fun finish() {
+//        super.finish()
+//        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+//    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Prefs.AthletePreference(applicationContext)
@@ -83,9 +97,7 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
 
         user_menu_change_user_button.setOnClickListener {
             Prefs.removeUser()
-            startActivity(Intent(this, PickAthleteActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
-            finish()
+            startActivity(Intent(this, PickAthleteActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
         }
 
         app_bar_out.setOnClickListener {
@@ -115,6 +127,7 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
                     navController.navigate(R.id.profileFragment)
                     return@setOnNavigationItemSelectedListener true
                 }
+
                 else -> return@setOnNavigationItemSelectedListener false
             }
         }

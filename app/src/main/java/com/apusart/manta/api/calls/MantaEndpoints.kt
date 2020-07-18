@@ -22,4 +22,7 @@ interface MantaEndpoints {
 
     @GET("athletes/{id}/medal-stats")
     suspend fun getMedalStatsByAthleteId(@Path("id") id: Int, @Query("grade-abbr") grade: String?,  @Query("up-to-place") upToPlace: Int? = 3): MedalStatsResponse
+
+    @GET("athletes/{id}/results")
+    suspend fun getResultsByAthleteId(@Path("id") id: Int, @Query("limit") grade: Int? = 3): ResultsResponse
 }

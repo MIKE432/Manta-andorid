@@ -17,3 +17,7 @@ class MostValuableResultsResponse(
 class MedalStatsResponse(
     val medalStats: List<MedalStat>
 )
+
+class ResultsResponse(
+    val results: List<Result>
+)
