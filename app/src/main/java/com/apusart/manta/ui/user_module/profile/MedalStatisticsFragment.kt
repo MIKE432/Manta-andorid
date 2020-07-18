@@ -77,6 +77,13 @@ class MedalStatisticsFragment: Fragment(R.layout.medal_statistics_fragment) {
             profile_fragment_athlete_medals_statistics_scroll_view.isVisible = !it
         })
 
+        medal_statistics_fragment_refresher.setOnRefreshListener {
+            profile_fragment_athlete_medals_statistics.removeAllViews()
+            medalStatsViewModel.getAllMedalStats(mUser!!.athlete_id)
+            medal_statistics_fragment_refresher.isRefreshing = false
+
+        }
+
         medalStatsViewModel.getAllMedalStats(mUser!!.athlete_id)
     }
 }

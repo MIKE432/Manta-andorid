@@ -26,6 +26,9 @@
             android:name="openOnPage"
             app:argType="integer"
             android:defaultValue="0"/>
+        <action
+            android:id="@+id/action_recordsFragment_to_resultDetails"
+            app:destination="@id/resultDetails" />
     </fragment>
     <fragment
         android:id="@+id/meetsFragment"
@@ -35,4 +38,31 @@
         android:id="@+id/profileFragment"
         android:name="com.apusart.manta.ui.user_module.profile.ProfileFragment"
         android:label="ProfileFragment" />
+    <fragment
+        android:id="@+id/resultDetails"
+        android:name="com.apusart.manta.ui.user_module.results.ResultDetails"
+        android:label="ResultDetails" >
+        <argument
+            android:name="resultData"
+            app:argType="com.apusart.manta.navigation.ResultArgument"
+            app:nullable="true"
+            android:defaultValue="@null"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/mostValuableResultsFragment"
+        android:name="com.apusart.manta.ui.user_module.results.MostValuableResultsFragment"
+        android:label="MostValuableResultsFragment" >
+        <action
+            android:id="@+id/action_mostValuableResultsFragment_to_resultDetails"
+            app:destination="@id/resultDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/personalBestFragment"
+        android:name="com.apusart.manta.ui.user_module.results.PersonalBestFragment"
+        android:label="PersonalBestFragment" >
+        <action
+            android:id="@+id/action_personalBestFragment_to_resultDetails"
+            app:destination="@id/resultDetails" />
+    </fragment>
 </navigation>

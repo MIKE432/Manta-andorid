@@ -170,7 +170,6 @@ class AthletesAdapter(private val activity: Activity): ListAdapter<Athlete, Athl
         holder.itemView.setOnClickListener {
             Prefs.AthletePreference(holder.context)
             Prefs.storeUser(getItem(position))
-
             startActivity(activity, Intent(activity, UserActivity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION or Intent.FLAG_ACTIVITY_CLEAR_TASK), null)
             activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)

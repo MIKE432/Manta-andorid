@@ -34,6 +34,7 @@ object Const {
         "10" to "ZO",
         "11" to "ZW"
     )
+
     val grades = bundleOf(
         "0" to "Igrzyska Olimpijskie",
         "1" to "Puchar Świata",
@@ -47,6 +48,14 @@ object Const {
         "9" to "Międzynarodowe zawody",
         "10" to "Zawody",
         "11" to "Sprawdzian klubowy"
+    )
+
+    val styles = bundleOf(
+        "klasyczny" to "BT",
+        "motylkowy" to "FL",
+        "zmienny" to "ME",
+        "dowolny" to "FR",
+        "grzbietowy" to "BK"
     )
 }
 

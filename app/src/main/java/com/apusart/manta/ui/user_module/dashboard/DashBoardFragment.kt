@@ -134,6 +134,19 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
             }
         })
 
+        resultsViewModel.inProgress.observe(viewLifecycleOwner, Observer {
+            lastResults.isVisible = !it
+            lastResults.last_results_spinner.isVisible = it
+
+        })
+
+        dashboard_refresher.setOnRefreshListener {
+            resultsViewModel.getResultsByAthleteId(mUser!!.athlete_id)
+            mostValuableResultsViewModel.getMostValuableResultsByAthleteId(mUser!!.athlete_id)
+            medalStatsViewModel.getGeneralMedalStatsByAthleteId(mUser!!.athlete_id)
+            dashboard_refresher.isRefreshing = false
+        }
+
         resultsViewModel.getResultsByAthleteId(mUser!!.athlete_id)
         mostValuableResultsViewModel.getMostValuableResultsByAthleteId(mUser!!.athlete_id)
         medalStatsViewModel.getGeneralMedalStatsByAthleteId(mUser!!.athlete_id)

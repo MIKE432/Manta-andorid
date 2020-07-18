@@ -9,11 +9,14 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.apusart.manta.ui.tools.Prefs
 import com.apusart.manta.R
+import com.apusart.manta.navigation.ResultArgument
 import com.apusart.manta.ui.tools.Tools
 import kotlinx.android.synthetic.main.personal_best_fragment.*
 import kotlinx.android.synthetic.main.personal_best_item.view.*
@@ -25,7 +28,7 @@ class PersonalBestFragment: Fragment(R.layout.personal_best_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        personalBestAdapter = PersonalBestAdapter()
+        personalBestAdapter = PersonalBestAdapter(findNavController())
 
         personal_best_25_list.apply {
             adapter = personalBestAdapter
@@ -36,12 +39,15 @@ class PersonalBestFragment: Fragment(R.layout.personal_best_fragment) {
         viewModel.pb.observe(viewLifecycleOwner, Observer { pb ->
             personalBestAdapter.submitList(pb)
         })
-
+        personal_best_refresher.setOnRefreshListener {
+            viewModel.getPersonalBestsByAthleteId(Prefs.getUser()!!.athlete_id, 100)
+            personal_best_refresher.isRefreshing = false
+        }
         viewModel.getPersonalBestsByAthleteId(Prefs.getUser()!!.athlete_id, 100)
     }
 }
 
-class PersonalBestAdapter: ListAdapter<PersonalBestByCompetition, PersonalBestViewHolder>(diffUtil) {
+class PersonalBestAdapter(val navController: NavController): ListAdapter<PersonalBestByCompetition, PersonalBestViewHolder>(diffUtil) {
 
     object diffUtil: DiffUtil.ItemCallback<PersonalBestByCompetition>() {
         override fun areItemsTheSame(oldItem: PersonalBestByCompetition, newItem: PersonalBestByCompetition): Boolean {
@@ -57,7 +63,7 @@ class PersonalBestAdapter: ListAdapter<PersonalBestByCompetition, PersonalBestVi
         val viewContainer = LayoutInflater.from(parent.context)
             .inflate(R.layout.personal_best_item, parent, false)
 
-        return PersonalBestViewHolder(viewContainer as ViewGroup)
+        return PersonalBestViewHolder(viewContainer as ViewGroup, navController)
     }
 
 
@@ -67,7 +73,7 @@ class PersonalBestAdapter: ListAdapter<PersonalBestByCompetition, PersonalBestVi
     }
 }
 
-class PersonalBestViewHolder(containerView: ViewGroup): RecyclerView.ViewHolder(containerView) {
+class PersonalBestViewHolder(containerView: ViewGroup, val navController: NavController): RecyclerView.ViewHolder(containerView) {
     private var infoStatus = false
     private var mHeight: Int = 0
 
@@ -101,13 +107,6 @@ class PersonalBestViewHolder(containerView: ViewGroup): RecyclerView.ViewHolder(
 
         itemView.setOnClickListener {
 
-            it.apply {
-//                if(infoStatus.also { infoStatus = !infoStatus }) {
-//                    Animations.slideView(personal_best_item_additional_info, mHeight, 0)
-//                } else {
-//                    Animations.slideView(personal_best_item_additional_info, 0, mHeight)
-//                }
-            }
         }
 
     }

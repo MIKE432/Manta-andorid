@@ -8,6 +8,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +17,8 @@ import com.apusart.manta.ui.tools.Prefs
 import com.apusart.manta.R
 import com.apusart.manta.ui.tools.Tools
 import com.apusart.manta.api.models.MostValuableResult
+import com.apusart.manta.navigation.ResultArgument
+import com.apusart.manta.ui.tools.Const
 import kotlinx.android.synthetic.main.most_valuable_result_item.view.*
 import kotlinx.android.synthetic.main.most_valuable_results_fragment.*
 
@@ -24,7 +28,7 @@ class MostValuableResultsFragment: Fragment(R.layout.most_valuable_results_fragm
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mostValuableResultsAdapter = MostValuableResultsAdapter()
+        mostValuableResultsAdapter = MostValuableResultsAdapter(findNavController())
 
         most_valuable_results_list.apply {
             adapter = mostValuableResultsAdapter
@@ -39,11 +43,17 @@ class MostValuableResultsFragment: Fragment(R.layout.most_valuable_results_fragm
              most_valuable_results_list.isVisible = !it
             most_valuable_results_list_spinner.isVisible = it
         })
+
+        mvr_refresher.setOnRefreshListener {
+            mostValuableResultsViewModel.getMostValuableResultsByAthleteId(Prefs.getUser()!!.athlete_id)
+            mvr_refresher.isRefreshing = false
+        }
         mostValuableResultsViewModel.getMostValuableResultsByAthleteId(Prefs.getUser()!!.athlete_id)
+
     }
 }
 
-class MostValuableResultsAdapter: ListAdapter<MostValuableResult, MostValuableResultViewHolder>(diffUtil) {
+class MostValuableResultsAdapter(val navController: NavController): ListAdapter<MostValuableResult, MostValuableResultViewHolder>(diffUtil) {
     object diffUtil: DiffUtil.ItemCallback<MostValuableResult>() {
         override fun areItemsTheSame(
             oldItem: MostValuableResult,
@@ -68,7 +78,7 @@ class MostValuableResultsAdapter: ListAdapter<MostValuableResult, MostValuableRe
         val viewContainer = LayoutInflater.from(parent.context)
             .inflate(R.layout.most_valuable_result_item, parent, false)
 
-        return MostValuableResultViewHolder(viewContainer)
+        return MostValuableResultViewHolder(viewContainer, navController)
     }
 
     override fun onBindViewHolder(holder: MostValuableResultViewHolder, position: Int) {
@@ -76,7 +86,7 @@ class MostValuableResultsAdapter: ListAdapter<MostValuableResult, MostValuableRe
     }
 }
 
-class MostValuableResultViewHolder(viewContainer: View): RecyclerView.ViewHolder(viewContainer) {
+class MostValuableResultViewHolder(viewContainer: View, val navController: NavController): RecyclerView.ViewHolder(viewContainer) {
 
     fun bind(mvr: MostValuableResult) {
         itemView.apply {
@@ -84,6 +94,12 @@ class MostValuableResultViewHolder(viewContainer: View): RecyclerView.ViewHolder
             most_valuable_result_item_time.text = Tools.convertResult(mvr.res_total_time.toFloat())
             most_valuable_result_item_distance.text = "${mvr.sev_distance}"
             most_valuable_result_item_style.text = mvr.sst_name_pl
+        }
+
+        itemView.setOnClickListener {
+            navController.navigate(ResultsFragmentDirections.actionRecordsFragmentToResultDetails(
+                ResultArgument(mvr.sev_distance, Const.styles.getString(mvr.sst_name_pl ?: "FR")!!, mvr.res_course_abbr)
+            ))
         }
     }
 }
