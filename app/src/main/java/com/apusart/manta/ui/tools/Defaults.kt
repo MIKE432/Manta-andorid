@@ -57,6 +57,19 @@ object Const {
         "dowolny" to "FR",
         "grzbietowy" to "BK"
     )
+
+    val stylesRev = bundleOf(
+        "BT" to "klasyczny",
+        "FL" to "motylkowy",
+        "ME" to "zmienny",
+         "FR" to "dowolny",
+        "BK" to "grzbietowy"
+    )
+
+    val courseSize = bundleOf(
+        "SCM" to "Basen 25m",
+        "LCM" to "Basen 50m"
+    )
 }
 
 object Font {

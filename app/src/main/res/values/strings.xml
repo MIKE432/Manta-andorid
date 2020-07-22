@@ -32,4 +32,6 @@
     <string name="last_results">Ostatnie konkurencje</string>
     <string name="meet_header">%1$s (%2$s)</string>
     <string name="distance">%1$sm</string>
+    <string name="concurence">%1$sm %2$s (%3$s)</string>
+    <string name="no_incoming_meet">Brak nadchodzących zawodów</string>
 </resources>

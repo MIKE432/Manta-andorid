@@ -31,4 +31,9 @@ class MeetService {
         val result = endpoints.getLastMeetsByAthleteId(id, limit)
         return result.lastMeets ?: listOf()
     }
+
+    suspend fun getIncomingMeetsByAthleteId(id: Int, limit: Int? = Const.defaultLimit): List<Meet> {
+        val result = endpoints.getIncomingMeetsByAthleteId(id, limit)
+        return result.IncomingMeets ?: listOf()
+    }
 }

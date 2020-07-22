@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -20,9 +21,11 @@ import kotlinx.android.synthetic.main.incoming_meets_fragment.*
 import kotlinx.android.synthetic.main.last_meets_fragment.*
 import kotlinx.android.synthetic.main.meet_item.view.*
 import kotlinx.android.synthetic.main.meets_view_pager.*
+import java.lang.Exception
 
 class MeetsPager: Fragment(R.layout.meets_view_pager) {
     private lateinit var meetsFragmentAdapter: MeetsFragmentAdapter
+    private val navArgs by navArgs<MeetsPagerArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,12 +36,16 @@ class MeetsPager: Fragment(R.layout.meets_view_pager) {
 }
 
 class MeetsFragmentAdapter(fm: FragmentManager): FragmentStatePagerAdapter(fm) {
-    private val COUNT = 2
+    private val COUNT = 3
     override fun getItem(position: Int): Fragment {
-        if(position == 0) {
-            return IncomingMeetsFragment()
+
+        return when(position) {
+            0 -> IncomingMeetsFragment()
+            1 -> LastMeetFragment()
+            2 -> LastMeetsFragment()
+            else -> throw Exception("Unsupported fragment")
         }
-        return LastMeetsFragment()
+
     }
 
     override fun getCount(): Int {
@@ -46,10 +53,12 @@ class MeetsFragmentAdapter(fm: FragmentManager): FragmentStatePagerAdapter(fm) {
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        if(position == 0) {
-            return "Najbliższe zawody"
+        return when(position) {
+            0 -> "Nadchodzące zawody"
+            1 -> "Ostatnie zawody"
+            2 -> "Przeszłe zawody"
+            else -> throw Exception("Unsupported title")
         }
-        return "Odbyte zawody"
     }
 }
 
@@ -63,15 +72,11 @@ class LastMeetsFragment: Fragment(R.layout.last_meets_fragment) {
         lastMeetsAdapter = LastMeetsAdapter()
 
         meetsViewModel.lastMeets.observe(viewLifecycleOwner, Observer { lastMeets ->
-            if(lastMeets.isEmpty()) {
-                meets_fragment_last_meets_empty_list_info.isVisible = true
-                meets_fragment_last_meets_list.isVisible = false
-            } else {
-                meets_fragment_last_meets_list.isVisible = true
-                meets_fragment_last_meets_empty_list_info.isVisible = false
-            }
+
+            meets_fragment_last_meets_empty_list_info.isVisible = lastMeets.isEmpty()
+            meets_fragment_last_meets_list.isVisible = lastMeets.isNotEmpty()
+
             lastMeetsAdapter.submitList(lastMeets)
-            meets_fragment_last_meets_swipe_layout.isRefreshing = false
         })
 
         meetsViewModel.inProgressLastMeets.observe(viewLifecycleOwner, Observer {
@@ -86,7 +91,7 @@ class LastMeetsFragment: Fragment(R.layout.last_meets_fragment) {
 
         meets_fragment_last_meets_swipe_layout.setOnRefreshListener {
             meetsViewModel.getLastMeetsByAthleteId(athlete.athlete_id)
-
+            meets_fragment_last_meets_swipe_layout.isRefreshing = false
         }
     }
 }
@@ -100,25 +105,16 @@ class IncomingMeetsFragment: Fragment(R.layout.incoming_meets_fragment) {
         super.onViewCreated(view, savedInstanceState)
         incomingMeetsAdapter = IncomingMeetsAdapter()
 
-        meetsViewModel.lastMeets.observe(viewLifecycleOwner, Observer { lastMeets ->
-            if(lastMeets.isEmpty())
-
-            incomingMeetsAdapter.submitList(lastMeets)
-        })
-
         meets_fragment_incoming_meets_list.apply {
             adapter = incomingMeetsAdapter
         }
 
         meetsViewModel.incomingMeets.observe(viewLifecycleOwner, Observer { incMeets ->
-            if(incMeets.isEmpty()) {
-                meets_fragment_incoming_meets_empty_list_info.isVisible = true
-                meets_fragment_incoming_meets_list.isVisible = false
-            } else {
-                meets_fragment_incoming_meets_list.isVisible = true
-                meets_fragment_incoming_meets_empty_list_info.isVisible = false
-            }
-            meets_fragment_incoming_meets_swipe_layout.isRefreshing = false
+
+            meets_fragment_incoming_meets_empty_list_info.isVisible = incMeets.isEmpty()
+            meets_fragment_incoming_meets_list.isVisible = incMeets.isNotEmpty()
+
+
             incomingMeetsAdapter.submitList(incMeets)
         })
 
@@ -126,6 +122,7 @@ class IncomingMeetsFragment: Fragment(R.layout.incoming_meets_fragment) {
 
         meets_fragment_incoming_meets_swipe_layout.setOnRefreshListener {
             meetsViewModel.getIncomingMeetsByAthleteId(athlete.athlete_id)
+            meets_fragment_incoming_meets_swipe_layout.isRefreshing = false
         }
     }
 }
@@ -165,7 +162,6 @@ class LastMeetsAdapter: ListAdapter<Meet, MeetViewHolder>(diffUtil) {
         override fun areContentsTheSame(oldItem: Meet, newItem: Meet): Boolean {
             return oldItem.meet_id == newItem.meet_id
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeetViewHolder {

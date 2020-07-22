@@ -22,18 +22,22 @@ class MeetsViewModel: ViewModel() {
     fun getLastMeetsByAthleteId(id: Int) {
         inProgressLastMeets.value = true
         viewModelScope.launch {
-            viewModelScope.launch {
-                try {
-                    lastMeets.value =  meetService.getLastMeetsByAthleteId(id, Const.defaultLimit)
-                    inProgressLastMeets.value = false
-                } catch(e: Exception) {}
-            }
+
+            try {
+                lastMeets.value =  meetService.getLastMeetsByAthleteId(id, Const.defaultLimit)
+                inProgressLastMeets.value = false
+            } catch(e: Exception) {e.printStackTrace()}
         }
     }
 
-    fun getIncomingMeetsByAthleteId(id: Int) {
+    fun getIncomingMeetsByAthleteId(id: Int, limit: Int? = 3) {
         inProgressIncomingMeets.value = true
-        incomingMeets.value = emptyList()
-        inProgressIncomingMeets.value = false
+        viewModelScope.launch {
+            try {
+                incomingMeets.value = meetService.getIncomingMeetsByAthleteId(id, limit)
+            } catch(e: Exception) {}
+            finally { inProgressIncomingMeets.value = false }
+        }
+
     }
 }

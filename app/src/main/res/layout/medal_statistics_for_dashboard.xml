@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/dashboard.item">
+    <LinearLayout
+        android:id="@+id/medals_statistics_for_dashboard_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"/>
+
+</androidx.cardview.widget.CardView>

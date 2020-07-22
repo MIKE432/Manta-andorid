@@ -17,6 +17,9 @@
             app:destination="@id/recordsFragment">
 
         </action>
+        <action
+            android:id="@+id/action_dashboardFragment_to_meetsFragment"
+            app:destination="@id/meetsFragment" />
     </fragment>
     <fragment
         android:id="@+id/recordsFragment"
@@ -33,14 +36,19 @@
     <fragment
         android:id="@+id/meetsFragment"
         android:name="com.apusart.manta.ui.user_module.meets.MeetsPager"
-        android:label="MeetsPager" />
+        android:label="MeetsPager">
+        <argument
+            android:name="openOnPage"
+            app:argType="integer"
+            android:defaultValue="0"/>
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.apusart.manta.ui.user_module.profile.ProfileFragment"
         android:label="ProfileFragment" />
     <fragment
         android:id="@+id/resultDetails"
-        android:name="com.apusart.manta.ui.user_module.results.ResultDetails"
+        android:name="com.apusart.manta.ui.user_module.results.ResultDetailsFragment"
         android:label="ResultDetails" >
         <argument
             android:name="resultData"

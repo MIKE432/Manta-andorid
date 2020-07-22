@@ -22,7 +22,7 @@
        <TextView
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           style="@style/TitleRoboto20Pt"
+           style="@style/Body2MenuRoboto14Pt"
            android:text="Najlepsze wyniki"/>
     <LinearLayout
         android:id="@+id/mvr_for_dashboard_25_container"

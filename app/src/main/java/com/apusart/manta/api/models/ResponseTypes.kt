@@ -7,6 +7,11 @@ class AthletesResponse(
 class LastMeetsResponse(
     val lastMeets: List<Meet>
 )
+
+class IncomingMeetsResponse(
+    val IncomingMeets: List<Meet>
+)
+
 class PersonalBestsResponse(
     val personalBestResults: List<PersonalBest>
 )

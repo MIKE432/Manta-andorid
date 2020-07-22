@@ -9,7 +9,7 @@
         android:id="@+id/medal_statistics_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/profile_fragment_athlete_medals_statistics_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"/>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <ProgressBar
             android:id="@+id/profile_fragment_athlete_medals_statistics_spinner"

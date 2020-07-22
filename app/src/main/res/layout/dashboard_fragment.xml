@@ -41,26 +41,6 @@
                        android:layout_width="match_parent"
                        android:layout_height="0dp"
                        android:orientation="vertical">
-                       <androidx.cardview.widget.CardView
-                           android:id="@+id/profile_fragment_athlete_medals_statistics"
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           style="@style/dashboard.item">
-                           <LinearLayout
-                               android:id="@+id/profile_fragment_athlete_medals_statistics_container"
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:orientation="vertical">
-                               <TextView
-                                   android:id="@+id/profile_fragment_athlete_medals_statistics_title"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:text="@string/athlete_medals_statistics"
-                                   style="@style/TitleRoboto20Pt"
-                                   android:gravity="start" />
-
-                           </LinearLayout>
-                       </androidx.cardview.widget.CardView>
                    </LinearLayout>
                </androidx.core.widget.NestedScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>

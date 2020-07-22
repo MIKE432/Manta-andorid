@@ -16,7 +16,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.apusart.manta.ui.tools.Prefs
 import com.apusart.manta.R
+import com.apusart.manta.api.models.PersonalBest
 import com.apusart.manta.navigation.ResultArgument
+import com.apusart.manta.ui.tools.Const
 import com.apusart.manta.ui.tools.Tools
 import kotlinx.android.synthetic.main.personal_best_fragment.*
 import kotlinx.android.synthetic.main.personal_best_item.view.*
@@ -47,15 +49,15 @@ class PersonalBestFragment: Fragment(R.layout.personal_best_fragment) {
     }
 }
 
-class PersonalBestAdapter(val navController: NavController): ListAdapter<PersonalBestByCompetition, PersonalBestViewHolder>(diffUtil) {
+class PersonalBestAdapter(val navController: NavController): ListAdapter<PersonalBest, PersonalBestViewHolder>(diffUtil) {
 
-    object diffUtil: DiffUtil.ItemCallback<PersonalBestByCompetition>() {
-        override fun areItemsTheSame(oldItem: PersonalBestByCompetition, newItem: PersonalBestByCompetition): Boolean {
+    object diffUtil: DiffUtil.ItemCallback<PersonalBest>() {
+        override fun areItemsTheSame(oldItem: PersonalBest, newItem: PersonalBest): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: PersonalBestByCompetition, newItem: PersonalBestByCompetition): Boolean {
-            return ((oldItem.pb25?.res_total_time == newItem.pb25?.res_total_time) and (oldItem.pb50?.res_total_time == newItem.pb50?.res_total_time))
+        override fun areContentsTheSame(oldItem: PersonalBest, newItem: PersonalBest): Boolean {
+            return ((oldItem.res_total_time == newItem.res_total_time) and (oldItem.res_total_time == newItem.res_total_time))
         }
     }
 
@@ -92,21 +94,17 @@ class PersonalBestViewHolder(containerView: ViewGroup, val navController: NavCon
 //        globalLayoutListener(itemView, this)
     }
 
-    fun bind(pb: PersonalBestByCompetition) {
+    fun bind(pb: PersonalBest) {
         itemView.apply {
-            personal_best_item_header.text = if(pb.pb25 == null) "${pb.pb50?.sev_distance}m ${pb.pb50?.sst_name_pl}" else "${pb.pb25?.sev_distance}m ${pb.pb25?.sst_name_pl}"
-            personal_best_item_25_container.isVisible = pb.pb25 != null
-            personal_best_item_50_container.isVisible = pb.pb50 != null
-            personal_best_item_25_date.text = pb.pb25?.mt_from
-            personal_best_item_50_date.text = pb.pb50?.mt_from
-            personal_best_item_25_points.text = pb.pb25?.res_points.toString()
-            personal_best_item_50_points.text = pb.pb50?.res_points.toString()
-            personal_best_item_25_total_time.text = Tools.convertResult(pb.pb25?.res_total_time?.toFloat())
-            personal_best_item_50_total_time.text = Tools.convertResult(pb.pb50?.res_total_time?.toFloat())
+            personal_best_item_header.text = "${pb.sev_distance}m ${pb.sst_name_pl}"
+            personal_best_item_course_type.text = Const.courseSize.getString(pb.res_course_abbr)
+            personal_best_item_25_date.text = pb.mt_from
+            personal_best_item_25_points.text = pb.res_points.toString()
+            personal_best_item_25_total_time.text = Tools.convertResult(pb.res_total_time.toFloat())
         }
 
         itemView.setOnClickListener {
-
+            navController.navigate(ResultsFragmentDirections.actionRecordsFragmentToResultDetails(ResultArgument(pb.sev_distance, pb.sst_name_pl, pb.res_course_abbr)))
         }
 
     }
