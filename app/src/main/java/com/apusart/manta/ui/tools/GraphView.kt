@@ -53,8 +53,12 @@ class DataPoints(val context: Context, private var mHeight: Float, private var m
         val h = minHeight!! - maxHeight!!
         return mDataPoints.map {
 
-            val x = ((it.mX - minWidth) /w) * mWidth
-            val y = ((it.mY - maxHeight)/h) * mHeight
+            var x = ((it.mX - minWidth) /w) * mWidth
+            var y = ((it.mY - maxHeight)/h) * mHeight
+
+            if(x.isNaN()) x = 0.5f*mWidth
+            if(y.isNaN()) y = 0.5f*mHeight
+
             return@map DefaultPoint(context, x, y)
         }
     }
