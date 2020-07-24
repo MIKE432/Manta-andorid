@@ -33,6 +33,7 @@ class PersonalBest(
     val event_id: Int,
     val res_course_abbr: String,
     val res_points: Int,
+    val res_split_times: String,
     val res_dsq_abbr: String,
     val res_total_time: String,
     val res_count: Int,

@@ -48,6 +48,7 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
             if(it.isNotEmpty()) {
                 meetsInfo.meet_information_for_dashboard_incoming_meet_name.text = it[0].mt_name
             }
+
             meetsInfo.meet_information_for_dashboard_no_incoming_meet.isVisible = it.isEmpty()
             meetsInfo.meet_information_for_dashboard_incoming_meet_container.isVisible = it.isNotEmpty()
         })
@@ -137,6 +138,7 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
         lastResults.setOnClickListener {
             findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToMeetsFragment(1))
         }
+
         resultsViewModel.results.observe(viewLifecycleOwner, Observer {
             when(it.size > 0) {
                 false -> { lastResults.isVisible = false }

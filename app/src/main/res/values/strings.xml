@@ -34,4 +34,13 @@
     <string name="distance">%1$sm</string>
     <string name="concurence">%1$sm %2$s (%3$s)</string>
     <string name="no_incoming_meet">Brak nadchodzących zawodów</string>
+    <string name="lap_text">%1$s</string>
+    <string name="total_time">Całkowity czas</string>
+    <string name="points">Punkty</string>
+    <string name="split_times">Międzyczasy</string>
+    <string name="best_time">Najlepszy czas</string>
+    <string name="additional_info">Dodatkowe informacje</string>
+    <string name="res_count">Ilość startów</string>
+    <string name="city">Miasto</string>
+    <string name="date">Data</string>
 </resources>

@@ -14,14 +14,11 @@ class ResultsViewModel: ViewModel() {
     val lastMeetResult = MutableLiveData<List<Result>>()
     val inProgress = MutableLiveData(false)
 
-    fun getResultsByAthleteId(id: Int, limit: Int? = 10, ss_abbr: String? = null, distance: Int? = null, course: String? = null) {
+    fun getResultsByAthleteId(id: Int, limit: Int? = 10, ss_abbr: String? = null, distance: Int? = null, course: String? = null, dsq: String? = "" ) {
         viewModelScope.launch {
             try {
                 inProgress.value = true
-                results.value = athletesService.getResultsByAthleteId(id, limit, ss_abbr, distance)
-                    .filter { it.res_total_time != null }
-                    .filter { if(distance == null) true else it.sev_distance == distance }
-                    .filter {  if(course == null) true else it.course_abbr == course }
+                results.value = athletesService.getResultsByAthleteId(id, limit, ss_abbr, distance, course).filter { it.res_total_time != null && (if(dsq != "") true else dsq == it.res_dsq_abbr)}
                 inProgress.value = false
             } catch(e: Exception) {
                 e.printStackTrace()

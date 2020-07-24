@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/result_details_refresher"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -33,16 +35,205 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp">
-                    <TextView
-                        android:id="@+id/result_details_total_time"
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:id="@+id/result_details_main_container"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="01:06.22"
-                        style="@style/TitleRoboto20Pt"
-/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/result_details_additional_information"
+                        android:gravity="top"
+                        android:layout_marginEnd="5dp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_gravity="top">
+                            <LinearLayout
+                                android:id="@+id/result_details_total_time_container"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/result_details_points_container">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    style="@style/Body3Roboto14Pt"
+                                    android:text="@string/best_time"/>
+                                <TextView
+                                    android:id="@+id/result_details_total_time"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    tools:text="01:06.22"
+                                    style="@style/TitleRoboto20Pt"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/result_details_points_container"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:gravity="top">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/points"
+                                    style="@style/Body3Roboto14Pt"
+                                    android:gravity="end"/>
+                                <TextView
+                                    android:id="@+id/result_details_points"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    style="@style/TitleRoboto20Pt"
+                                    android:gravity="end"
+                                    tools:text="584"
+                                    />
+                            </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <LinearLayout
+                            android:id="@+id/result_details_res_split_times_whole_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/result_details_main_container"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:gravity="top">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/split_times"
+                                style="@style/Body3Roboto14Pt"/>
+                            <TextView
+                                android:id="@+id/result_details_res_split_times"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                style="@style/Roboto14Pt"
+                                tools:text="@string/points"/>
+                            <!--                        <LinearLayout-->
+                            <!--                            android:id="@+id/result_details_res_split_times_container"-->
+                            <!--                            android:layout_width="match_parent"-->
+                            <!--                            android:layout_height="wrap_content"-->
+                            <!--                            android:orientation="horizontal"-->
+                            <!--                            app:layout_constraintEnd_toEndOf="parent"-->
+                            <!--                            app:layout_constraintTop_toTopOf="parent"-->
+                            <!--                            app:layout_constraintStart_toEndOf="@id/result_details_main_container"-->
+                            <!--                            app:layout_constraintBottom_toBottomOf="parent"-->
+                            <!--                            android:gravity="top"-->
+                            <!--                            android:layout_marginStart="5dp"-->
+                            <!--                            />-->
+
+                        </LinearLayout>
+                    </LinearLayout>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/result_details_additional_information"
+                        app:layout_constraintStart_toEndOf="@id/result_details_main_container"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginStart="5dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                style="@style/Body3Roboto14Pt"
+                                android:text="@string/additional_info"/>
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:id="@+id/result_details_res_count_title"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintEnd_toStartOf="@id/result_details_res_count_value"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    android:layout_width="0dp"
+                                    android:text="@string/res_count"
+                                    style="@style/Roboto14Pt"
+                                    android:layout_height="wrap_content"/>
+                                <TextView
+                                    android:id="@+id/result_details_res_count_value"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    android:layout_width="0dp"
+                                    app:layout_constraintStart_toEndOf="@id/result_details_res_count_title"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    style="@style/Roboto14Pt"
+                                    tools:text="53"/>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:id="@+id/result_details_date_title"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintEnd_toStartOf="@id/result_details_date_value"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    android:layout_width="0dp"
+                                    android:text="@string/date"
+                                    style="@style/Roboto14Pt"
+                                    android:layout_height="wrap_content"/>
+                                <TextView
+                                    android:id="@+id/result_details_date_value"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    android:layout_width="0dp"
+                                    app:layout_constraintStart_toEndOf="@id/result_details_date_title"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    style="@style/Roboto14Pt"
+                                    tools:text="53"/>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:id="@+id/result_details_city_title"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintEnd_toStartOf="@id/result_details_city_value"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    android:layout_width="0dp"
+                                    android:text="@string/city"
+                                    style="@style/Roboto14Pt"
+                                    android:layout_height="wrap_content"/>
+                                <TextView
+                                    android:id="@+id/result_details_city_value"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    android:layout_width="0dp"
+                                    app:layout_constraintStart_toEndOf="@id/result_details_city_title"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    style="@style/Roboto14Pt"
+                                    tools:text="53"/>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/black">
+                <com.apusart.manta.ui.tools.Graph
+                    android:id="@+id/result_details_graph"
+                    android:layout_width="match_parent"
+                    android:background="@color/white"
+                    android:layout_height="340dp"
+                    android:layout_margin="5dp"/>
+                </LinearLayout>
             </LinearLayout>
+
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

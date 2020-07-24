@@ -10,6 +10,8 @@ import com.apusart.manta.R
 import com.apusart.manta.api.models.Athlete
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.math.abs
 
 
@@ -88,10 +90,6 @@ object Font {
 
 }
 
-fun xd() {
-
-}
-
 object Tools {
     private val monthsNames = bundleOf(
         "Jan" to 1,
@@ -142,6 +140,26 @@ object Tools {
         else if((minutes == 0)) ""
         else "$minutes:"}${if(seconds < 10) "0${seconds}" else "$seconds"}.${if(m < 10) "0${m}" else "${m}"}"
     }
+
+    class SplitTimesPairs(val odd: String, val even: String)
+
+    fun splitLaps(splittedLaps: String): List<String> {
+        val splittedLaps = splittedLaps.split(" ")
+        val splittedTimesPairs = arrayListOf<SplitTimesPairs>()
+        var odd: String = ""
+        var even: String = ""
+        splittedLaps.forEachIndexed { index, s ->
+            if(index % 2 == 0) {
+                odd = s
+            } else {
+                even = s
+                splittedTimesPairs.add(SplitTimesPairs(odd, even))
+            }
+        }
+        return splittedLaps
+    }
+
+    val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY)
 }
 
 object Prefs {
