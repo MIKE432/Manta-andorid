@@ -14,7 +14,7 @@
             android:id="@+id/personal_best_item_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="50m dowolny"
+            android:text="50m dowolny"
             style="@style/Body2MenuRoboto14Pt"
             app:layout_constraintTop_toTopOf="parent"/>
         <LinearLayout

@@ -21,7 +21,7 @@ interface MantaEndpoints {
     suspend fun getMostValuableResultsByAthleteId(@Path("id") id: Int, @Query("limit") limit: Int?): MostValuableResultsResponse
 
     @GET("athletes/{id}/personal-best-results")
-    suspend fun getPersonalBestsByAthleteId(@Path("id") id: Int, @Query("limit") limit: Int?): PersonalBestsResponse
+    suspend fun getPersonalBestsByAthleteId(@Path("id") id: Int, @Query("limit") limit: Int?, @Query("style") ss_abbr: String? = null, @Query("distance") distance: Int? = null, @Query("course") course: String? = null): PersonalBestsResponse
 
     @GET("athletes/{id}/medal-stats")
     suspend fun getMedalStatsByAthleteId(@Path("id") id: Int, @Query("grade-abbr") grade: String?,  @Query("up-to-place") upToPlace: Int? = 3): MedalStatsResponse
