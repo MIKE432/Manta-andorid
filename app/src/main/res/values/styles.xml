@@ -148,4 +148,11 @@
         <item name="android:lineSpacingExtra">8sp</item>
         <item name="android:textColor">@color/cool_grey</item>
     </style>
+    <style name="CaptionRoboto12PtBlack">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

@@ -31,7 +31,10 @@ class MeetsPager: Fragment(R.layout.meets_view_pager) {
         super.onViewCreated(view, savedInstanceState)
         meetsFragmentAdapter = MeetsFragmentAdapter(childFragmentManager)
 
-        meets_view_pager.adapter = meetsFragmentAdapter
+        meets_view_pager.apply {
+            adapter = meetsFragmentAdapter
+            currentItem = navArgs.openOnPage
+        }
     }
 }
 

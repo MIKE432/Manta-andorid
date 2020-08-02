@@ -43,6 +43,18 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
 
         dashboard_information.addView(meetsInfo)
 
+        val medalStats = LayoutInflater.from(this.context)
+            .inflate(R.layout.medal_statistics_for_dashboard, dashboard_information, false)
+        val medalStatsItem = LayoutInflater.from(this.context)
+            .inflate(R.layout.medals_statistics_item, medalStats.medals_statistics_for_dashboard_container, false)
+
+        medalStats.medals_statistics_for_dashboard_container.addView(medalStatsItem)
+        dashboard_information.addView(medalStats)
+
+        val mvrs = LayoutInflater.from(this.context)
+            .inflate(R.layout.most_valuable_results_for_dashboard, dashboard_information, false)
+        dashboard_information.addView(mvrs)
+
         meetsViewModel.incomingMeets.observe(viewLifecycleOwner, Observer {
 
             if(it.isNotEmpty()) {
@@ -56,12 +68,6 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
 
 //        -----------------Medal statsistics--------------------
 
-        val medalStats = LayoutInflater.from(this.context)
-            .inflate(R.layout.medal_statistics_for_dashboard, dashboard_information, false)
-        val medalStatsItem = LayoutInflater.from(this.context)
-            .inflate(R.layout.medals_statistics_item, medalStats.medals_statistics_for_dashboard_container, false)
-        dashboard_information.addView(medalStats)
-        medalStats.medals_statistics_for_dashboard_container.addView(medalStatsItem)
 
         medalStatsViewModel.mGeneralMedalStats.observe(viewLifecycleOwner, Observer {
             medalStats.medal_stats_item_gold_medal_count.text = "${it.gold}"
@@ -92,9 +98,7 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
         }
 
 //        -----------------MVR statsistics--------------------
-        val mvrs = LayoutInflater.from(this.context)
-            .inflate(R.layout.most_valuable_results_for_dashboard, dashboard_information, false)
-        dashboard_information.addView(mvrs)
+
 
         mostValuableResultsViewModel.isInProgress.observe(viewLifecycleOwner, Observer {
             val best50 = mostValuableResultsViewModel.mostValuableResults.value?.firstOrNull { mvr -> mvr.res_course_abbr == "LCM" }

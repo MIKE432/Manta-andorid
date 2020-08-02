@@ -2,6 +2,8 @@ package com.apusart.manta.ui.tools
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.hardware.display.DisplayManager
+import android.util.DisplayMetrics
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -105,6 +107,10 @@ object Tools {
         "Nov" to 11,
         "Dec" to 12
     )
+
+    fun toDp(x: Int, context: Context): Int {
+        return (x * (context.resources.displayMetrics.density)).toInt()
+    }
 
     fun parseDate(date: String?): String {
         if (date == null)

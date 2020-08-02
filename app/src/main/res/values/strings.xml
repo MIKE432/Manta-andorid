@@ -33,6 +33,7 @@
     <string name="meet_header">%1$s (%2$s)</string>
     <string name="distance">%1$sm</string>
     <string name="concurence">%1$sm %2$s (%3$s)</string>
+    <string name="concurence_no_course">%1$sm %2$s</string>
     <string name="no_incoming_meet">Brak nadchodzących zawodów</string>
     <string name="lap_text">%1$s</string>
     <string name="total_time">Całkowity czas</string>
@@ -43,4 +44,7 @@
     <string name="res_count">Ilość startów</string>
     <string name="city">Miasto</string>
     <string name="date">Data</string>
+    <string name="dsq_count">Ilość dyskwalifikacji</string>
+    <string name="entry_time">Czas zgłoszenia</string>
+    <string name="actual_result">Aktualny wynik</string>
 </resources>

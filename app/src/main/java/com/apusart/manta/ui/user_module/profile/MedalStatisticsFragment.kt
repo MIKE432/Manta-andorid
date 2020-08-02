@@ -27,8 +27,9 @@ class MedalStatisticsFragment: Fragment(R.layout.medal_statistics_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        profile_fragment_athlete_medals_statistics.removeAllViews()
         medalStatsViewModel.mAllMedalStats.observe(viewLifecycleOwner, Observer { allMedalStats ->
+            profile_fragment_athlete_medals_statistics.removeAllViews()
             allMedalStats.forEachIndexed { index, specificMedalStat ->
                 if (specificMedalStat != null) {
                     val medalStatView = LayoutInflater.from(profile_fragment_athlete_medals_statistics.context)
