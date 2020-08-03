@@ -47,4 +47,5 @@
     <string name="dsq_count">Ilość dyskwalifikacji</string>
     <string name="entry_time">Czas zgłoszenia</string>
     <string name="actual_result">Aktualny wynik</string>
+    <string name="place">%1$s.</string>
 </resources>

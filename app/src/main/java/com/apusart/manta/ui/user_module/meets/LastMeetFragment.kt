@@ -1,5 +1,7 @@
 package com.apusart.manta.ui.user_module.meets
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,21 +39,42 @@ class LastMeetFragment: Fragment(R.layout.last_meet_fragment) {
         last_meet_fragment_results.apply {
             adapter = comparedResultAdapter
         }
-        multiple_button.addButton("3") {
-            Toast.makeText(context, "3", Toast.LENGTH_SHORT).show()
-        }
-        multiple_button.addButton("4") {
-            Toast.makeText(context, "4", Toast.LENGTH_SHORT).show()
-        }
-        multiple_button.addButton("5") {
-            Toast.makeText(context, "5", Toast.LENGTH_SHORT).show()
-        }
+        multiple_button.setText(0, "Strona główna")
+        multiple_button.setText(1, "Lista startowa")
+
+
         resultsViewModel.lastMeetResultCompared.observe(viewLifecycleOwner, Observer {
             if(it.isNotEmpty()) {
                 last_meet_fragment_header.text = it[0].result.mt_name
                 last_meet_fragment_course.text = Const.courseSize.getString(it[0].result.mt_course_abbr)
                 last_meet_fragment_date.text = it[0].result.mt_from
+
+                if(it[0].result.mt_main_page != "") {
+
+                    multiple_button.setButtonOnClickListener(0) { v ->
+
+                        val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it[0].result.mt_main_page))
+                        startActivity(intent)
+                    }
+                }
+
+                if(it[0].result.mt_start_list_page != "") {
+
+                    multiple_button.setButtonOnClickListener(1) { v ->
+                        val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it[0].result.mt_start_list_page))
+                        startActivity(intent)
+                    }
+                }
+
+                if(it[0].result.mt_results_page != "") {
+                    multiple_button.addButton("Wyniki")
+                    multiple_button.setButtonOnClickListener(2) { v ->
+                        val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it[0].result.mt_results_page))
+                        startActivity(intent)
+                    }
+                }
             }
+
             comparedResultAdapter.submitList(it)
         })
 
@@ -98,14 +121,12 @@ class ComparedResultViewHolder(container: View): RecyclerView.ViewHolder(contain
             3 -> R.drawable.medal_bronze_icon32
             else -> 0
         }
-        itemView.place.isVisible = src == 0
-        itemView.medalIcon.isVisible = src != 0
-
+        itemView.result_comparison_item_split_times_container.isVisible = item.result.res_split_times != ""
         itemView.apply {
             result_comparison_item_header.text = resources.getString(R.string.concurence_no_course, item.result.sev_distance.toString(), item.result.sst_name_pl)
-            result_comparison_item_progress_value.text = df.format(item.progress* 100).toString() + "%"
+//            result_comparison_item_progress_value.text = df.format(item.progress* 100).toString() + "%"
             medalIcon.setBackgroundResource(src)
-            place.text = "${item.result.res_place} msc"
+            place.text = itemView.resources.getString(R.string.place, item.result.res_place.toString())
             result_comparison_item_entry_time.text = Tools.convertResult(item.result.res_entry_time?.toFloat())
             result_comparison_item_best_prev_time.text = Tools.convertResult(item.result.res_prev_best_time?.toFloat())
             result_comparison_item_actual_time.text = Tools.convertResult(item.result.res_total_time?.toFloat())

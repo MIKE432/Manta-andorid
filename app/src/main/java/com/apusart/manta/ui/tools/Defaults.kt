@@ -114,7 +114,7 @@ object Tools {
 
     fun parseDate(date: String?): String {
         if (date == null)
-            return "00-00-0000"
+            return "Brak"
 
         var month = monthsNames.getInt(date.substring(0, 3))
         var day = date.substring(4, 6)
@@ -136,7 +136,7 @@ object Tools {
     fun convertResult(sec: Float?): String {
 
         if(sec == null)
-            return "0:00:00"
+            return "Brak"
         val millis = (sec * 100).toInt()
         val minutes = millis / 100 / 60
         val seconds = millis / 100 % 60
