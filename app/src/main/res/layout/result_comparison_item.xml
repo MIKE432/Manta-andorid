@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/list_item">
+    style="@style/list_item"
+>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,6 +67,10 @@
                     android:text="4."
                     style="@style/Roboto14Pt"
                     />
+                <TextView
+                    android:id="@+id/result_comparison_item_dsq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
 
             <TextView
@@ -74,7 +79,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/result_comparison_item_actual_points"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginEnd="5dp"
                 style="@style/Body2MenuRoboto14Pt"
@@ -85,14 +90,16 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                style="@style/CaptionRoboto12Pt"
+                style="@style/Roboto14Pt"
+                app:layout_constraintHorizontal_bias="0.75"
                 tools:text="765"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/result_comparison_item_additional_info_container"
+            app:layout_constraintBottom_toTopOf="@id/result_comparison_item_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/result_comparison_item_header_container">
@@ -105,48 +112,64 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
                 <TextView
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/split_times"
-                    style="@style/CaptionRoboto12Pt"
-                    />
-                <TextView
                     android:id="@+id/result_comparison_item_additional_info_split_times"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="29.47 34.19"
+                    android:textColor="@color/cool_grey"
                     style="@style/Roboto14Pt"/>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/result_comparison_item_before_info"
+
+        <LinearLayout
+            android:id="@+id/result_comparison_item_line"
             app:layout_constraintTop_toBottomOf="@id/result_comparison_item_additional_info_container"
             android:layout_width="match_parent"
+            app:layout_constraintBottom_toTopOf="@id/result_comparison_item_before_info"
+            android:layout_height="1dp"
+            android:background="@color/cool_grey"
+            android:layout_marginVertical="5dp"
+            android:orientation="vertical" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/result_comparison_item_before_info"
+            app:layout_constraintTop_toBottomOf="@id/result_comparison_item_line"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/result_comparison_item_entry_time_container"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/result_comparison_item_prev_best_time_container"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
+                app:layout_constraintEnd_toStartOf="@id/result_comparison_item_prev_best_time_container">
+                <LinearLayout
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/result_comparison_item_header"
-                    style="@style/CaptionRoboto12Pt"
-                    android:text="@string/entry_time"/>
-                <TextView
-                    android:id="@+id/result_comparison_item_entry_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="01:08.22"
-                    style="@style/Roboto14Pt"/>
-            </LinearLayout>
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/result_comparison_item_header"
+                        style="@style/CaptionRoboto12Pt"
+                        android:text="@string/entry_time"
+                        android:gravity="center"/>
+                    <TextView
+                        android:id="@+id/result_comparison_item_entry_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="01:08.22"
+                        style="@style/Roboto14Pt"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <LinearLayout
                 android:id="@+id/result_comparison_item_prev_best_time_container"
                 android:layout_width="0dp"
@@ -154,20 +177,54 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/result_comparison_item_entry_time_container"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/result_comparison_item_club_record_container"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/CaptionRoboto12Pt"
-                    android:text="@string/best_time"/>
+                    android:text="@string/best_time"
+                    android:gravity="center"/>
                 <TextView
                     android:id="@+id/result_comparison_item_best_prev_time"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:text="01:06.22"
-                    style="@style/Roboto14Pt"/>
+                    style="@style/Roboto14Pt"
+                    android:gravity="center"/>
             </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/result_comparison_item_club_record_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/result_comparison_item_prev_best_time_container"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+                <LinearLayout
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/result_comparison_item_club_record_header"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/CaptionRoboto12Pt"
+                        android:text="RK - 15 lat"
+                        android:gravity="center"/>
+                    <TextView
+                        android:id="@+id/result_comparison_item_club_record"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="26.24"
+                        style="@style/Roboto14Pt"
+                        android:gravity="center"/>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,7 +22,6 @@ import kotlin.math.max
 class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLayout(context, attributeSet) {
     private val mChildButtons = ArrayList<ChildButton>()
     private val MAX_CHILDREN_COUNT = 5
-    private var mMaxHeight = 0
 
     private inner class ChildButton: ConstraintLayout(context) {
         val textView = TextView(context)
@@ -40,6 +39,7 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
             (textView.layoutParams as LayoutParams).bottomToBottom = 0
 
             textView.setTextAppearance(R.style.ButtonRoboto14Pt)
+            textView.setTextColor(resources.getColor(R.color.white))
         }
 
         fun setUpChild(text: String, onClickListener: ((View) -> Unit)? = null): ChildButton {

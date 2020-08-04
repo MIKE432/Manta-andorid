@@ -136,7 +136,7 @@ object Tools {
     fun convertResult(sec: Float?): String {
 
         if(sec == null)
-            return "Brak"
+            return "--:--.--"
         val millis = (sec * 100).toInt()
         val minutes = millis / 100 / 60
         val seconds = millis / 100 % 60

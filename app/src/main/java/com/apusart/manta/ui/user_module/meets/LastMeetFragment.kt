@@ -24,6 +24,7 @@ import com.apusart.manta.ui.user_module.results.ResultsViewModel
 import kotlinx.android.synthetic.main.last_meet_fragment.*
 import kotlinx.android.synthetic.main.medals_statistics_item.view.*
 import kotlinx.android.synthetic.main.result_comparison_item.view.*
+import kotlinx.android.synthetic.main.result_details_fragment.view.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
@@ -33,15 +34,21 @@ class LastMeetFragment: Fragment(R.layout.last_meet_fragment) {
     private lateinit var comparedResultAdapter: ComparedResultAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        last_meet_fragment_nested_scroll_view.isVisible = false
 
+        last_meet_fragment_spinner.isVisible = true
         comparedResultAdapter = ComparedResultAdapter()
 
         last_meet_fragment_results.apply {
             adapter = comparedResultAdapter
         }
+
         multiple_button.setText(0, "Strona główna")
         multiple_button.setText(1, "Lista startowa")
-
+        resultsViewModel.inProgress.observe(viewLifecycleOwner, Observer {
+            last_meet_fragment_spinner.isVisible = it
+            last_meet_fragment_nested_scroll_view.isVisible = !it
+        })
 
         resultsViewModel.lastMeetResultCompared.observe(viewLifecycleOwner, Observer {
             if(it.isNotEmpty()) {
@@ -76,6 +83,7 @@ class LastMeetFragment: Fragment(R.layout.last_meet_fragment) {
             }
 
             comparedResultAdapter.submitList(it)
+
         })
 
         last_meet_fragment_refresher.setOnRefreshListener {
@@ -121,7 +129,15 @@ class ComparedResultViewHolder(container: View): RecyclerView.ViewHolder(contain
             3 -> R.drawable.medal_bronze_icon32
             else -> 0
         }
+
         itemView.result_comparison_item_split_times_container.isVisible = item.result.res_split_times != ""
+
+        val x = (item.result.res_place != null || item.result.res_dsq_abbr != "")
+
+        itemView.medalIcon.isVisible = x
+        itemView.place.isVisible = x
+        itemView.result_comparison_item_dsq.isVisible = item.result.res_dsq_abbr != ""
+        itemView.result_comparison_item_actual_points.isVisible = item.result.res_points != 0
         itemView.apply {
             result_comparison_item_header.text = resources.getString(R.string.concurence_no_course, item.result.sev_distance.toString(), item.result.sst_name_pl)
 //            result_comparison_item_progress_value.text = df.format(item.progress* 100).toString() + "%"
@@ -132,6 +148,7 @@ class ComparedResultViewHolder(container: View): RecyclerView.ViewHolder(contain
             result_comparison_item_actual_time.text = Tools.convertResult(item.result.res_total_time?.toFloat())
             result_comparison_item_actual_points.text = item.result.res_points.toString()
             result_comparison_item_additional_info_split_times.text = item.result.res_split_times
+            result_comparison_item_dsq.text = item.result.res_dsq_abbr
         }
     }
 }

@@ -45,7 +45,7 @@
     <string name="city">Miasto</string>
     <string name="date">Data</string>
     <string name="dsq_count">Ilość dyskwalifikacji</string>
-    <string name="entry_time">Czas zgłoszenia</string>
+    <string name="entry_time">Zgłoszenie</string>
     <string name="actual_result">Aktualny wynik</string>
     <string name="place">%1$s.</string>
 </resources>

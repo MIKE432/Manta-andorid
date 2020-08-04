@@ -33,6 +33,8 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
     private val resultsViewModel: ResultsViewModel by viewModels()
     private val meetsViewModel: MeetsViewModel by viewModels()
 
+    private val dashBoardViewModel: DashboardViewModel by viewModels()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -41,21 +43,26 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
         val meetsInfo = LayoutInflater.from(this.context)
             .inflate(R.layout.meet_information_for_dashboard, dashboard_information, false)
 
-        dashboard_information.addView(meetsInfo)
-
         val medalStats = LayoutInflater.from(this.context)
             .inflate(R.layout.medal_statistics_for_dashboard, dashboard_information, false)
+
         val medalStatsItem = LayoutInflater.from(this.context)
             .inflate(R.layout.medals_statistics_item, medalStats.medals_statistics_for_dashboard_container, false)
-
         medalStats.medals_statistics_for_dashboard_container.addView(medalStatsItem)
-        dashboard_information.addView(medalStats)
+
+        val lastResults = LayoutInflater.from(this.context)
+            .inflate(R.layout.last_results_for_dashboard, dashboard_information, false)
 
         val mvrs = LayoutInflater.from(this.context)
             .inflate(R.layout.most_valuable_results_for_dashboard, dashboard_information, false)
+
+
+        dashboard_information.addView(medalStats)
+        dashboard_information.addView(meetsInfo)
+        dashboard_information.addView(lastResults)
         dashboard_information.addView(mvrs)
 
-        meetsViewModel.incomingMeets.observe(viewLifecycleOwner, Observer {
+        dashBoardViewModel.incomingMeets.observe(viewLifecycleOwner, Observer {
 
             if(it.isNotEmpty()) {
                 meetsInfo.meet_information_for_dashboard_incoming_meet_name.text = it[0].mt_name
@@ -69,7 +76,7 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
 //        -----------------Medal statsistics--------------------
 
 
-        medalStatsViewModel.mGeneralMedalStats.observe(viewLifecycleOwner, Observer {
+        dashBoardViewModel.mGeneralMedalStats.observe(viewLifecycleOwner, Observer {
             medalStats.medal_stats_item_gold_medal_count.text = "${it.gold}"
             medalStats.medal_stats_item_silver_medal_count.text = "${it.silver}"
             medalStats.medal_stats_item_bronze_medal_count.text = "${it.bronze}"
@@ -100,14 +107,17 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
 //        -----------------MVR statsistics--------------------
 
 
-        mostValuableResultsViewModel.isInProgress.observe(viewLifecycleOwner, Observer {
-            val best50 = mostValuableResultsViewModel.mostValuableResults.value?.firstOrNull { mvr -> mvr.res_course_abbr == "LCM" }
-            val best25 = mostValuableResultsViewModel.mostValuableResults.value?.firstOrNull { mvr -> mvr.res_course_abbr == "SCM" }
-            mvrs.mvr_for_dashboard_container.isVisible = (!it and (best25 != null || best50 != null))
-            mvrs.mvr_for_dashboard_spinner.isVisible = it
+        dashBoardViewModel.isInProgress.observe(viewLifecycleOwner, Observer {
+//            val best50 = mostValuableResultsViewModel.mostValuableResults.value?.firstOrNull { mvr -> mvr.res_course_abbr == "LCM" }
+//            val best25 = mostValuableResultsViewModel.mostValuableResults.value?.firstOrNull { mvr -> mvr.res_course_abbr == "SCM" }
+//            mvrs.mvr_for_dashboard_container.isVisible = (!it)
+//            mvrs.mvr_for_dashboard_spinner.isVisible = it
+
+            dashboard_spinner.isVisible = it
+            profile_fragment_athlete_medals_statistics_scroll_view.isVisible = !it
         })
 
-        mostValuableResultsViewModel.mostValuableResults.observe(viewLifecycleOwner, Observer {
+        dashBoardViewModel.mostValuableResults.observe(viewLifecycleOwner, Observer {
             val best50 = it.firstOrNull { mvr -> mvr.res_course_abbr == "LCM" }
             val best25 = it.firstOrNull { mvr -> mvr.res_course_abbr == "SCM" }
 
@@ -135,15 +145,13 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
         }
 
 //        -----------------Last results statsistics--------------------
-        val lastResults = LayoutInflater.from(this.context)
-            .inflate(R.layout.last_results_for_dashboard, dashboard_information, false)
-        dashboard_information.addView(lastResults)
+
 
         lastResults.setOnClickListener {
             findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToMeetsFragment(1))
         }
 
-        resultsViewModel.results.observe(viewLifecycleOwner, Observer {
+        dashBoardViewModel.results.observe(viewLifecycleOwner, Observer {
             when(it.size > 0) {
                 false -> { lastResults.isVisible = false }
                 true -> {
@@ -169,23 +177,26 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
 
 
 
-        resultsViewModel.inProgress.observe(viewLifecycleOwner, Observer {
-            lastResults.isVisible = resultsViewModel.results.value?.isNotEmpty()?.equals(!it) ?: false
-            lastResults.last_results_spinner.isVisible = it
-
-        })
+//        resultsViewModel.inProgress.observe(viewLifecycleOwner, Observer {
+//            lastResults.isVisible = resultsViewModel.results.value?.isNotEmpty()?.equals(!it) ?: false
+//            lastResults.last_results_spinner.isVisible = it
+//
+//        })
 
         dashboard_refresher.setOnRefreshListener {
-            resultsViewModel.getResultsByAthleteId(mUser!!.athlete_id)
-            mostValuableResultsViewModel.getMostValuableResultsByAthleteId(mUser!!.athlete_id)
-            medalStatsViewModel.getGeneralMedalStatsByAthleteId(mUser!!.athlete_id)
+//            resultsViewModel.getResultsByAthleteId(mUser!!.athlete_id)
+//            mostValuableResultsViewModel.getMostValuableResultsByAthleteId(mUser!!.athlete_id)
+//            medalStatsViewModel.getGeneralMedalStatsByAthleteId(mUser!!.athlete_id)
+            dashBoardViewModel.getInfoForDashboardByAthleteId(mUser!!.athlete_id)
             dashboard_refresher.isRefreshing = false
         }
 
-        meetsViewModel.getLastMeetsByAthleteId(mUser!!.athlete_id)
-        meetsViewModel.getIncomingMeetsByAthleteId(mUser!!.athlete_id)
-        resultsViewModel.getResultsByAthleteId(mUser!!.athlete_id)
-        mostValuableResultsViewModel.getMostValuableResultsByAthleteId(mUser!!.athlete_id)
-        medalStatsViewModel.getGeneralMedalStatsByAthleteId(mUser!!.athlete_id)
+//        meetsViewModel.getLastMeetsByAthleteId(mUser!!.athlete_id)
+//        meetsViewModel.getIncomingMeetsByAthleteId(mUser!!.athlete_id)
+//        resultsViewModel.getResultsByAthleteId(mUser!!.athlete_id)
+//        mostValuableResultsViewModel.getMostValuableResultsByAthleteId(mUser!!.athlete_id)
+//        medalStatsViewModel.getGeneralMedalStatsByAthleteId(mUser!!.athlete_id)
+//
+        dashBoardViewModel.getInfoForDashboardByAthleteId(mUser!!.athlete_id)
     }
 }

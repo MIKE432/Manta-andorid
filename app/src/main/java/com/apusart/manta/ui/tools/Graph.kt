@@ -98,7 +98,6 @@ class Point(context: Context): View(context) {
 
     init {
         mSetBackground()
-        touchDelegate = TouchDelegate(Rect( 111, 111, 111, 111), this)
     }
 }
 

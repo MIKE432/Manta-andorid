@@ -13,12 +13,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/meet_information_for_dashboard_no_incoming_meet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/no_incoming_meet"
-                android:visibility="gone"/>
+
             <LinearLayout
                 android:id="@+id/meet_information_for_dashboard_incoming_meet_container"
                 android:layout_width="match_parent"
@@ -43,5 +38,22 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/meet_information_for_dashboard_no_incoming_meet"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:visibility="gone">
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                style="@style/Roboto14Pt"
+                android:text="@string/no_incoming_meet" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
