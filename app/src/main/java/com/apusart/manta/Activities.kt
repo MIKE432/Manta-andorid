@@ -145,35 +145,35 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
             }
         }
 
-//        bottom_navigation.setOnNavigationItemReselectedListener {}
-//        bottom_navigation.setOnNavigationItemSelectedListener { item ->
-//
-//            if(mUserMenuStatus) {
-//                handleMenu()
-//            }
-//
-//            when(item.itemId) {
-//                R.id.navigation_dashboard -> {
-//                    navController.navigate(R.id.dashboardFragment)
-//                    return@setOnNavigationItemSelectedListener true
-//                }
-//                R.id.navigation_competition -> {
-//                    navController.navigate(R.id.meetsFragment)
-//                    return@setOnNavigationItemSelectedListener true
-//                }
-//                R.id.navigation_records -> {
-//                    navController.navigate(R.id.recordsFragment)
-//                    return@setOnNavigationItemSelectedListener true
-//                }
-//                R.id.navigation_profile -> {
-//                    navController.navigate(R.id.profileFragment)
-//                    return@setOnNavigationItemSelectedListener true
-//                }
-//
-//                else -> return@setOnNavigationItemSelectedListener true
-//            }
-//
-//        }
+        bottom_navigation.setOnNavigationItemReselectedListener {}
+        bottom_navigation.setOnNavigationItemSelectedListener { item ->
+
+            if(mUserMenuStatus) {
+                handleMenu()
+            }
+
+            when(item.itemId) {
+                R.id.navigation_dashboard -> {
+                    navController.navigate(R.id.dashboardFragment)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.navigation_competition -> {
+                    navController.navigate(R.id.meetsFragment)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.navigation_records -> {
+                    navController.navigate(R.id.recordsFragment)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.navigation_profile -> {
+                    navController.navigate(R.id.profileFragment)
+                    return@setOnNavigationItemSelectedListener true
+                }
+
+                else -> return@setOnNavigationItemSelectedListener true
+            }
+
+        }
 
     }
 }

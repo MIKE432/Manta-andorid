@@ -28,4 +28,7 @@ interface MantaEndpoints {
 
     @GET("athletes/{id}/results")
     suspend fun getResultsByAthleteId(@Path("id") id: Int, @Query("limit") grade: Int? = 3, @Query("style") ss_abbr: String? = null, @Query("distance") distance: Int? = null, @Query("course") course: String? = null): ResultsResponse
+
+    @GET("records")
+    suspend fun getRecords(@Query("age") age: Int? = null, @Query("style") ss_abbr: String? = null, @Query("distance") distance: Int? = null, @Query("course") course: String? = null, @Query("gender") gender: String? = null): RecordsResponse
 }

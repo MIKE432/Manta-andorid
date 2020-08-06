@@ -18,7 +18,7 @@ object Animations {
         }
 
         val animatorSet = AnimatorSet()
-        animatorSet.setInterpolator(object : AccelerateDecelerateInterpolator(){})
+        animatorSet.interpolator = object : AccelerateDecelerateInterpolator(){}
         animatorSet.play(slideAnimator)
         animatorSet.start()
     }

@@ -2,6 +2,8 @@ package com.apusart.manta.ui.tools
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.hardware.display.DisplayManager
 import android.util.DisplayMetrics
 import android.view.GestureDetector
@@ -110,6 +112,12 @@ object Tools {
 
     fun toDp(x: Int, context: Context): Int {
         return (x * (context.resources.displayMetrics.density)).toInt()
+    }
+
+    fun changeIconColor(src: Int, newColor: Int, resources: Resources): Drawable {
+        val newSrc = resources.getDrawable(src)
+        newSrc.setTint(resources.getColor(newColor))
+        return newSrc
     }
 
     fun parseDate(date: String?): String {

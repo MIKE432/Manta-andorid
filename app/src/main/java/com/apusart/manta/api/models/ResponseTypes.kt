@@ -26,3 +26,7 @@ class MedalStatsResponse(
 class ResultsResponse(
     val results: List<Result>
 )
+
+class RecordsResponse(
+    val records: List<Record>
+)

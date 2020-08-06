@@ -9,10 +9,12 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.ImageView
 
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.core.view.marginEnd
 import com.apusart.manta.R
 import kotlinx.android.synthetic.main.graph.view.*
@@ -23,18 +25,23 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
     private val mChildButtons = ArrayList<ChildButton>()
     private val MAX_CHILDREN_COUNT = 5
 
+
     private inner class ChildButton: ConstraintLayout(context) {
         val textView = TextView(context)
+        val imageView = ImageView(context)
+        private var mIsIconSet = false
 
         init {
             id = View.generateViewId()
+            textView.id = View.generateViewId()
+            imageView.id = View.generateViewId()
         }
 
         private fun setupTextView() {
             textView.gravity = Gravity.CENTER
 
             textView.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-            (textView.layoutParams as LayoutParams).topToTop = 0
+            (textView.layoutParams as LayoutParams).topToBottom = imageView.id
             (textView.layoutParams as LayoutParams).startToStart = 0
             (textView.layoutParams as LayoutParams).endToEnd = 0
             (textView.layoutParams as LayoutParams).bottomToBottom = 0
@@ -44,15 +51,39 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
 
         }
 
-        fun setUpChild(text: String, onClickListener: ((View) -> Unit)? = null): ChildButton {
+        private fun setupImageView(icon: Int?) {
+            imageView.layoutParams = LayoutParams(Tools.toDp(24, context), Tools.toDp(24, context))
+            (imageView.layoutParams as LayoutParams).topToTop = 0
+            (imageView.layoutParams as LayoutParams).startToStart = 0
+            (imageView.layoutParams as LayoutParams).endToEnd = 0
+            (imageView.layoutParams as LayoutParams).bottomToTop = textView.id
+            if(icon == null)
+                imageView.visibility = View.INVISIBLE
+            else {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageDrawable(Tools.changeIconColor(icon, R.color.white, resources))
+            }
+
+        }
+
+        fun setUpChild(text: String, icon: Int? = null, onClickListener: ((View) -> Unit)? = null): ChildButton {
+            mIsIconSet = icon != null
             this.textView.text = text
             setOnClickListener(onClickListener)
             layoutParams = LayoutParams(0, LayoutParams.MATCH_PARENT)
             (layoutParams as LayoutParams).topToTop = 0
             (layoutParams as LayoutParams).bottomToBottom = 0
             addView(textView)
+            addView(imageView)
+            setupImageView(icon)
             setupTextView()
             return this
+        }
+
+        fun setIcon(icon: Int) {
+            mIsIconSet = true
+            setupImageView(icon)
+            setupTextView()
         }
     }
 
@@ -128,7 +159,7 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
     }
 
     fun addButton(text: String, onClickListener: ((View) -> Unit)? = null) {
-        mChildButtons.takeIf { it.size < MAX_CHILDREN_COUNT && mChildButtons.find { child -> child.textView.text == text } == null }?.add(ChildButton().setUpChild(text, onClickListener))
+        mChildButtons.takeIf { it.size < MAX_CHILDREN_COUNT && mChildButtons.find { child -> child.textView.text == text } == null }?.add(ChildButton().setUpChild(text, null, onClickListener))
         removeAllViews()
         setBackgrounds()
         addChildren()
@@ -150,6 +181,13 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
     fun setButtonOnClickListener(index: Int, onClickListener: ((View) -> Unit)?) {
         mChildButtons.takeIf { index < it.size }?.get(index)?.setOnClickListener(onClickListener) ?: throw Exception("index > it.size")
     }
+
+
+    fun setButtonIcon(index: Int, icon: Int) {
+        mChildButtons.takeIf { index < it.size }?.get(index)?.setIcon(icon) ?: throw Exception("index > it.size")
+    }
+
+
 
     fun setText(index: Int, text: String) {
         mChildButtons.takeIf { index < it.size }?.get(index)?.textView?.text = text

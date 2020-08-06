@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.result_comparison_item.view.*
 import kotlinx.android.synthetic.main.result_details_fragment.view.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import java.util.*
 
 
 class LastMeetFragment: Fragment(R.layout.last_meet_fragment) {
@@ -44,7 +45,9 @@ class LastMeetFragment: Fragment(R.layout.last_meet_fragment) {
         }
 
         multiple_button.setText(0, "WWW")
+        multiple_button.setButtonIcon(0, R.drawable.www_icon)
         multiple_button.setText(1, "Lista startowa")
+        multiple_button.setButtonIcon(1, R.drawable.articles_icon)
         resultsViewModel.inProgress.observe(viewLifecycleOwner, Observer {
             last_meet_fragment_spinner.isVisible = it
             last_meet_fragment_nested_scroll_view.isVisible = !it
@@ -76,6 +79,7 @@ class LastMeetFragment: Fragment(R.layout.last_meet_fragment) {
 
                 if(it[0].result.mt_results_page != "") {
                     multiple_button.addButton("Wyniki")
+                    multiple_button.setButtonIcon(2, R.drawable.stopwatch_icon)
                     multiple_button.setButtonOnClickListener(2) { v ->
                         val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it[0].result.mt_results_page))
                         startActivity(intent)
@@ -88,11 +92,11 @@ class LastMeetFragment: Fragment(R.layout.last_meet_fragment) {
         })
 
         last_meet_fragment_refresher.setOnRefreshListener {
-            resultsViewModel.getResultsFromLastMeetByAthleteId(Prefs.getUser()!!.athlete_id)
+            resultsViewModel.getResultsFromLastMeetByAthleteId(Prefs.getUser()!!)
             last_meet_fragment_refresher.isRefreshing = false
         }
 
-        resultsViewModel.getResultsFromLastMeetByAthleteId(Prefs.getUser()!!.athlete_id)
+        resultsViewModel.getResultsFromLastMeetByAthleteId(Prefs.getUser()!!)
     }
 }
 
@@ -132,7 +136,6 @@ class ComparedResultViewHolder(container: View): RecyclerView.ViewHolder(contain
         }
 
         itemView.result_comparison_item_split_times_container.isVisible = item.result.res_split_times != ""
-
         val x = (item.result.res_place != null && item.result.res_dsq_abbr == "")
 
         itemView.medalIcon.visibility = if(x) View.VISIBLE else View.INVISIBLE
@@ -147,6 +150,8 @@ class ComparedResultViewHolder(container: View): RecyclerView.ViewHolder(contain
 //            result_comparison_item_progress_value.text = df.format(item.progress* 100).toString() + "%"
             medalIcon.setBackgroundResource(src)
             place.text = itemView.resources.getString(R.string.place, item.result.res_place.toString())
+            result_comparison_item_club_record_header.text = resources.getString(R.string.club_record, item.record?.rsb_age.toString() ?: "--")
+            result_comparison_item_club_record.text = Tools.convertResult(item.record?.rsb_time?.toFloat())
             result_comparison_item_entry_time.text = Tools.convertResult(item.result.res_entry_time?.toFloat())
             result_comparison_item_best_prev_time.text = Tools.convertResult(item.result.res_prev_best_time?.toFloat())
             result_comparison_item_actual_time.text = Tools.convertResult(item.result.res_total_time?.toFloat())
