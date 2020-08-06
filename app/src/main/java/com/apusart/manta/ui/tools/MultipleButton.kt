@@ -32,6 +32,7 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
 
         private fun setupTextView() {
             textView.gravity = Gravity.CENTER
+
             textView.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
             (textView.layoutParams as LayoutParams).topToTop = 0
             (textView.layoutParams as LayoutParams).startToStart = 0
@@ -40,6 +41,7 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
 
             textView.setTextAppearance(R.style.ButtonRoboto14Pt)
             textView.setTextColor(resources.getColor(R.color.white))
+
         }
 
         fun setUpChild(text: String, onClickListener: ((View) -> Unit)? = null): ChildButton {

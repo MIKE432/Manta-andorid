@@ -3,25 +3,33 @@
     <item
         android:id="@+id/navigation_dashboard"
         android:enabled="true"
+        android:checkable="true"
+        android:checked="false"
         android:icon="@drawable/home_icon"
         android:title="@string/dashboard"
         />
     <item
         android:id="@+id/navigation_competition"
         android:enabled="true"
+        android:checkable="true"
+        android:checked="false"
         android:icon="@drawable/swimmer_icon"
         android:title="@string/competition"
         />
     <item
         android:id="@+id/navigation_records"
         android:enabled="true"
+        android:checkable="true"
+        android:checked="false"
         android:icon="@drawable/plot_icon"
-        android:title="@string/records"
+        android:title="@string/achievements"
         />
     <item
         android:id="@+id/navigation_profile"
         android:enabled="true"
+        android:checkable="true"
+        android:checked="false"
         android:icon="@drawable/profile_icon"
-        android:title="@string/profile"
+        android:title="@string/settings"
         />
 </menu>

@@ -65,7 +65,7 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
         dashBoardViewModel.incomingMeets.observe(viewLifecycleOwner, Observer {
 
             if(it.isNotEmpty()) {
-                meetsInfo.meet_information_for_dashboard_incoming_meet_name.text = it[0].mt_name
+//                meetsInfo.meet_information_for_dashboard_incoming_meet_name.text = it[0].mt_name
             }
 
             meetsInfo.meet_information_for_dashboard_no_incoming_meet.isVisible = it.isEmpty()

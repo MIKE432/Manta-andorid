@@ -5,7 +5,7 @@
     <string name="next">Dalej</string>
     <string name="competition">Zawody</string>
     <string name="articles">Artykuły</string>
-    <string name="records">Rekordy</string>
+    <string name="achievements">Osiągnięcia</string>
     <string name="profile">Profil</string>
     <string name="incoming_meets">Najbliższe zawody</string>
     <string name="performed_meets">Odbyte zawody</string>
@@ -23,7 +23,7 @@
     <string name="no_athlete_statistics">Brak trofeów</string>
     <string name="no_mvr">Brak \n najwartościowszych \n wyników</string>
     <string name="user_name">%1$s %2$s</string>
-    <string name="dashboard">Strona główna</string>
+    <string name="dashboard">Aktualności</string>
     <string name="mvr_25">Najlepszy wynik na basenie 25m</string>
     <string name="mvr_50">Najlepszy wynik na basenie 50m</string>
     <string name="mvr">Najwartościowsze wyniki</string>
@@ -34,7 +34,7 @@
     <string name="distance">%1$sm</string>
     <string name="concurence">%1$sm %2$s (%3$s)</string>
     <string name="concurence_no_course">%1$sm %2$s</string>
-    <string name="no_incoming_meet">Brak nadchodzących zawodów</string>
+    <string name="no_incoming_meet">Nie zostałeś zgłoszony do żadnych nadchodzących zawodów</string>
     <string name="lap_text">%1$s</string>
     <string name="total_time">Całkowity czas</string>
     <string name="points">Punkty</string>
@@ -48,4 +48,6 @@
     <string name="entry_time">Zgłoszenie</string>
     <string name="actual_result">Aktualny wynik</string>
     <string name="place">%1$s.</string>
+    <string name="settings">Ustawienia</string>
+    <string name="meeting_date">%1$s - %2$s</string>
 </resources>

@@ -71,8 +71,8 @@ object Const {
     )
 
     val courseSize = bundleOf(
-        "SCM" to "Basen 25m",
-        "LCM" to "Basen 50m"
+        "SCM" to "25m",
+        "LCM" to "50m"
     )
 }
 

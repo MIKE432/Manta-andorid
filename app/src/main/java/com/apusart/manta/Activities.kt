@@ -1,13 +1,15 @@
 package com.apusart.manta
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.ViewTreeObserver
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
 import com.apusart.manta.api.models.Athlete
 import com.apusart.manta.ui.Animations
 import com.apusart.manta.ui.MedalStatsViewModel
@@ -42,6 +44,23 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
     private var mMenuHeight = 0
     private val mMedalStatsViewModel: MedalStatsViewModel by viewModels()
 
+    @SuppressLint("RestrictedApi")
+    override fun onBackPressed() {
+//
+//        val navController = findNavController(R.id.logged_athlete_navigation_host)
+//
+//        val x = bottom_navigation.selectedItemId
+//        when(navController.currentDestination?.id) {
+//            R.id.profileFragment -> { bottom_navigation.selectedItemId = R.id.navigation_dashboard }
+//            R.id.meetsFragment -> { bottom_navigation.selectedItemId = R.id.navigation_dashboard }
+//            R.id.recordsFragment -> { bottom_navigation.selectedItemId = R.id.navigation_dashboard }
+//            R.id.dashboardFragment -> finish()
+//            else ->  {  }
+//        }
+
+        super.onBackPressed()
+    }
+
     private fun handleMenu() {
         if(mUserMenuStatus.also { mUserMenuStatus = !mUserMenuStatus }) {
             Animations.slideView(user_menu, mMenuHeight, 0)
@@ -63,10 +82,6 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
         super.onPause()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
-//    override fun finish() {
-//        super.finish()
-//        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,32 +119,61 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
             handleMenu()
         }
 
+        val navController = findNavController(R.id.logged_athlete_navigation_host)
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
 
-        bottom_navigation.setOnNavigationItemSelectedListener { item ->
-            val navController = findNavController(R.id.logged_athlete_navigation_host)
-            if(mUserMenuStatus) {
-                handleMenu()
-            }
-            when(item.itemId) {
-                R.id.navigation_dashboard -> {
-                    navController.navigate(R.id.dashboardFragment)
-                    return@setOnNavigationItemSelectedListener true
+            when(destination.id) {
+                R.id.profileFragment -> {
+                    if(!bottom_navigation.isVisible)
+                        bottom_navigation.isVisible = true
                 }
-                R.id.navigation_competition -> {
-                    navController.navigate(R.id.meetsFragment)
-                    return@setOnNavigationItemSelectedListener true
+                R.id.meetsFragment -> {
+                    if(!bottom_navigation.isVisible)
+                        bottom_navigation.isVisible = true
                 }
-                R.id.navigation_records -> {
-                    navController.navigate(R.id.recordsFragment)
-                    return@setOnNavigationItemSelectedListener true
+                R.id.recordsFragment -> {
+                    if(!bottom_navigation.isVisible)
+                        bottom_navigation.isVisible = true
                 }
-                R.id.navigation_profile -> {
-                    navController.navigate(R.id.profileFragment)
-                    return@setOnNavigationItemSelectedListener true
+                R.id.dashboardFragment -> {
+                    if(!bottom_navigation.isVisible)
+                        bottom_navigation.isVisible = true
                 }
-
-                else -> return@setOnNavigationItemSelectedListener false
+                else -> {
+                    bottom_navigation.isVisible = false
+                }
             }
         }
+
+//        bottom_navigation.setOnNavigationItemReselectedListener {}
+//        bottom_navigation.setOnNavigationItemSelectedListener { item ->
+//
+//            if(mUserMenuStatus) {
+//                handleMenu()
+//            }
+//
+//            when(item.itemId) {
+//                R.id.navigation_dashboard -> {
+//                    navController.navigate(R.id.dashboardFragment)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
+//                R.id.navigation_competition -> {
+//                    navController.navigate(R.id.meetsFragment)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
+//                R.id.navigation_records -> {
+//                    navController.navigate(R.id.recordsFragment)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
+//                R.id.navigation_profile -> {
+//                    navController.navigate(R.id.profileFragment)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
+//
+//                else -> return@setOnNavigationItemSelectedListener true
+//            }
+//
+//        }
+
     }
 }

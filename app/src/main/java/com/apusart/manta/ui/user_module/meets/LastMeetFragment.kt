@@ -43,7 +43,7 @@ class LastMeetFragment: Fragment(R.layout.last_meet_fragment) {
             adapter = comparedResultAdapter
         }
 
-        multiple_button.setText(0, "Strona główna")
+        multiple_button.setText(0, "WWW")
         multiple_button.setText(1, "Lista startowa")
         resultsViewModel.inProgress.observe(viewLifecycleOwner, Observer {
             last_meet_fragment_spinner.isVisible = it
@@ -54,8 +54,9 @@ class LastMeetFragment: Fragment(R.layout.last_meet_fragment) {
             if(it.isNotEmpty()) {
                 last_meet_fragment_header.text = it[0].result.mt_name
                 last_meet_fragment_course.text = Const.courseSize.getString(it[0].result.mt_course_abbr)
-                last_meet_fragment_date.text = it[0].result.mt_from
-
+                last_meet_fragment_date.text = resources.getString(R.string.meeting_date, it[0].result.mt_from, it[0].result.mt_to)
+                last_meet_fragment_place.text = it[0].result.mt_city
+                last_meet_fragment_course.text = Const.courseSize.getString(it[0].result.mt_course_abbr)
                 if(it[0].result.mt_main_page != "") {
 
                     multiple_button.setButtonOnClickListener(0) { v ->
@@ -132,12 +133,15 @@ class ComparedResultViewHolder(container: View): RecyclerView.ViewHolder(contain
 
         itemView.result_comparison_item_split_times_container.isVisible = item.result.res_split_times != ""
 
-        val x = (item.result.res_place != null || item.result.res_dsq_abbr != "")
+        val x = (item.result.res_place != null && item.result.res_dsq_abbr == "")
 
-        itemView.medalIcon.isVisible = x
+        itemView.medalIcon.visibility = if(x) View.VISIBLE else View.INVISIBLE
         itemView.place.isVisible = x
         itemView.result_comparison_item_dsq.isVisible = item.result.res_dsq_abbr != ""
         itemView.result_comparison_item_actual_points.isVisible = item.result.res_points != 0
+        if(item.result.res_dsq_abbr != "") {
+            itemView.result_comparison_item_actual_time.setTextColor(itemView.resources.getColor(R.color.cool_grey))
+        }
         itemView.apply {
             result_comparison_item_header.text = resources.getString(R.string.concurence_no_course, item.result.sev_distance.toString(), item.result.sst_name_pl)
 //            result_comparison_item_progress_value.text = df.format(item.progress* 100).toString() + "%"

@@ -18,4 +18,5 @@
     <color name="dark_seafoam">#18AF68</color>
     <color name="light_teal">#BFEDD7</color>
     <color name="golden_rod">#EEB507</color>
+    <color name="nav_default_color">#a3bbff</color>
 </resources>
