@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ResultArgument(
-    val distance: Int,
-    val ss_abbr: String,
-    val res_course_abbr: String
+    val distance: Int?,
+    val ss_abbr: String?,
+    val res_course_abbr: String?
 ): Parcelable

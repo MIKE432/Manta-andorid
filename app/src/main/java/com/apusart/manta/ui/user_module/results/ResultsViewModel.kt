@@ -11,6 +11,7 @@ import java.lang.Exception
 class ResultsViewModel: ViewModel() {
     private val athletesService = AthletesService()
     val results = MutableLiveData<List<Result>>()
+    val dsqCount = MutableLiveData(0)
     val lastMeetResult = MutableLiveData<List<Result>>()
     val inProgress = MutableLiveData(false)
 
@@ -18,7 +19,9 @@ class ResultsViewModel: ViewModel() {
         viewModelScope.launch {
             try {
                 inProgress.value = true
-                results.value = athletesService.getResultsByAthleteId(id, limit, ss_abbr, distance, course).filter { it.res_total_time != null && (if(dsq != "") true else dsq == it.res_dsq_abbr)}
+                val res = athletesService.getResultsByAthleteId(id, limit, ss_abbr, distance, course)
+                results.value = res.filter { it.res_total_time != null && (if(dsq != "") true else dsq == it.res_dsq_abbr)}
+                dsqCount.value = res.count { x -> x.res_dsq_abbr != "" }
                 inProgress.value = false
             } catch(e: Exception) {
                 e.printStackTrace()

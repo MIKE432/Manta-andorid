@@ -52,9 +52,13 @@ class ResultDetailsFragment: Fragment(R.layout.result_details_fragment) {
                 result_details_points.text = it[0].res_points.toString()
                 result_details_res_split_times.text = it[0].res_split_times
                 result_details_res_count_value.text = it[0].res_count.toString()
-                result_details_dsq_value.text = it.count { res -> res.res_dsq_abbr != "" }.toString()
+
                 result_details_res_split_times_header.isVisible = it[0].sev_distance > 50
             }
+        })
+
+        resultsViewModel.dsqCount.observe(viewLifecycleOwner, Observer {
+            result_details_dsq_value.text = it.toString()
         })
 
         result_details_refresher.setOnRefreshListener {

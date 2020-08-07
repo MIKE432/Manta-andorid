@@ -111,7 +111,7 @@ class Graph(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) 
     private var mBitmap: Bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
     private val mPainter = Paint()
     private val mLinesPainter = Paint()
-
+    private val mLinesBetweenResultsPainter = Paint()
     init {
         addView(mGraph)
         setUpPainters()
@@ -137,6 +137,10 @@ class Graph(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) 
         mLinesPainter.strokeWidth = 2f
         mLinesPainter.color = resources.getColor(R.color.cool_grey)
         mLinesPainter.style = Paint.Style.FILL
+
+        mPainter.strokeWidth = 4f
+        mPainter.color = resources.getColor(R.color.dark_seafoam)
+        mPainter.style = Paint.Style.FILL
     }
 
     fun resetData() {

@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/dashboard.item">
+    style="@style/dashboard.item"
+    >
     <ProgressBar
         android:id="@+id/mvr_for_dashboard_spinner"
         android:layout_width="match_parent"

@@ -44,6 +44,8 @@ class DashboardViewModel: ViewModel() {
 
                 incomingMeets.value = mMeetService.getIncomingMeetsByAthleteId(id, limit)
                 lastMeets.value =  mMeetService.getLastMeetsByAthleteId(id, Const.defaultLimit)
+
+                if(medalStats.isNotEmpty() || mostValuableResults.value?.isNotEmpty() != false)
                 isInProgress.value = false
             } catch(e: Exception) { e.printStackTrace() }
             finally {

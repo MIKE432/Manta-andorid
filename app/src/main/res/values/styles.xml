@@ -88,6 +88,15 @@
         <item name="android:layout_marginBottom">5dp</item>
     </style>
 
+    <style name="dashboard.item.no__horizontal_padding" parent="list_item">
+        <item name="contentPaddingTop">3dp</item>
+        <item name="contentPaddingBottom">3dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
     <style name="ActivityAnimator" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
         <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>

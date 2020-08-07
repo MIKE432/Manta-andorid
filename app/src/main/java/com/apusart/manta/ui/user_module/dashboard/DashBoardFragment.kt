@@ -11,27 +11,22 @@ import androidx.navigation.fragment.findNavController
 import com.apusart.manta.ui.tools.Prefs
 import com.apusart.manta.R
 import com.apusart.manta.api.models.Athlete
+import com.apusart.manta.navigation.ResultArgument
 import com.apusart.manta.ui.MedalStatsViewModel
 import com.apusart.manta.ui.tools.Tools
-import com.apusart.manta.ui.user_module.meets.MeetsPager
 import com.apusart.manta.ui.user_module.meets.MeetsViewModel
 import com.apusart.manta.ui.user_module.results.MostValuableResultsViewModel
-import com.apusart.manta.ui.user_module.results.ResultsFragment
 import com.apusart.manta.ui.user_module.results.ResultsViewModel
 import kotlinx.android.synthetic.main.medals_statistics_item.view.*
 import kotlinx.android.synthetic.main.dashboard_fragment.*
 import kotlinx.android.synthetic.main.last_results_for_dashboard.view.*
-import kotlinx.android.synthetic.main.medal_statistics_for_dashboard.*
-import kotlinx.android.synthetic.main.medal_statistics_for_dashboard.view.*
+import kotlinx.android.synthetic.main.achievements_for_dashboard.view.*
 import kotlinx.android.synthetic.main.meet_information_for_dashboard.view.*
 import kotlinx.android.synthetic.main.most_valuable_results_for_dashboard.view.*
+import kotlinx.android.synthetic.main.personal_best_fragment.*
 
 class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
     private var mUser: Athlete? = Prefs.getUser()
-    private val medalStatsViewModel: MedalStatsViewModel by viewModels()
-    private val mostValuableResultsViewModel: MostValuableResultsViewModel by viewModels()
-    private val resultsViewModel: ResultsViewModel by viewModels()
-    private val meetsViewModel: MeetsViewModel by viewModels()
 
     private val dashBoardViewModel: DashboardViewModel by viewModels()
 
@@ -43,12 +38,12 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
         val meetsInfo = LayoutInflater.from(this.context)
             .inflate(R.layout.meet_information_for_dashboard, dashboard_information, false)
 
-        val medalStats = LayoutInflater.from(this.context)
-            .inflate(R.layout.medal_statistics_for_dashboard, dashboard_information, false)
+        val achievements = LayoutInflater.from(this.context)
+            .inflate(R.layout.achievements_for_dashboard, dashboard_information, false)
 
         val medalStatsItem = LayoutInflater.from(this.context)
-            .inflate(R.layout.medals_statistics_item, medalStats.medals_statistics_for_dashboard_container, false)
-        medalStats.medals_statistics_for_dashboard_container.addView(medalStatsItem)
+            .inflate(R.layout.medals_statistics_item, achievements.medals_statistics_for_dashboard_container, false)
+        achievements.medals_statistics_for_dashboard_container.addView(medalStatsItem)
 
         val lastResults = LayoutInflater.from(this.context)
             .inflate(R.layout.last_results_for_dashboard, dashboard_information, false)
@@ -56,11 +51,10 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
         val mvrs = LayoutInflater.from(this.context)
             .inflate(R.layout.most_valuable_results_for_dashboard, dashboard_information, false)
 
-
-        dashboard_information.addView(medalStats)
         dashboard_information.addView(meetsInfo)
+        dashboard_information.addView(achievements)
         dashboard_information.addView(lastResults)
-        dashboard_information.addView(mvrs)
+//        dashboard_information.addView(mvrs)
 
         dashBoardViewModel.incomingMeets.observe(viewLifecycleOwner, Observer {
 
@@ -77,30 +71,30 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
 
 
         dashBoardViewModel.mGeneralMedalStats.observe(viewLifecycleOwner, Observer {
-            medalStats.medal_stats_item_gold_medal_count.text = "${it.gold}"
-            medalStats.medal_stats_item_silver_medal_count.text = "${it.silver}"
-            medalStats.medal_stats_item_bronze_medal_count.text = "${it.bronze}"
+            achievements.medal_stats_item_gold_medal_count.text = "${it.gold}"
+            achievements.medal_stats_item_silver_medal_count.text = "${it.silver}"
+            achievements.medal_stats_item_bronze_medal_count.text = "${it.bronze}"
 
-            medalStats.isVisible =
+            achievements.isVisible =
                 !(it.gold == 0 && it.silver == 0 && it.bronze == 0)
 
             if(it.gold == 0)
-                medalStats.medal_stats_item_gold_medals_stats.visibility = View.INVISIBLE
+                achievements.medal_stats_item_gold_medals_stats.visibility = View.INVISIBLE
             else
-                medalStats.medal_stats_item_gold_medals_stats.visibility = View.VISIBLE
+                achievements.medal_stats_item_gold_medals_stats.visibility = View.VISIBLE
 
             if(it.silver == 0)
-                medalStats.medal_stats_item_silver_medals_stats.visibility = View.INVISIBLE
+                achievements.medal_stats_item_silver_medals_stats.visibility = View.INVISIBLE
             else
-                medalStats.medal_stats_item_silver_medals_stats.visibility = View.VISIBLE
+                achievements.medal_stats_item_silver_medals_stats.visibility = View.VISIBLE
 
             if(it.bronze == 0)
-                medalStats.medal_stats_item_bronze_medals_stats.visibility = View.INVISIBLE
+                achievements.medal_stats_item_bronze_medals_stats.visibility = View.INVISIBLE
             else
-                medalStats.medal_stats_item_bronze_medals_stats.visibility = View.VISIBLE
+                achievements.medal_stats_item_bronze_medals_stats.visibility = View.VISIBLE
         })
 
-        medalStats.medals_statistics_for_dashboard_container.setOnClickListener {
+        achievements.medals_statistics_for_dashboard_container.setOnClickListener {
             findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToRecordsFragment(1))
         }
 
@@ -120,29 +114,48 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
         dashBoardViewModel.mostValuableResults.observe(viewLifecycleOwner, Observer {
             val best50 = it.firstOrNull { mvr -> mvr.res_course_abbr == "LCM" }
             val best25 = it.firstOrNull { mvr -> mvr.res_course_abbr == "SCM" }
+//
+//            //for 25
+//            mvrs.mvr_for_dashboard_25_distance.text = best25?.sev_distance.toString()
+//            mvrs.mvr_for_dashboard_25_style.text = best25?.sst_name_pl.toString()
+//            mvrs.mvr_for_dashboard_25_total_time.text = Tools.convertResult(
+//                best25?.res_total_time?.toFloat() ?: 0f)
+//            mvrs.mvr_for_dashboard_25_points.text = best25?.res_points.toString()
+//
+//            //for 50
+//            mvrs.mvr_for_dashboard_50_distance.text = best50?.sev_distance.toString()
+//            mvrs.mvr_for_dashboard_50_style.text = best50?.sst_name_pl.toString()
+//            mvrs.mvr_for_dashboard_50_total_time.text = Tools.convertResult(
+//                best50?.res_total_time?.toFloat() ?: 0f)
+//            mvrs.mvr_for_dashboard_50_points.text = best50?.res_points.toString()
+//
+            achievements.isVisible = (best25 != null && best50 != null)
+            achievements.achievements_mvr_50_container.isVisible = best50 != null
+            achievements.achievements_mvr_25_container.isVisible = best25 != null
 
-            //for 25
-            mvrs.mvr_for_dashboard_25_distance.text = best25?.sev_distance.toString()
-            mvrs.mvr_for_dashboard_25_style.text = best25?.sst_name_pl.toString()
-            mvrs.mvr_for_dashboard_25_total_time.text = Tools.convertResult(
-                best25?.res_total_time?.toFloat() ?: 0f)
-            mvrs.mvr_for_dashboard_25_points.text = best25?.res_points.toString()
+            achievements.achievements_mvr_25_total_time.text = Tools.convertResult(best25?.res_total_time?.toFloat())
+            achievements.achievements_mvr_25_concurence.text = resources.getString(R.string.concurence_no_course, best25?.sev_distance.toString(), best25?.sst_name_pl.toString())
+            achievements.achievements_mvr_25_points.text = best25?.res_points.toString()
 
-            //for 50
-            mvrs.mvr_for_dashboard_50_distance.text = best50?.sev_distance.toString()
-            mvrs.mvr_for_dashboard_50_style.text = best50?.sst_name_pl.toString()
-            mvrs.mvr_for_dashboard_50_total_time.text = Tools.convertResult(
-                best50?.res_total_time?.toFloat() ?: 0f)
-            mvrs.mvr_for_dashboard_50_points.text = best50?.res_points.toString()
+            achievements.achievements_mvr_50_total_time.text = Tools.convertResult(best50?.res_total_time?.toFloat())
+            achievements.achievements_mvr_50_concurence.text = resources.getString(R.string.concurence_no_course, best50?.sev_distance.toString(), best50?.sst_name_pl.toString())
+            achievements.achievements_mvr_50_points.text = best50?.res_points.toString()
 
-            mvrs.isVisible = (best25 != null && best50 != null)
-            mvrs.mvr_for_dashboard_50_container.isVisible = best50 != null
-            mvrs.mvr_for_dashboard_25_container.isVisible = best25 != null
+            achievements.achievements_mvr_50_container.setOnClickListener {
+                findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToResultDetails(
+                    ResultArgument(best50!!.sev_distance, best50.sst_name_pl, best50.res_course_abbr)
+                ))
+            }
+
+            achievements.achievements_mvr_25_container.setOnClickListener {
+                findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToResultDetails(
+                    ResultArgument(best25!!.sev_distance, best25.sst_name_pl, best25.res_course_abbr)
+                ))
+            }
+
         })
 
-        mvrs.setOnClickListener {
-            findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToRecordsFragment(0))
-        }
+
 
 //        -----------------Last results statsistics--------------------
 
