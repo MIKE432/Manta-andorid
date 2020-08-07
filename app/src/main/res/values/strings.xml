@@ -51,4 +51,5 @@
     <string name="settings">Ustawienia</string>
     <string name="meeting_date">%1$s - %2$s</string>
     <string name="club_record">RK - %1$s lat</string>
+    <string name="no_last_meet">Brak ostatnich zawodów do wyświetlenia</string>
 </resources>

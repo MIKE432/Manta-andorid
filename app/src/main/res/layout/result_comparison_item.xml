@@ -24,19 +24,20 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="50m dowolny"
+                android:maxWidth="160dp"
+                tools:text="50m motylkodsadsadsasswy"
                 style="@style/Body2MenuRoboto14Pt"
                 />
 
             <LinearLayout
                 android:id="@+id/result_comparison_item_place_container"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/result_comparison_item_header"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.4"
+                app:layout_constraintHorizontal_bias="0.1"
                 android:orientation="horizontal">
 <!--                <TextView-->
 <!--                    android:id="@+id/result_comparison_item_progress_value"-->
@@ -92,11 +93,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/result_comparison_item_actual_time"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 style="@style/Roboto14Pt"
-                app:layout_constraintHorizontal_bias="0.75"
+                app:layout_constraintHorizontal_bias="0.9"
                 tools:text="765"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -121,7 +122,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="29.47 34.19"
                     android:textColor="@color/cool_grey"
-                    style="@style/Roboto14Pt"/>
+                    style="@style/CaptionRoboto12Pt"/>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

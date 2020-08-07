@@ -33,13 +33,12 @@ import java.util.*
 class LastMeetFragment: Fragment(R.layout.last_meet_fragment) {
     private val resultsViewModel: LastMeetViewModel by viewModels()
     private lateinit var comparedResultAdapter: ComparedResultAdapter
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        last_meet_fragment_nested_scroll_view.isVisible = false
 
-        last_meet_fragment_spinner.isVisible = true
         comparedResultAdapter = ComparedResultAdapter()
-
+        last_meet_fragment_no_last_meet.isVisible = false
         last_meet_fragment_results.apply {
             adapter = comparedResultAdapter
         }
@@ -48,9 +47,18 @@ class LastMeetFragment: Fragment(R.layout.last_meet_fragment) {
         multiple_button.setButtonIcon(0, R.drawable.www_icon)
         multiple_button.setText(1, "Lista startowa")
         multiple_button.setButtonIcon(1, R.drawable.articles_icon)
+
         resultsViewModel.inProgress.observe(viewLifecycleOwner, Observer {
+
             last_meet_fragment_spinner.isVisible = it
             last_meet_fragment_nested_scroll_view.isVisible = !it
+        })
+
+        resultsViewModel.mShowContent.observe(viewLifecycleOwner, Observer {
+
+            last_meet_fragment_nested_scroll_view.isVisible = it
+            last_meet_fragment_no_last_meet.isVisible = !it
+
         })
 
         resultsViewModel.lastMeetResultCompared.observe(viewLifecycleOwner, Observer {
@@ -85,6 +93,9 @@ class LastMeetFragment: Fragment(R.layout.last_meet_fragment) {
                         startActivity(intent)
                     }
                 }
+            } else {
+                last_meet_fragment_nested_scroll_view.isVisible = false
+                last_meet_fragment_no_last_meet.isVisible = true
             }
 
             comparedResultAdapter.submitList(it)

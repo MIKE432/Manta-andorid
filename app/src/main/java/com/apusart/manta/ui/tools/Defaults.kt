@@ -78,22 +78,6 @@ object Const {
     )
 }
 
-object Font {
-    const val ROBOTO_BLACK = "fonts/Roboto-Black.ttf"
-    const val ROBOTO_BLACK_ITALIC = "fonts/Roboto-BlackItalic.ttf"
-    const val ROBOTO_BOLD = "fonts/Roboto-Bold.ttf"
-    const val ROBOTO_BOLD_ITALIC = "fonts/Roboto-BoldItalic.ttf"
-    const val ROBOTO_ITALIC = "fonts/Roboto-Italic.ttf"
-    const val ROBOTO_LIGHT = "fonts/Roboto-Light.ttf"
-    const val ROBOTO_LIGHT_ITALIC = "fonts/Roboto-LightItalic.ttf"
-    const val ROBOTO_MEDIUM = "fonts/Roboto-Medium.ttf"
-    const val ROBOTO_MEDIUM_ITALIC = "fonts/Roboto-MediumItalic.ttf"
-    const val ROBOTO_REGULAR = "fonts/Roboto-Regular.ttf"
-    const val ROBOTO_THIN = "fonts/Roboto-Thin.ttf"
-    const val ROBOTO_THIN_ITALIC = "fonts/Roboto-ThinItalic.ttf"
-
-}
-
 object Tools {
     private val monthsNames = bundleOf(
         "Jan" to 1,
@@ -110,8 +94,8 @@ object Tools {
         "Dec" to 12
     )
 
-    fun toDp(x: Int, context: Context): Int {
-        return (x * (context.resources.displayMetrics.density)).toInt()
+    fun toDp(x: Int): Int {
+        return (x * (Resources.getSystem().displayMetrics.density) + 0.5f).toInt()
     }
 
     fun changeIconColor(src: Int, newColor: Int, resources: Resources): Drawable {
@@ -150,7 +134,7 @@ object Tools {
         val seconds = millis / 100 % 60
         val m = millis % 100
         return "${
-        if((minutes < 10) and (minutes != 0)) "0${minutes}:"
+        if((minutes < 10) and (minutes != 0)) "$minutes:"
         else if((minutes == 0)) ""
         else "$minutes:"}${if(seconds < 10) "0${seconds}" else "$seconds"}.${if(m < 10) "0${m}" else "${m}"}"
     }

@@ -6,15 +6,19 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/cool_grey">
+>
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/last_meet_fragment_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.core.widget.NestedScrollView
             android:id="@+id/last_meet_fragment_nested_scroll_view"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:background="@color/cool_grey"
+
+            >
             <LinearLayout
                 android:id="@+id/last_meet_fragment_container"
                 android:layout_width="match_parent"
@@ -144,6 +148,7 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toBottomOf="@id/last_meet_fragment_meet_information_container"
                         app:layout_constraintBottom_toBottomOf="parent" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <LinearLayout
                     android:id="@+id/last_meet_fragment_other_information_container"
@@ -156,17 +161,47 @@
                         android:id="@+id/last_meet_fragment_results"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
                 </LinearLayout>
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/last_meet_fragment_no_last_meet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:background="@color/cool_grey">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:orientation="vertical">
+                <ImageView
 
+                    android:src="@drawable/copetition_flag_icon"
+                    android:layout_width="128dp"
+                    android:layout_gravity="center"
+                    android:layout_height="128dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/no_last_meet"
+                    android:maxWidth="200dp"
+                    style="@style/TitleRoboto20Pt"
+                    android:gravity="center"/>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/last_meet_fragment_spinner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"
+            android:background="@color/cool_grey"
+            android:visibility="gone"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp">
 

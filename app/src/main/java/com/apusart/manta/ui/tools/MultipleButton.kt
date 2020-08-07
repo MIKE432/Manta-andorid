@@ -5,10 +5,7 @@ import android.graphics.Canvas
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.view.Gravity
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewTreeObserver
+import android.view.*
 import android.widget.ImageView
 
 import android.widget.TextView
@@ -46,17 +43,16 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
             (textView.layoutParams as LayoutParams).endToEnd = 0
             (textView.layoutParams as LayoutParams).bottomToBottom = 0
 
-            textView.setTextAppearance(R.style.ButtonRoboto14Pt)
+            textView.setTextAppearance(R.style.CaptionRoboto12Pt)
             textView.setTextColor(resources.getColor(R.color.white))
-
         }
 
         private fun setupImageView(icon: Int?) {
-            imageView.layoutParams = LayoutParams(Tools.toDp(24, context), Tools.toDp(24, context))
+            imageView.layoutParams = LayoutParams(Tools.toDp(24), Tools.toDp(24))
             (imageView.layoutParams as LayoutParams).topToTop = 0
             (imageView.layoutParams as LayoutParams).startToStart = 0
             (imageView.layoutParams as LayoutParams).endToEnd = 0
-            (imageView.layoutParams as LayoutParams).bottomToTop = textView.id
+
             if(icon == null)
                 imageView.visibility = View.INVISIBLE
             else {
@@ -70,13 +66,12 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
             mIsIconSet = icon != null
             this.textView.text = text
             setOnClickListener(onClickListener)
-            layoutParams = LayoutParams(0, LayoutParams.MATCH_PARENT)
-            (layoutParams as LayoutParams).topToTop = 0
-            (layoutParams as LayoutParams).bottomToBottom = 0
-            addView(textView)
-            addView(imageView)
+            layoutParams = LayoutParams(0, LayoutParams.WRAP_CONTENT)
             setupImageView(icon)
             setupTextView()
+            addView(textView, textView.layoutParams)
+            addView(imageView, imageView.layoutParams)
+
             return this
         }
 
@@ -89,7 +84,7 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
 
     init {
         initParams()
-        mChildButtons.add(ChildButton().setUpChild("1"))
+        mChildButtons.add(ChildButton().setUpChild("WWW", R.drawable.www_icon))
         mChildButtons.add(ChildButton().setUpChild("2"))
         addChildren()
         setBackgrounds()
@@ -97,15 +92,15 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
     }
 
     private fun initParams() {
-        layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-        (layoutParams as LayoutParams).marginStart = Tools.toDp(1, context)
-        (layoutParams as LayoutParams).marginEnd = Tools.toDp(1, context)
+        layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+        (layoutParams as LayoutParams).marginStart = Tools.toDp(1)
+        (layoutParams as LayoutParams).marginEnd = Tools.toDp(1)
     }
 
     private fun setupInnerChild(child: ChildButton, index: Int) {
         child.background = resources.getDrawable(R.drawable.multiple_button_inner_button)
 
-        (child.layoutParams as LayoutParams).marginEnd = Tools.toDp(2, context)
+        (child.layoutParams as LayoutParams).marginEnd = Tools.toDp(2)
 
         (child.layoutParams as LayoutParams).startToEnd = mChildButtons[index - 1].id
         (child.layoutParams as LayoutParams).endToStart = mChildButtons[index + 1].id
@@ -116,13 +111,13 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
 
     private fun setupOuterChild(child: ChildButton, background: Drawable, index: Int) {
         child.background = background
-        (child.layoutParams as LayoutParams).marginStart = Tools.toDp(0, context)
-        (child.layoutParams as LayoutParams).marginEnd = Tools.toDp(0, context)
+        (child.layoutParams as LayoutParams).marginStart = Tools.toDp(0)
+        (child.layoutParams as LayoutParams).marginEnd = Tools.toDp(0)
 
         if(index == 0) {
             (child.layoutParams as LayoutParams).startToStart = 0
             (child.layoutParams as LayoutParams).endToStart = mChildButtons[1].id
-            (child.layoutParams as LayoutParams).marginEnd = Tools.toDp(2, context)
+            (child.layoutParams as LayoutParams).marginEnd = Tools.toDp(2)
         } else {
             (child.layoutParams as LayoutParams).endToEnd = 0
             (child.layoutParams as LayoutParams).startToEnd = mChildButtons[index - 1].id

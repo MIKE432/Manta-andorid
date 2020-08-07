@@ -83,7 +83,7 @@ class LastMeetsFragment: Fragment(R.layout.last_meets_fragment) {
         })
 
         meetsViewModel.inProgressLastMeets.observe(viewLifecycleOwner, Observer {
-            meets_fragment_last_meets_list.isVisible = !it
+            meets_fragment_last_meets_list.isVisible = !it && lastMeetsAdapter.currentList.isNotEmpty()
         })
 
         meets_fragment_last_meets_list.apply {

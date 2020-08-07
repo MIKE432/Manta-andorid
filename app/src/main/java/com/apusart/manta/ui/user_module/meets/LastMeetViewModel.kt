@@ -25,12 +25,13 @@ class ComparedResult(val result: Result, val record: Record?) {
 class LastMeetViewModel: ViewModel() {
     private val athletesService = AthletesService()
     private val mantaService = MantaService()
+
     val results = MutableLiveData<List<Result>>()
     val lastMeetResultCompared = MutableLiveData<List<ComparedResult>>()
     val mRecords = MutableLiveData<List<Record>>()
     val inProgress = MutableLiveData(false)
     val lastMeetMedalStat = MutableLiveData<GeneralMedalStats>()
-
+    val mShowContent = MutableLiveData(false)
     fun getResultsFromLastMeetByAthleteId(athlete: Athlete) {
         viewModelScope.launch {
             try {
@@ -41,20 +42,18 @@ class LastMeetViewModel: ViewModel() {
                 val age = Calendar.getInstance().get(Calendar.YEAR) - athlete.ath_birth_year
                 val records = mantaService.getRecords(age = age, gender = athlete.gender_abbr, course = result.takeIf { it.isNotEmpty() }?.get(0)?.mt_course_abbr)
                 mRecords.value = records
-                lastMeetResultCompared.value = result.takeIf { it.isNotEmpty() }
-                    ?.filter { it.meet_id == lastMeetId }
-                    ?.map { return@map ComparedResult(it, records.firstOrNull { record -> record.style_abbr ==  it.style_abbr && record.sev_distance == it.sev_distance }) }
+
+               if(lastMeetId != null) {
+                   lastMeetResultCompared.value = result.takeIf { it.isNotEmpty() }
+                       ?.filter { it.meet_id == lastMeetId }
+                       ?.map { return@map ComparedResult(it, records.firstOrNull { record -> record.style_abbr ==  it.style_abbr && record.sev_distance == it.sev_distance }) }
+               }
 
                 lastMeetMedalStat.value = GeneralMedalStats(lastMeetResultCompared.value?.count { it.result.res_place == 1 }, lastMeetResultCompared.value?.count { it.result.res_place == 2 }, lastMeetResultCompared.value?.count { it.result.res_place == 3 })
 
-
-
-
                 inProgress.value = false
+                mShowContent.value = !inProgress.value!! && lastMeetId != null
             } catch (e: Exception) {}
-            finally {
-                inProgress.value = false
-            }
         }
     }
 }

@@ -21,7 +21,7 @@ class Navigation(context: Context, attributeSet: AttributeSet): ConstraintLayout
     init {
         layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
         background = ColorDrawable(resources.getColor(R.color.colorPrimary))
-        setPadding( 0, Tools.toDp(8, context), 0,Tools.toDp(6, context))
+        setPadding( 0, Tools.toDp(8), 0,Tools.toDp(6))
         val x1 = NavItem(R.drawable.home_icon, "Aktualności")
         val x2 = NavItem(R.drawable.swimmer_icon, "Aktualności")
         val x3 = NavItem(R.drawable.plot_icon, "Aktualności")
@@ -67,9 +67,9 @@ class Navigation(context: Context, attributeSet: AttributeSet): ConstraintLayout
             layoutParams = ConstraintLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
             orientation = VERTICAL
             setSelected()
-            maxWidth = Tools.toDp(130, context)
-            minWidth = Tools.toDp(68, context)
-            imageView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, Tools.toDp(24, context))
+            maxWidth = Tools.toDp(130)
+            minWidth = Tools.toDp(68)
+            imageView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, Tools.toDp(24))
             textView.text = text
             textView.setTextColor(resources.getColor(R.color.white))
             textView.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
