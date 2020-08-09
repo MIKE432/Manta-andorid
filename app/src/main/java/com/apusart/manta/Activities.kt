@@ -85,6 +85,12 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        bottom_navigation.applyNavController(findNavController(R.id.logged_athlete_navigation_host))
+
+
+
+
         Prefs.AthletePreference(applicationContext)
         mUser = Prefs.getUser()
         user_name.text = getString(R.string.user_name, mUser?.ath_lastname, mUser?.ath_firstname)
@@ -145,35 +151,37 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
             }
         }
 
-        bottom_navigation.setOnNavigationItemReselectedListener {}
-        bottom_navigation.setOnNavigationItemSelectedListener { item ->
+//        bottom_navigation.setOnNavigationItemReselectedListener {}
+//        bottom_navigation.setOnNavigationItemSelectedListener { item ->
+//
+//            if(mUserMenuStatus) {
+//                handleMenu()
+//            }
+//
+//            when(item.itemId) {
+//                R.id.navigation_dashboard -> {
+//                    navController.navigate(R.id.dashboardFragment)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
+//                R.id.navigation_competition -> {
+//                    navController.navigate(R.id.meetsFragment)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
+//                R.id.navigation_records -> {
+//                    navController.navigate(R.id.recordsFragment)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
+//                R.id.navigation_profile -> {
+//                    navController.navigate(R.id.profileFragment)
+//                    return@setOnNavigationItemSelectedListener true
+//                }
+//
+//                else -> return@setOnNavigationItemSelectedListener true
+//            }
+//
+//        }
 
-            if(mUserMenuStatus) {
-                handleMenu()
-            }
 
-            when(item.itemId) {
-                R.id.navigation_dashboard -> {
-                    navController.navigate(R.id.dashboardFragment)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.navigation_competition -> {
-                    navController.navigate(R.id.meetsFragment)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.navigation_records -> {
-                    navController.navigate(R.id.recordsFragment)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.navigation_profile -> {
-                    navController.navigate(R.id.profileFragment)
-                    return@setOnNavigationItemSelectedListener true
-                }
-
-                else -> return@setOnNavigationItemSelectedListener true
-            }
-
-        }
 
     }
 }

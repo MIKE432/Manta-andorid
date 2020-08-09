@@ -157,18 +157,12 @@
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <com.apusart.manta.ui.tools.Navigation
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:labelVisibilityMode="labeled"
-        app:itemIconTint="@drawable/navigation_item_color"
-        app:itemTextColor="@drawable/navigation_item_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/colorAccent"
-        android:layout_gravity="bottom"
-        app:menu="@menu/main_menu"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

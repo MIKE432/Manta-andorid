@@ -6,82 +6,146 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import com.apusart.manta.R
+import kotlinx.android.synthetic.main.nav_bar.view.*
+import kotlinx.android.synthetic.main.user_activity.*
 
 class Navigation(context: Context, attributeSet: AttributeSet): ConstraintLayout(context, attributeSet) {
+    private val nav = LayoutInflater.from(context)
+        .inflate(R.layout.nav_bar, this, false)
+    private lateinit var navCtrl: NavController
+
     init {
-        layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-        background = ColorDrawable(resources.getColor(R.color.colorPrimary))
-        setPadding( 0, Tools.toDp(8), 0,Tools.toDp(6))
-        val x1 = NavItem(R.drawable.home_icon, "Aktualności")
-        val x2 = NavItem(R.drawable.swimmer_icon, "Aktualności")
-        val x3 = NavItem(R.drawable.plot_icon, "Aktualności")
-        val x4 = NavItem(R.drawable.profile_icon, "Aktualności")
-
-        (x1.layoutParams as LayoutParams).topToTop = 0
-
-        (x1.layoutParams as LayoutParams).bottomToBottom = 0
-        (x1.layoutParams as LayoutParams).startToStart = 0
-        (x1.layoutParams as LayoutParams).endToStart = x2.id
-
-        (x2.layoutParams as LayoutParams).topToTop = 0
-
-        (x2.layoutParams as LayoutParams).bottomToBottom = 0
-        (x2.layoutParams as LayoutParams).startToEnd = x1.id
-        (x2.layoutParams as LayoutParams).endToStart = x3.id
-
-        (x3.layoutParams as LayoutParams).topToTop = 0
-
-        (x3.layoutParams as LayoutParams).bottomToBottom = 0
-        (x3.layoutParams as LayoutParams).startToEnd = x2.id
-        (x3.layoutParams as LayoutParams).endToStart = x4.id
-
-        (x4.layoutParams as LayoutParams).topToTop = 0
-
-        (x4.layoutParams as LayoutParams).bottomToBottom = 0
-        (x4.layoutParams as LayoutParams).startToEnd = x3.id
-        (x4.layoutParams as LayoutParams).endToEnd = 0
-
-        addView(x1)
-        addView(x2)
-        addView(x3)
-        addView(x4)
+        addView(nav)
     }
 
-    private inner class NavItem(val src: Int, val text: String): LinearLayout(context) {
-        val imageView = ImageView(context)
-        val textView = TextView(context)
-
-        init {
-            gravity = Gravity.CENTER
-            id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-            orientation = VERTICAL
-            setSelected()
-            maxWidth = Tools.toDp(130)
-            minWidth = Tools.toDp(68)
-            imageView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, Tools.toDp(24))
-            textView.text = text
-            textView.setTextColor(resources.getColor(R.color.white))
-            textView.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-            textView.gravity = Gravity.CENTER
-            textView.setTextAppearance(R.style.CaptionRoboto12PtBlack)
-            textView.setTextColor(resources.getColor(R.color.white))
-            addView(imageView)
-            addView(textView)
+    private fun applyOnClickListeners() {
+        nav.nav_bar_n1.setOnClickListener {
+            navCtrl.navigate(R.id.dashboardFragment)
         }
 
-        fun setSelected() {
-            imageView.setImageDrawable(Tools.changeIconColor(src, R.color.white, resources))
+        nav.nav_bar_n2.setOnClickListener {
+            navCtrl.navigate(R.id.meetsFragment)
+        }
+
+        nav.nav_bar_n3.setOnClickListener {
+            navCtrl.navigate(R.id.recordsFragment)
+        }
+
+        nav.nav_bar_n4.setOnClickListener {
+            navCtrl.navigate(R.id.profileFragment)
         }
     }
+
+    private fun setSelected(item: Int) {
+        when(item) {
+            0 ->  {
+                nav.nav_bar_n1_image.setImageDrawable(Tools.changeIconColor(R.drawable.home_icon, R.color.white, resources))
+                nav.nav_bar_n1_text.setTextColor(resources.getColor(R.color.white))
+                //unselect
+                nav.nav_bar_n2_image.setImageDrawable(Tools.changeIconColor(R.drawable.swimmer_icon, R.color.nav_default_color, resources))
+                nav.nav_bar_n2_text.setTextColor(resources.getColor(R.color.nav_default_color))
+
+                nav.nav_bar_n3_image.setImageDrawable(Tools.changeIconColor(R.drawable.plot_icon, R.color.nav_default_color, resources))
+                nav.nav_bar_n3_text.setTextColor(resources.getColor(R.color.nav_default_color))
+
+                nav.nav_bar_n4_image.setImageDrawable(Tools.changeIconColor(R.drawable.profile_icon, R.color.nav_default_color, resources))
+                nav.nav_bar_n4_text.setTextColor(resources.getColor(R.color.nav_default_color))
+            }
+            1 ->  {
+                nav.nav_bar_n2_image.setImageDrawable(Tools.changeIconColor(R.drawable.swimmer_icon, R.color.white, resources))
+                nav.nav_bar_n2_text.setTextColor(resources.getColor(R.color.white))
+
+                nav.nav_bar_n1_image.setImageDrawable(Tools.changeIconColor(R.drawable.home_icon, R.color.nav_default_color, resources))
+                nav.nav_bar_n1_text.setTextColor(resources.getColor(R.color.nav_default_color))
+
+                nav.nav_bar_n3_image.setImageDrawable(Tools.changeIconColor(R.drawable.plot_icon, R.color.nav_default_color, resources))
+                nav.nav_bar_n3_text.setTextColor(resources.getColor(R.color.nav_default_color))
+
+                nav.nav_bar_n4_image.setImageDrawable(Tools.changeIconColor(R.drawable.profile_icon, R.color.nav_default_color, resources))
+                nav.nav_bar_n4_text.setTextColor(resources.getColor(R.color.nav_default_color))
+            }
+            2 ->  {
+                nav.nav_bar_n3_image.setImageDrawable(Tools.changeIconColor(R.drawable.plot_icon, R.color.white, resources))
+                nav.nav_bar_n3_text.setTextColor(resources.getColor(R.color.white))
+
+                nav.nav_bar_n1_image.setImageDrawable(Tools.changeIconColor(R.drawable.home_icon, R.color.nav_default_color, resources))
+                nav.nav_bar_n1_text.setTextColor(resources.getColor(R.color.nav_default_color))
+
+                nav.nav_bar_n2_image.setImageDrawable(Tools.changeIconColor(R.drawable.swimmer_icon, R.color.nav_default_color, resources))
+                nav.nav_bar_n2_text.setTextColor(resources.getColor(R.color.nav_default_color))
+
+                nav.nav_bar_n4_image.setImageDrawable(Tools.changeIconColor(R.drawable.profile_icon, R.color.nav_default_color, resources))
+                nav.nav_bar_n4_text.setTextColor(resources.getColor(R.color.nav_default_color))
+            }
+            3 ->  {
+                nav.nav_bar_n4_image.setImageDrawable(Tools.changeIconColor(R.drawable.profile_icon, R.color.white, resources))
+                nav.nav_bar_n4_text.setTextColor(resources.getColor(R.color.white))
+
+                nav.nav_bar_n1_image.setImageDrawable(Tools.changeIconColor(R.drawable.home_icon, R.color.nav_default_color, resources))
+                nav.nav_bar_n1_text.setTextColor(resources.getColor(R.color.nav_default_color))
+
+                nav.nav_bar_n3_image.setImageDrawable(Tools.changeIconColor(R.drawable.plot_icon, R.color.nav_default_color, resources))
+                nav.nav_bar_n3_text.setTextColor(resources.getColor(R.color.nav_default_color))
+
+                nav.nav_bar_n2_image.setImageDrawable(Tools.changeIconColor(R.drawable.swimmer_icon, R.color.nav_default_color, resources))
+                nav.nav_bar_n2_text.setTextColor(resources.getColor(R.color.nav_default_color))
+            }
+        }
+    }
+
+    private fun destinationChangedCallback(destination: NavDestination?) {
+        when(destination?.id) {
+            R.id.profileFragment -> {
+                if(!nav.isVisible)
+                    nav.isVisible = true
+                setSelected(3)
+            }
+            R.id.meetsFragment -> {
+                if(!nav.isVisible)
+                    nav.isVisible = true
+                setSelected(1)
+            }
+            R.id.recordsFragment -> {
+                if(!nav.isVisible)
+                    nav.isVisible = true
+                setSelected(2)
+            }
+            R.id.dashboardFragment -> {
+                if(!nav.isVisible)
+                    nav.isVisible = true
+                setSelected(0)
+            }
+            else -> {
+                nav.isVisible = false
+            }
+        }
+    }
+
+    private fun applyDestinationChangedCallback() {
+        navCtrl.addOnDestinationChangedListener { controller, destination, arguments ->
+            destinationChangedCallback(destination)
+        }
+    }
+
+    fun applyNavController(navController: NavController) {
+        navCtrl = navController
+        applyOnClickListeners()
+        destinationChangedCallback(navController.currentDestination)
+        applyDestinationChangedCallback()
+    }
+
 }

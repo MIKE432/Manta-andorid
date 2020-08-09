@@ -4,90 +4,120 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
     android:layout_height="wrap_content"
-    android:paddingTop="8dp"
-    android:paddingBottom="6dp">
+>
     <LinearLayout
-        android:id="@+id/l1"
-        android:layout_marginHorizontal="12dp"
+        android:id="@+id/nav_bar_n1"
+        android:paddingTop="8dp"
+        android:paddingBottom="6dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/l2"
-        android:layout_width="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/nav_bar_n2"
+        android:background="@drawable/nav_bar_left_icon_background"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center">
         <ImageView
+            android:id="@+id/nav_bar_n1_image"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/home_icon"
+
             android:layout_gravity="center"
             />
         <TextView
+            android:id="@+id/nav_bar_n1_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Akutalności"/>
+            android:textColor="@color/nav_default_color"
+            android:text="@string/dashboard"/>
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/l2"
+        android:id="@+id/nav_bar_n2"
+        android:paddingTop="8dp"
+        android:paddingBottom="6dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/l3"
-        android:layout_marginHorizontal="12dp"
-        app:layout_constraintStart_toEndOf="@id/l1"
-        android:layout_width="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/nav_bar_n3"
+
+        app:layout_constraintStart_toEndOf="@id/nav_bar_n1"
+        android:layout_width="0dp"
+        android:background="@drawable/nav_bar_center_icon_background"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center">
         <ImageView
+            android:id="@+id/nav_bar_n2_image"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/home_icon"
+            android:src="@drawable/swimmer_icon"
+
             android:layout_gravity="center"
             />
         <TextView
+            android:id="@+id/nav_bar_n2_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Akutalności"/>
+            android:textColor="@color/nav_default_color"
+            android:text="@string/competition"/>
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/l3"
+        android:id="@+id/nav_bar_n3"
+        android:paddingTop="8dp"
+        android:paddingBottom="6dp"
+
+        android:background="@drawable/nav_bar_center_icon_background"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/l4"
-        app:layout_constraintStart_toEndOf="@id/l2"
-        android:layout_marginHorizontal="12dp"
+        app:layout_constraintEnd_toStartOf="@id/nav_bar_n4"
+        app:layout_constraintStart_toEndOf="@id/nav_bar_n2"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center">
         <ImageView
+            android:id="@+id/nav_bar_n3_image"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/home_icon"
+            android:src="@drawable/plot_icon"
+
             android:layout_gravity="center"
             />
         <TextView
+            android:id="@+id/nav_bar_n3_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Akutalności"/>
+            android:textColor="@color/nav_default_color"
+            android:text="@string/achievements"/>
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/l4"
-        android:layout_marginHorizontal="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="6dp"
+        android:id="@+id/nav_bar_n4"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/l3"
-        android:layout_width="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/nav_bar_n3"
+        android:layout_width="0dp"
+        android:background="@drawable/nav_bar_right_icon_background"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center">
         <ImageView
+            android:id="@+id/nav_bar_n4_image"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/home_icon"
+            android:src="@drawable/profile_icon"
             android:layout_gravity="center"
             />
         <TextView
+            android:id="@+id/nav_bar_n4_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Akutalności"/>
+            android:gravity="center"
+            android:textColor="@color/nav_default_color"
+            android:text="@string/profile"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

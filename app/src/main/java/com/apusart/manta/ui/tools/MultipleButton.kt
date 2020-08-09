@@ -44,7 +44,7 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
             (textView.layoutParams as LayoutParams).bottomToBottom = 0
 
             textView.setTextAppearance(R.style.CaptionRoboto12Pt)
-            textView.setTextColor(resources.getColor(R.color.white))
+            textView.setTextColor(resources.getColor(R.color.nav_default_color))
         }
 
         private fun setupImageView(icon: Int?) {
@@ -57,7 +57,7 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
                 imageView.visibility = View.INVISIBLE
             else {
                 imageView.visibility = View.VISIBLE
-                imageView.setImageDrawable(Tools.changeIconColor(icon, R.color.white, resources))
+                imageView.setImageDrawable(Tools.changeIconColor(icon, R.color.nav_default_color, resources))
             }
 
         }
