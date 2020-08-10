@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.*
 import android.widget.ImageView
@@ -15,6 +16,7 @@ import androidx.core.view.isVisible
 import androidx.core.view.marginEnd
 import com.apusart.manta.R
 import kotlinx.android.synthetic.main.graph.view.*
+import kotlinx.android.synthetic.main.multiple_button_item.view.*
 import java.lang.Exception
 import kotlin.math.max
 
@@ -36,7 +38,8 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
 
         private fun setupTextView() {
             textView.gravity = Gravity.CENTER
-
+            textView.ellipsize = TextUtils.TruncateAt.END
+            textView.setLines(1)
             textView.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
             (textView.layoutParams as LayoutParams).topToBottom = imageView.id
             (textView.layoutParams as LayoutParams).startToStart = 0

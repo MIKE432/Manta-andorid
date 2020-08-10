@@ -49,50 +49,123 @@
                    tools:text="I Og\u00f3lnopolskie mistrzostwa O\u0142awy w p\u0142ywaniu (2007-12-12)"/>
                <androidx.constraintlayout.widget.ConstraintLayout
                    android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:paddingVertical="5dp">
-                   <TextView
-                       android:id="@+id/last_results_1_distance"
-                       android:layout_width="wrap_content"
+                   android:layout_height="wrap_content">
+                   <androidx.constraintlayout.widget.ConstraintLayout
+                       android:id="@+id/last_result_1_header_container"
+                       android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       app:layout_constraintTop_toTopOf="parent"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintBottom_toBottomOf="parent"
-                       style="@style/Body1Roboto14Pt"
-                       tools:text="50m"/>
-                   <TextView
-                       android:id="@+id/last_results_1_style"
-                       android:layout_width="0dp"
+                       app:layout_constraintTop_toTopOf="parent">
+                       <TextView
+                           android:id="@+id/last_result_1_header"
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           app:layout_constraintTop_toTopOf="parent"
+                           app:layout_constraintStart_toStartOf="parent"
+                           app:layout_constraintBottom_toBottomOf="parent"
+                           app:layout_constraintEnd_toStartOf="@id/last_result_1_place_container"
+                           tools:text="50m motylkodsadswy"
+                           style="@style/Body2MenuRoboto14Pt"
+                           android:layout_marginEnd="10dp"
+                           />
+
+                       <LinearLayout
+                           android:id="@+id/last_result_1_place_container"
+                           app:layout_constraintStart_toEndOf="@id/last_result_1_header"
+                           app:layout_constraintTop_toTopOf="parent"
+                           app:layout_constraintBottom_toBottomOf="parent"
+                           android:layout_width="60dp"
+                           android:layout_height="wrap_content"
+                           app:layout_constraintEnd_toStartOf="@id/last_result_1_actual_points"
+                           app:layout_constraintHorizontal_bias="0.1"
+                           android:orientation="horizontal">
+                           <!--                <TextView-->
+                           <!--                    android:id="@+id/result_comparison_item_progress_value"-->
+                           <!--                    android:layout_width="match_parent"-->
+                           <!--                    android:layout_height="wrap_content"-->
+                           <!--                    app:layout_constraintTop_toTopOf="parent"-->
+                           <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                           <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+                           <!--                    android:layout_gravity="center"-->
+                           <!--                    tools:text="-21.42%"-->
+                           <!--                    style="@style/CaptionRoboto12Pt"-->
+                           <!--                    android:layout_marginEnd="5dp"-->
+                           <!--                    />-->
+
+                           <ImageView
+                               android:id="@+id/last_result_1_medalIcon"
+                               android:layout_width="16dp"
+                               android:layout_height="16dp"
+                               android:layout_gravity="center"
+                               tools:src="@drawable/medal_bronze_icon32"
+                               android:layout_marginHorizontal="4dp"
+                               android:visibility="invisible"/>
+                           <TextView
+                               android:id="@+id/last_result_1_place"
+                               android:layout_width="wrap_content"
+                               android:layout_height="32dp"
+                               android:gravity="center"
+                               android:text="4."
+                               style="@style/Roboto14Pt"
+                               />
+                           <TextView
+                               android:id="@+id/last_result_1_dsq"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:gravity="center"
+                               android:text="10"
+                               style="@style/Roboto14Pt"/>
+                       </LinearLayout>
+
+                       <TextView
+                           android:id="@+id/last_result_1_actual_time"
+                           android:layout_width="80dp"
+                           android:layout_height="match_parent"
+                           android:gravity="end"
+                           app:layout_constraintTop_toTopOf="parent"
+                           app:layout_constraintEnd_toEndOf="parent"
+                           app:layout_constraintStart_toEndOf="@id/last_result_1_actual_points"
+                           app:layout_constraintBottom_toBottomOf="parent"
+                           style="@style/Body2MenuRoboto14Pt"
+                           tools:text="01:04.12"/>
+                       <TextView
+                           android:id="@+id/last_result_1_actual_points"
+                           android:layout_width="45dp"
+                           android:layout_height="wrap_content"
+                           app:layout_constraintBottom_toBottomOf="parent"
+                           app:layout_constraintEnd_toStartOf="@id/last_result_1_actual_time"
+                           app:layout_constraintStart_toEndOf="@id/last_result_1_place_container"
+                           app:layout_constraintTop_toTopOf="parent"
+                           style="@style/Roboto14Pt"
+                           android:gravity="end"
+                           android:paddingHorizontal="5dp"
+                           tools:text="765"
+                           />
+                   </androidx.constraintlayout.widget.ConstraintLayout>
+                   <androidx.constraintlayout.widget.ConstraintLayout
+                       android:id="@+id/last_result_1_additional_info_container"
+                       android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       app:layout_constraintStart_toEndOf="@id/last_results_1_distance"
-                       app:layout_constraintEnd_toStartOf="@id/last_results_1_time"
-                       app:layout_constraintTop_toTopOf="parent"
-                       app:layout_constraintBottom_toBottomOf="parent"
-                       android:layout_marginStart="5dp"
-                       android:gravity="start"
-                       style="@style/Body1Roboto14Pt"
-                       tools:text="Dowolny"/>
-                   <TextView
-                       android:id="@+id/last_results_1_time"
-                       android:layout_width="0dp"
-                       android:layout_height="wrap_content"
-                       app:layout_constraintTop_toTopOf="parent"
-                       app:layout_constraintBottom_toBottomOf="parent"
-                       app:layout_constraintStart_toEndOf="@id/last_results_1_style"
-                       app:layout_constraintEnd_toStartOf="@id/last_results_1_points"
-                       android:layout_marginEnd="5dp"
-                       android:gravity="end"
-                       style="@style/Body1Roboto14Pt"
-                       tools:text="26.51"/>
-                   <TextView
-                       android:id="@+id/last_results_1_points"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       app:layout_constraintTop_toTopOf="parent"
-                       app:layout_constraintBottom_toBottomOf="parent"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       style="@style/Body1Roboto14Pt"
-                       tools:text="700"/>
+                       app:layout_constraintTop_toBottomOf="@id/last_result_1_header_container">
+                       <LinearLayout
+                           android:id="@+id/last_result_1_split_times_container"
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:orientation="vertical"
+                           app:layout_constraintEnd_toEndOf="parent"
+                           app:layout_constraintStart_toStartOf="parent"
+                           app:layout_constraintTop_toTopOf="parent">
+                           <TextView
+                               android:id="@+id/last_result_1_additional_info_split_times"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               app:layout_constraintTop_toTopOf="parent"
+                               tools:text="29.47 34.19"
+                               android:textColor="@color/cool_grey"
+                               style="@style/CaptionRoboto12Pt"/>
+                       </LinearLayout>
+                   </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
                </androidx.constraintlayout.widget.ConstraintLayout>
            </LinearLayout>
@@ -102,61 +175,136 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
-                    android:id="@+id/last_results_2_header"
+                    android:id="@+id/last_result_2_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/CaptionRoboto12Pt"
                     tools:text="I Og\u00f3lnopolskie mistrzostwa O\u0142awy w p\u0142ywaniu"/>
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="5dp">
-                    <TextView
-                        android:id="@+id/last_results_2_distance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    android:layout_height="wrap_content">
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        style="@style/Body1Roboto14Pt"
-                        tools:text="50m" />
-                    <TextView
-                        android:id="@+id/last_results_2_style"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/last_results_2_time"
-                        app:layout_constraintStart_toEndOf="@id/last_results_2_distance"
-                        android:layout_marginStart="5dp"
-                        style="@style/Body1Roboto14Pt"
-                        tools:text="Dowolny"
-                        />
-                    <TextView
-                        android:id="@+id/last_results_2_time"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/last_results_2_points"
-                        app:layout_constraintStart_toEndOf="@id/last_results_2_style"
-                        style="@style/Body1Roboto14Pt"
-                        android:gravity="end"
-                        android:layout_marginEnd="5dp"
-                        tools:text="24.56"
-                        />
-                    <TextView
-                        android:id="@+id/last_results_2_points"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/last_results_2_time"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        style="@style/Body1Roboto14Pt"
-                        tools:text="707"
-                        />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/last_results_2_header_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent">
+                            <TextView
+                                android:id="@+id/last_results_2_header"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/last_result_2_place_container"
+                                tools:text="50m motylkodsadswy"
+                                style="@style/Body2MenuRoboto14Pt"
+                                android:layout_marginEnd="10dp"
+                                />
+
+                            <LinearLayout
+                                android:id="@+id/last_result_2_place_container"
+                                app:layout_constraintStart_toEndOf="@id/last_results_2_header"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:layout_width="60dp"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintEnd_toStartOf="@id/last_result_2_actual_points"
+                                app:layout_constraintHorizontal_bias="0.1"
+                                android:orientation="horizontal">
+                                <!--                <TextView-->
+                                <!--                    android:id="@+id/result_comparison_item_progress_value"-->
+                                <!--                    android:layout_width="match_parent"-->
+                                <!--                    android:layout_height="wrap_content"-->
+                                <!--                    app:layout_constraintTop_toTopOf="parent"-->
+                                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+                                <!--                    android:layout_gravity="center"-->
+                                <!--                    tools:text="-21.42%"-->
+                                <!--                    style="@style/CaptionRoboto12Pt"-->
+                                <!--                    android:layout_marginEnd="5dp"-->
+                                <!--                    />-->
+
+                                <ImageView
+                                    android:id="@+id/last_result_2_medalIcon"
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:layout_gravity="center"
+                                    tools:src="@drawable/medal_bronze_icon32"
+                                    android:layout_marginHorizontal="4dp"
+                                    android:visibility="invisible"/>
+                                <TextView
+                                    android:id="@+id/last_result_2_place"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="32dp"
+                                    android:gravity="center"
+                                    android:text="4."
+                                    style="@style/Roboto14Pt"
+                                    />
+                                <TextView
+                                    android:id="@+id/last_result_2_dsq"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="O4"
+                                    style="@style/Roboto14Pt"/>
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/last_result_2_actual_time"
+                                android:layout_width="80dp"
+                                android:layout_height="match_parent"
+                                android:gravity="end"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/last_result_2_actual_points"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                style="@style/Body2MenuRoboto14Pt"
+                                tools:text="01:04.12"/>
+                            <TextView
+                                android:id="@+id/last_result_2_actual_points"
+                                android:layout_width="45dp"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/last_result_2_actual_time"
+                                app:layout_constraintStart_toEndOf="@id/last_result_2_place_container"
+                                app:layout_constraintTop_toTopOf="parent"
+                                style="@style/Roboto14Pt"
+                                android:gravity="end"
+                                android:paddingHorizontal="5dp"
+                                tools:text="765"
+                                />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/last_result_2_additional_info_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/last_results_2_header_container">
+                            <LinearLayout
+                                android:id="@+id/last_result_2_split_times_container"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+                                <TextView
+                                    android:id="@+id/last_result_2_additional_info_split_times"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="29.47 34.19"
+                                    android:textColor="@color/cool_grey"
+                                    style="@style/CaptionRoboto12Pt"/>
+                            </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </LinearLayout>

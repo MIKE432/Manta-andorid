@@ -21,7 +21,7 @@ class DashboardViewModel: ViewModel() {
     val mostValuableResults = MutableLiveData<List<MostValuableResult>>()
     val results = MutableLiveData<List<Result>>()
     val incomingMeets = MutableLiveData<List<Meet>>()
-    val lastMeets = MutableLiveData<List<Meet>>()
+    val lastMeet = MutableLiveData<Meet>()
 
 
     fun getInfoForDashboardByAthleteId(id: Int, limit: Int? = 10, ss_abbr: String? = null, distance: Int? = null, course: String? = null, dsq: String? = "") {
@@ -43,7 +43,7 @@ class DashboardViewModel: ViewModel() {
                 results.value = mAthletesService.getResultsByAthleteId(id, limit, ss_abbr, distance, course).filter { it.res_total_time != null && (if(dsq != "") true else dsq == it.res_dsq_abbr)}
 
                 incomingMeets.value = mMeetService.getIncomingMeetsByAthleteId(id, limit)
-                lastMeets.value =  mMeetService.getLastMeetsByAthleteId(id, Const.defaultLimit)
+                lastMeet.value =  mMeetService.getLastMeetsByAthleteId(id, Const.defaultLimit)?.get(0)
 
                 if(medalStats.isNotEmpty() || mostValuableResults.value?.isNotEmpty() != false)
                 isInProgress.value = false

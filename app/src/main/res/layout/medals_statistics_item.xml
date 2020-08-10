@@ -34,10 +34,10 @@
 
             <ImageView
                 android:id="@+id/medal_stats_item_gold_medal"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
                 android:padding="5dp"
-                android:src="@drawable/medal_gold_60"
+                android:src="@drawable/medal_gold_128"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -82,10 +82,10 @@
             app:layout_constraintBottom_toBottomOf="parent">
             <ImageView
                 android:id="@+id/medal_stats_item_silver_medal"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
                 android:padding="5dp"
-                android:src="@drawable/medal_silver_60"
+                android:src="@drawable/medal_silver_128"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -145,10 +145,10 @@
 
             <ImageView
                 android:id="@+id/medal_stats_item_bronze_medal"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
                 android:padding="5dp"
-                android:src="@drawable/medal_bronze_60"
+                android:src="@drawable/medal_bronze_128"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

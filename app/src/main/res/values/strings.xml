@@ -54,4 +54,5 @@
     <string name="club_record">RK - %1$s lat</string>
     <string name="no_last_meet">Brak ostatnich zawodów do wyświetlenia</string>
     <string name="incoming_meet_caps">NAJBLIŻSZE ZAWODY</string>
+    <string name="last_meet_caps">OSTATNIE ZAWODY</string>
 </resources>

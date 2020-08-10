@@ -94,6 +94,12 @@ object Tools {
         "Dec" to 12
     )
 
+    val medal = bundleOf(
+        "1" to R.drawable.medal_gold_icon32,
+        "2" to R.drawable.medal_silver_icon32,
+        "3" to R.drawable.medal_bronze_icon32
+    )
+
     fun toDp(x: Int): Int {
         return (x * (Resources.getSystem().displayMetrics.density) + 0.5f).toInt()
     }
