@@ -49,10 +49,10 @@ object Const {
         "4" to "Mistrzostwa Regionu",
         "5" to "Międzynarodowy Wielomecz",
         "6" to "Główne Mistrzostwa Polski",
-        "7" to "Mistrzostwa Polski",
-        "8" to "Mistrzostwa okręgu",
-        "9" to "Międzynarodowe zawody",
-        "10" to "Zawody",
+        "7" to "Mistrzostwa Polski Junior\\u00f3w",
+        "8" to "Mistrzostwa okr\\u0119gu",
+        "9" to "Miting p\\u0142ywacki",
+        "10" to "Zawody lokalne",
         "11" to "Sprawdzian klubowy"
     )
 

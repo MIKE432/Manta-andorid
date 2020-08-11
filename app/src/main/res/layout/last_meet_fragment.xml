@@ -38,8 +38,9 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toTopOf="@id/last_meet_fragment_meet_information_container"
                         android:layout_marginBottom="5dp"
-                        style="@style/TitleRoboto20Pt"
                         android:gravity="center"
+                        style="@style/Body2MenuRoboto14Pt"
+                        android:textAllCaps="true"
                         tools:text="I Og\u00f3lnopolskie mistrzostwa O\u0142awy w p\u0142ywaniu"/>
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/last_meet_fragment_meet_information_container"

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apusart.manta.ui.tools.Prefs
 import com.apusart.manta.R
 import com.apusart.manta.api.models.Meet
+import com.apusart.manta.ui.tools.Const
 import kotlinx.android.synthetic.main.incoming_meets_fragment.*
 import kotlinx.android.synthetic.main.last_meets_fragment.*
 import kotlinx.android.synthetic.main.meet_item.view.*
@@ -171,7 +172,7 @@ class LastMeetsAdapter: ListAdapter<Meet, MeetViewHolder>(diffUtil) {
         val viewContainer = LayoutInflater.from(parent.context)
             .inflate(R.layout.meet_item, parent, false)
 
-        return MeetViewHolder.IncomingMeet(viewContainer)
+        return MeetViewHolder.LastMeets(viewContainer)
     }
 
     override fun onBindViewHolder(holder: MeetViewHolder, position: Int) {
@@ -188,7 +189,17 @@ sealed class MeetViewHolder(containerView: View): RecyclerView.ViewHolder(contai
             itemView.apply {
                 meet_item_meet_title.text = meet.mt_name
                 meet_item_meet_city.text = meet.mt_city
-                meet_item_meet_nation.text = meet.mt_nation_abbr
+            }
+        }
+    }
+
+    class LastMeets(containerView: View): MeetViewHolder(containerView) {
+        override fun bind(meet: Meet) {
+            itemView.apply {
+                meet_item_meet_title.text = meet.mt_name
+                meet_item_meet_city.text = meet.mt_city
+                last_meet_for_dashboard_course.text = Const.courseSize.getString(meet.mt_course_abbr)
+                last_meet_for_dashboard_date.text = resources.getString(R.string.meeting_date, meet.mt_from, meet.mt_to)
             }
         }
     }

@@ -23,9 +23,9 @@ class MedalStatsViewModel: ViewModel() {
             try {
                 val result = mAthletesService.getMedalStatsByAthleteId(id, grade)
                 if(result.isNotEmpty()) {
-                    var gold = result.firstOrNull { medalStat -> medalStat.res_place == 1 }
-                    var silver = result.firstOrNull { medalStat -> medalStat.res_place == 2 }
-                    var bronze = result.firstOrNull { medalStat -> medalStat.res_place == 3 }
+                    val gold = result.firstOrNull { medalStat -> medalStat.res_place == 1 }
+                    val silver = result.firstOrNull { medalStat -> medalStat.res_place == 2 }
+                    val bronze = result.firstOrNull { medalStat -> medalStat.res_place == 3 }
 
                     mGeneralMedalStats.value = GeneralMedalStats(gold?.res_count ?: 0, silver?.res_count ?: 0, bronze?.res_count ?: 0)
                 }

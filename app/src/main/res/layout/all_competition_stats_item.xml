@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/list_item">
+    xmlns:tools="http://schemas.android.com/tools">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -18,18 +17,20 @@
             app:layout_constraintBottom_toBottomOf="parent">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp">
+                android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/profile_fragment_medal_stats_grade_title"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:text="Zawody Międzynarodowe"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    style="@style/TitleRoboto20Pt"
+                    style="@style/Body2MenuRoboto14Pt"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:background="@drawable/horizontal_border"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>

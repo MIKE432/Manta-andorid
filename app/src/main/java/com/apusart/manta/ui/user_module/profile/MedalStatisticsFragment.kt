@@ -34,9 +34,7 @@ class MedalStatisticsFragment: Fragment(R.layout.medal_statistics_fragment) {
                 if (specificMedalStat != null) {
                     val medalStatView = LayoutInflater.from(profile_fragment_athlete_medals_statistics.context)
                         .inflate(R.layout.all_competition_stats_item, profile_fragment_athlete_medals_statistics, false)
-                    medalStatView.setOnClickListener {
-                        Toast.makeText(medalStatView.context, "${specificMedalStat.gold}", Toast.LENGTH_SHORT).show()
-                    }
+
                     medalStatView.profile_fragment_medal_stats_grade_title.text = Const.grades.getString(index.toString())
                     val medalsView = LayoutInflater.from(medalStatView.context)
                         .inflate(R.layout.medals_statistics_item, profile_fragment_medal_stats, false)

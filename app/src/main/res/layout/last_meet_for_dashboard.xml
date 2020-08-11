@@ -30,10 +30,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="I Og\u00f3lnopolskie mistrzostwa O\u0142awy w p\u0142ywaniu"
-                style="@style/TitleRoboto20Pt"
-                android:gravity="center"/>
+                android:textAllCaps="true"
+                app:layout_constraintBottom_toTopOf="@id/last_meet_for_additional_info_container"
+
+                style="@style/Body2MenuRoboto14Pt"
+                android:gravity="center"
+                tools:text="I Og\u00f3lnopolskie mistrzostwa O\u0142awy w p\u0142ywaniu"/>
             <LinearLayout
+
                 android:id="@+id/last_meet_for_additional_info_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,7 +69,7 @@
                     </LinearLayout>
                     <LinearLayout
                         android:id="@+id/last_meet_for_dashboard_course_container"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
