@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class GeneralMedalStats(val gold: Int? = 0, val silver: Int? = 0, val bronze: Int? = 0)
-class Stats(val gold: Int? = 0, val silver: Int? = 0, val bronze: Int? = 0, val otherplaces: List<MedalStat>)
+class Stats(val gold: Int? = 0, val silver: Int? = 0, val bronze: Int? = 0, val otherplaces: List<MedalStat>, val grade: String?)
 
 class MedalStatsViewModel: ViewModel() {
     private val mAthletesService = AthletesService()
@@ -53,7 +53,7 @@ class MedalStatsViewModel: ViewModel() {
                         val silver = it.firstOrNull { medalStat -> medalStat.res_place == 2 }
                         val bronze = it.firstOrNull { medalStat -> medalStat.res_place == 3 }
                         val others = it.filter { medalStat -> (medalStat.res_place != 1) and (medalStat.res_place != 2) and (medalStat.res_place != 3) }
-                        result.add(Stats(gold?.res_count ?: 0, silver?.res_count ?: 0, bronze?.res_count ?: 0, others))
+                        result.add(Stats(gold?.res_count ?: 0, silver?.res_count ?: 0, bronze?.res_count ?: 0, others, it.takeIf { x -> x.isNotEmpty() }?.get(0)?.mt_grade ))
                     }
                 }
 

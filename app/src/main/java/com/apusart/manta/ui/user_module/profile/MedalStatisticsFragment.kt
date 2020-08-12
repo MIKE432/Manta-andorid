@@ -35,7 +35,7 @@ class MedalStatisticsFragment: Fragment(R.layout.medal_statistics_fragment) {
                     val medalStatView = LayoutInflater.from(profile_fragment_athlete_medals_statistics.context)
                         .inflate(R.layout.all_competition_stats_item, profile_fragment_athlete_medals_statistics, false)
 
-                    medalStatView.profile_fragment_medal_stats_grade_title.text = Const.grades.getString(index.toString())
+                    medalStatView.profile_fragment_medal_stats_grade_title.text = specificMedalStat.grade
                     val medalsView = LayoutInflater.from(medalStatView.context)
                         .inflate(R.layout.medals_statistics_item, profile_fragment_medal_stats, false)
 

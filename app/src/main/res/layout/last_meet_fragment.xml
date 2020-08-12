@@ -28,10 +28,11 @@
                     android:id="@+id/last_meet_fragment_main_information_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="10dp"
+
                     android:background="@drawable/header_section_background">
                     <TextView
+                        android:layout_marginTop="10dp"
+                        android:paddingHorizontal="10dp"
                         android:id="@+id/last_meet_fragment_header"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -40,7 +41,6 @@
                         android:layout_marginBottom="5dp"
                         android:gravity="center"
                         style="@style/Body2MenuRoboto14Pt"
-                        android:textAllCaps="true"
                         tools:text="I Og\u00f3lnopolskie mistrzostwa O\u0142awy w p\u0142ywaniu"/>
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/last_meet_fragment_meet_information_container"
@@ -53,7 +53,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            app:layout_constraintTop_toTopOf="parent">
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:paddingHorizontal="10dp">
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
@@ -143,13 +144,13 @@
                         </LinearLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
                     <com.apusart.manta.ui.tools.MultipleButton
                         android:id="@+id/multiple_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toBottomOf="@id/last_meet_fragment_meet_information_container"
                         app:layout_constraintBottom_toBottomOf="parent" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <LinearLayout
                     android:id="@+id/last_meet_fragment_other_information_container"

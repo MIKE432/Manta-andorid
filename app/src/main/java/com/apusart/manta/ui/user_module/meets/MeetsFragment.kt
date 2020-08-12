@@ -5,10 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.*
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
@@ -39,13 +36,13 @@ class MeetsPager: Fragment(R.layout.meets_view_pager) {
     }
 }
 
-class MeetsFragmentAdapter(fm: FragmentManager): FragmentStatePagerAdapter(fm) {
+class MeetsFragmentAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {
     private val COUNT = 3
     override fun getItem(position: Int): Fragment {
 
         return when(position) {
             0 -> IncomingMeetsFragment()
-            1 -> LastMeetFragment()
+            1 -> MeetFragment()
             2 -> LastMeetsFragment()
             else -> throw Exception("Unsupported fragment")
         }

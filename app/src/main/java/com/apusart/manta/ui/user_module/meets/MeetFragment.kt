@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,21 +15,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.apusart.manta.R
 import com.apusart.manta.ui.tools.Const
-import com.apusart.manta.ui.tools.MultipleButton
 import com.apusart.manta.ui.tools.Prefs
 import com.apusart.manta.ui.tools.Tools
-import com.apusart.manta.ui.user_module.results.ResultsViewModel
 import kotlinx.android.synthetic.main.last_meet_fragment.*
-import kotlinx.android.synthetic.main.medals_statistics_item.view.*
 import kotlinx.android.synthetic.main.result_comparison_item.view.*
-import kotlinx.android.synthetic.main.result_details_fragment.view.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
-import java.util.*
 
 
-class LastMeetFragment: Fragment(R.layout.last_meet_fragment) {
-    private val resultsViewModel: LastMeetViewModel by viewModels()
+class MeetFragment: Fragment(R.layout.last_meet_fragment) {
+    private val resultsViewModel: MeetViewModel by viewModels()
     private lateinit var comparedResultAdapter: ComparedResultAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

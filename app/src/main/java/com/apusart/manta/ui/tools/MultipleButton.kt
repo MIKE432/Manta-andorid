@@ -13,7 +13,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
-import androidx.core.view.marginEnd
 import com.apusart.manta.R
 import kotlinx.android.synthetic.main.graph.view.*
 import kotlinx.android.synthetic.main.multiple_button_item.view.*
@@ -34,6 +33,7 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
             id = View.generateViewId()
             textView.id = View.generateViewId()
             imageView.id = View.generateViewId()
+            background = ColorDrawable(resources.getColor(R.color.cool_grey))
         }
 
         private fun setupTextView() {
@@ -47,7 +47,7 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
             (textView.layoutParams as LayoutParams).bottomToBottom = 0
 
             textView.setTextAppearance(R.style.CaptionRoboto12Pt)
-            textView.setTextColor(resources.getColor(R.color.nav_default_color))
+            textView.setTextColor(resources.getColor(R.color.black))
         }
 
         private fun setupImageView(icon: Int?) {
@@ -55,12 +55,13 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
             (imageView.layoutParams as LayoutParams).topToTop = 0
             (imageView.layoutParams as LayoutParams).startToStart = 0
             (imageView.layoutParams as LayoutParams).endToEnd = 0
+            (imageView.layoutParams as LayoutParams).bottomToBottom = 0
 
             if(icon == null)
                 imageView.visibility = View.INVISIBLE
             else {
                 imageView.visibility = View.VISIBLE
-                imageView.setImageDrawable(Tools.changeIconColor(icon, R.color.nav_default_color, resources))
+                imageView.setImageDrawable(Tools.changeIconColor(icon, R.color.cool_grey, resources))
             }
 
         }
@@ -72,7 +73,6 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
             layoutParams = LayoutParams(0, LayoutParams.WRAP_CONTENT)
             setupImageView(icon)
             setupTextView()
-            addView(textView, textView.layoutParams)
             addView(imageView, imageView.layoutParams)
 
             return this
@@ -96,14 +96,10 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
 
     private fun initParams() {
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        (layoutParams as LayoutParams).marginStart = Tools.toDp(1)
-        (layoutParams as LayoutParams).marginEnd = Tools.toDp(1)
     }
 
     private fun setupInnerChild(child: ChildButton, index: Int) {
         child.background = resources.getDrawable(R.drawable.multiple_button_inner_button)
-
-        (child.layoutParams as LayoutParams).marginEnd = Tools.toDp(2)
 
         (child.layoutParams as LayoutParams).startToEnd = mChildButtons[index - 1].id
         (child.layoutParams as LayoutParams).endToStart = mChildButtons[index + 1].id
@@ -114,13 +110,10 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
 
     private fun setupOuterChild(child: ChildButton, background: Drawable, index: Int) {
         child.background = background
-        (child.layoutParams as LayoutParams).marginStart = Tools.toDp(0)
-        (child.layoutParams as LayoutParams).marginEnd = Tools.toDp(0)
 
         if(index == 0) {
             (child.layoutParams as LayoutParams).startToStart = 0
             (child.layoutParams as LayoutParams).endToStart = mChildButtons[1].id
-            (child.layoutParams as LayoutParams).marginEnd = Tools.toDp(2)
         } else {
             (child.layoutParams as LayoutParams).endToEnd = 0
             (child.layoutParams as LayoutParams).startToEnd = mChildButtons[index - 1].id

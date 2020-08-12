@@ -27,9 +27,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    style="@style/Body2MenuRoboto14Pt"
+                    style="@style/Roboto14Pt"
                     android:gravity="center"
-                    android:textAllCaps="true"
                     android:background="@drawable/horizontal_border"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,7 +22,7 @@ class ComparedResult(val result: Result, val record: Record?) {
         ?: 0f)
 }
 
-class LastMeetViewModel: ViewModel() {
+class MeetViewModel: ViewModel() {
     private val athletesService = AthletesService()
     private val mantaService = MantaService()
 

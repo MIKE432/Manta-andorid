@@ -43,7 +43,7 @@ class DashboardViewModel: ViewModel() {
                 results.value = mAthletesService.getResultsByAthleteId(id, limit, ss_abbr, distance, course).filter { it.res_total_time != null && (if(dsq != "") true else dsq == it.res_dsq_abbr)}
 
                 incomingMeets.value = mMeetService.getIncomingMeetsByAthleteId(id, limit)
-                lastMeet.value =  mMeetService.getLastMeetsByAthleteId(id, Const.defaultLimit)?.get(0)
+                lastMeet.value = mMeetService.getLastMeetsByAthleteId(id, Const.defaultLimit).takeIf { it.isNotEmpty() }?.get(0)
 
                 if(medalStats.isNotEmpty() || mostValuableResults.value?.isNotEmpty() != false)
                 isInProgress.value = false
