@@ -23,12 +23,16 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 
 
-class MeetFragment: Fragment(R.layout.last_meet_fragment) {
+class MeetFragment(private val meet_id: Int?): Fragment(R.layout.last_meet_fragment) {
     private val resultsViewModel: MeetViewModel by viewModels()
     private lateinit var comparedResultAdapter: ComparedResultAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if(meet_id == -1) {
+
+        }
 
         comparedResultAdapter = ComparedResultAdapter()
         last_meet_fragment_no_last_meet.isVisible = false
@@ -54,13 +58,14 @@ class MeetFragment: Fragment(R.layout.last_meet_fragment) {
 
         })
 
-        resultsViewModel.lastMeetResultCompared.observe(viewLifecycleOwner, Observer {
+        resultsViewModel.meetResultCompared.observe(viewLifecycleOwner, Observer {
             if(it.isNotEmpty()) {
                 last_meet_fragment_header.text = it[0].result.mt_name
                 last_meet_fragment_course.text = Const.courseSize.getString(it[0].result.mt_course_abbr)
                 last_meet_fragment_date.text = resources.getString(R.string.meeting_date, it[0].result.mt_from, it[0].result.mt_to)
                 last_meet_fragment_place.text = it[0].result.mt_city
                 last_meet_fragment_course.text = Const.courseSize.getString(it[0].result.mt_course_abbr)
+
                 if(it[0].result.mt_main_page != "") {
 
                     multiple_button.setButtonOnClickListener(0) { v ->
@@ -96,11 +101,11 @@ class MeetFragment: Fragment(R.layout.last_meet_fragment) {
         })
 
         last_meet_fragment_refresher.setOnRefreshListener {
-            resultsViewModel.getResultsFromLastMeetByAthleteId(Prefs.getUser()!!)
+            resultsViewModel.getResultsFromMeetByAthleteId(Prefs.getUser()!!, meet_id)
             last_meet_fragment_refresher.isRefreshing = false
         }
 
-        resultsViewModel.getResultsFromLastMeetByAthleteId(Prefs.getUser()!!)
+        resultsViewModel.getResultsFromMeetByAthleteId(Prefs.getUser()!!, meet_id)
     }
 }
 

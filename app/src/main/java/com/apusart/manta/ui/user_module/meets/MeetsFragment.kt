@@ -15,6 +15,7 @@ import com.apusart.manta.ui.tools.Prefs
 import com.apusart.manta.R
 import com.apusart.manta.api.models.Meet
 import com.apusart.manta.ui.tools.Const
+import com.apusart.manta.ui.tools.LoadingScreen
 import kotlinx.android.synthetic.main.incoming_meets_fragment.*
 import kotlinx.android.synthetic.main.last_meets_fragment.*
 import kotlinx.android.synthetic.main.meet_item.view.*
@@ -24,44 +25,80 @@ import java.lang.Exception
 class MeetsPager: Fragment(R.layout.meets_view_pager) {
     private lateinit var meetsFragmentAdapter: MeetsFragmentAdapter
     private val navArgs by navArgs<MeetsPagerArgs>()
+    private val meetsViewModel: MeetsViewModel by viewModels()
+
+    private inner class MeetsFragmentAdapter(fm: FragmentManager): FragmentStatePagerAdapter (fm) {
+        private val COUNT = meetsViewModel.lastMeets.value?.size ?: 0
+
+        override fun getItem(position: Int): Fragment {
+            val meet_id = meetsViewModel.lastMeets.value?.get(position)?.meet_id ?: -1
+            return MeetFragment(meet_id)
+
+
+//        return when(position) {
+//            0 -> IncomingMeetsFragment()
+//            1 ->
+//            2 -> LastMeetsFragment()
+//            else -> throw Exception("Unsupported fragment")
+//        }
+
+        }
+
+
+        override fun getCount(): Int {
+            return COUNT
+        }
+
+        override fun getPageTitle(position: Int): CharSequence? {
+            val meet = meetsViewModel.lastMeets.value?.get(position)
+            return  "${meet?.mt_city} ${meet?.mt_from?.substring(0, 4)}"
+//        return when(position) {
+//            0 -> "Nadchodzące zawody"
+//            1 -> "Ostatnie zawody"
+//            2 -> "Przeszłe zawody"
+//            else -> throw Exception("Unsupported title")
+//        }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        meetsFragmentAdapter = MeetsFragmentAdapter(childFragmentManager)
 
-        meets_view_pager.apply {
-            adapter = meetsFragmentAdapter
-            currentItem = navArgs.openOnPage
-        }
+
+//        meetsViewModel.getLastMeetsByAthleteId(Prefs.getUser()!!.athlete_id)
+//
+//        meetsViewModel.inProgressLastMeets.observe(viewLifecycleOwner, Observer {
+//            no_meets_to_display.isVisible = it
+//            meets_view_pager.isVisible = !it
+//        })
+
+        meetsViewModel.lastMeets.observe(viewLifecycleOwner, Observer {
+            meets_view_pager.isVisible = it.isNotEmpty()
+
+
+            if(it.isEmpty()) {
+                no_meets_to_display.isVisible = true
+                meets_view_pager.isVisible = false
+            } else {
+                no_meets_to_display.isVisible = false
+                meets_view_pager.isVisible = true
+                meetsFragmentAdapter = MeetsFragmentAdapter(childFragmentManager)
+
+                meets_view_pager.apply {
+                    adapter = meetsFragmentAdapter
+                    currentItem = (it as ArrayList).indexOf(it.firstOrNull { meet -> meet.meet_id == navArgs.openOnPage})
+                }
+            }
+        })
+
+
+
+        meetsViewModel.getLastMeetsByAthleteId(Prefs.getUser()!!.athlete_id)
+
     }
 }
 
-class MeetsFragmentAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {
-    private val COUNT = 3
-    override fun getItem(position: Int): Fragment {
 
-        return when(position) {
-            0 -> IncomingMeetsFragment()
-            1 -> MeetFragment()
-            2 -> LastMeetsFragment()
-            else -> throw Exception("Unsupported fragment")
-        }
-
-    }
-
-    override fun getCount(): Int {
-        return COUNT
-    }
-
-    override fun getPageTitle(position: Int): CharSequence? {
-        return when(position) {
-            0 -> "Nadchodzące zawody"
-            1 -> "Ostatnie zawody"
-            2 -> "Przeszłe zawody"
-            else -> throw Exception("Unsupported title")
-        }
-    }
-}
 
 class LastMeetsFragment: Fragment(R.layout.last_meets_fragment) {
     private val meetsViewModel: MeetsViewModel by viewModels()

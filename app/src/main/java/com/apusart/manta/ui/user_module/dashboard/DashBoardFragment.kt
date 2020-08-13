@@ -109,8 +109,8 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
                 }
 
 
-                lastMeet.setOnClickListener {
-                    findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToMeetsFragment(1))
+                lastMeet.setOnClickListener {x ->
+                    findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToMeetsFragment(it.meet_id))
                 }
 
             } else {

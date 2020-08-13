@@ -13,7 +13,7 @@ class MeetsViewModel: ViewModel() {
     private val meetService = MeetService()
 
     val lastMeets = MutableLiveData<List<Meet>>()
-    val inProgressLastMeets = MutableLiveData(false)
+    val inProgressLastMeets = MutableLiveData<Boolean>()
 
     val incomingMeets = MutableLiveData<List<Meet>>()
     val inProgressIncomingMeets = MutableLiveData(false)
