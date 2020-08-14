@@ -24,7 +24,7 @@ class MeetsViewModel: ViewModel() {
         viewModelScope.launch {
 
             try {
-                lastMeets.value =  meetService.getLastMeetsByAthleteId(id, Const.defaultLimit)
+                lastMeets.value =  meetService.getMeetsByAthleteId(id, Const.defaultLimit)
                 inProgressLastMeets.value = false
             } catch(e: Exception) {e.printStackTrace()}
         }

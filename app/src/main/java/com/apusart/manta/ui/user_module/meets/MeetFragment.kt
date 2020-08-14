@@ -30,10 +30,6 @@ class MeetFragment(private val meet_id: Int?): Fragment(R.layout.last_meet_fragm
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(meet_id == -1) {
-
-        }
-
         comparedResultAdapter = ComparedResultAdapter()
         last_meet_fragment_no_last_meet.isVisible = false
         last_meet_fragment_results.apply {
@@ -58,36 +54,36 @@ class MeetFragment(private val meet_id: Int?): Fragment(R.layout.last_meet_fragm
 
         })
 
-        resultsViewModel.meetResultCompared.observe(viewLifecycleOwner, Observer {
-            if(it.isNotEmpty()) {
-                last_meet_fragment_header.text = it[0].result.mt_name
-                last_meet_fragment_course.text = Const.courseSize.getString(it[0].result.mt_course_abbr)
-                last_meet_fragment_date.text = resources.getString(R.string.meeting_date, it[0].result.mt_from, it[0].result.mt_to)
-                last_meet_fragment_place.text = it[0].result.mt_city
-                last_meet_fragment_course.text = Const.courseSize.getString(it[0].result.mt_course_abbr)
+        resultsViewModel.meet.observe(viewLifecycleOwner, Observer {
+            if(it != null) {
+                last_meet_fragment_header.text = it.mt_name
+                last_meet_fragment_course.text = Const.courseSize.getString(it.mt_course_abbr)
+                last_meet_fragment_date.text = resources.getString(R.string.meeting_date, it.mt_from, it.mt_to)
+                last_meet_fragment_place.text = it.mt_city
+                last_meet_fragment_course.text = Const.courseSize.getString(it.mt_course_abbr)
 
-                if(it[0].result.mt_main_page != "") {
+                if(it.mt_main_page != "") {
 
                     multiple_button.setButtonOnClickListener(0) { v ->
 
-                        val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it[0].result.mt_main_page))
+                        val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it.mt_main_page))
                         startActivity(intent)
                     }
                 }
 
-                if(it[0].result.mt_start_list_page != "") {
+                if(it.mt_start_list_page != "") {
 
                     multiple_button.setButtonOnClickListener(1) { v ->
-                        val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it[0].result.mt_start_list_page))
+                        val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it.mt_start_list_page))
                         startActivity(intent)
                     }
                 }
 
-                if(it[0].result.mt_results_page != "") {
+                if(it.mt_results_page != "") {
                     multiple_button.addButton("Wyniki")
                     multiple_button.setButtonIcon(2, R.drawable.stopwatch_icon)
                     multiple_button.setButtonOnClickListener(2) { v ->
-                        val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it[0].result.mt_results_page))
+                        val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it.mt_results_page))
                         startActivity(intent)
                     }
                 }
@@ -95,6 +91,10 @@ class MeetFragment(private val meet_id: Int?): Fragment(R.layout.last_meet_fragm
                 last_meet_fragment_nested_scroll_view.isVisible = false
                 last_meet_fragment_no_last_meet.isVisible = true
             }
+        })
+
+        resultsViewModel.meetResultCompared.observe(viewLifecycleOwner, Observer {
+
 
             comparedResultAdapter.submitList(it)
 

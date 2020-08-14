@@ -31,17 +31,7 @@ class MeetsPager: Fragment(R.layout.meets_view_pager) {
         private val COUNT = meetsViewModel.lastMeets.value?.size ?: 0
 
         override fun getItem(position: Int): Fragment {
-            val meet_id = meetsViewModel.lastMeets.value?.get(position)?.meet_id ?: -1
-            return MeetFragment(meet_id)
-
-
-//        return when(position) {
-//            0 -> IncomingMeetsFragment()
-//            1 ->
-//            2 -> LastMeetsFragment()
-//            else -> throw Exception("Unsupported fragment")
-//        }
-
+          return MeetFragment(meetsViewModel.lastMeets.value?.get(position)?.meet_id ?: -1)
         }
 
 
@@ -50,27 +40,14 @@ class MeetsPager: Fragment(R.layout.meets_view_pager) {
         }
 
         override fun getPageTitle(position: Int): CharSequence? {
+
             val meet = meetsViewModel.lastMeets.value?.get(position)
             return  "${meet?.mt_city} ${meet?.mt_from?.substring(0, 4)}"
-//        return when(position) {
-//            0 -> "Nadchodzące zawody"
-//            1 -> "Ostatnie zawody"
-//            2 -> "Przeszłe zawody"
-//            else -> throw Exception("Unsupported title")
-//        }
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-//        meetsViewModel.getLastMeetsByAthleteId(Prefs.getUser()!!.athlete_id)
-//
-//        meetsViewModel.inProgressLastMeets.observe(viewLifecycleOwner, Observer {
-//            no_meets_to_display.isVisible = it
-//            meets_view_pager.isVisible = !it
-//        })
 
         meetsViewModel.lastMeets.observe(viewLifecycleOwner, Observer {
             meets_view_pager.isVisible = it.isNotEmpty()
@@ -97,8 +74,6 @@ class MeetsPager: Fragment(R.layout.meets_view_pager) {
 
     }
 }
-
-
 
 class LastMeetsFragment: Fragment(R.layout.last_meets_fragment) {
     private val meetsViewModel: MeetsViewModel by viewModels()
