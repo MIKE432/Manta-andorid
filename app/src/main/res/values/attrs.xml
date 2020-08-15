@@ -3,4 +3,8 @@
     <declare-styleable name="Graph">
         <attr name="header" format="string"/>
     </declare-styleable>
+    <declare-styleable name="EmptyState">
+        <attr name="image" format="reference|color"/>
+        <attr name="text" format="string"/>
+    </declare-styleable>
 </resources>
