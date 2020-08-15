@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.apusart.manta.ui.tools.EmptyStateComponent
             android:id="@+id/meets_fragment_last_meets_empty_list_info"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -16,32 +16,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@color/cool_grey"
-            android:visibility="visible">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:background="@color/cool_grey"
-                android:orientation="vertical"
-                android:gravity="center">
-                <ImageView
-                    android:id="@+id/empty_list_image"
-                    android:layout_width="128dp"
-                    android:layout_height="128dp"
-                    android:src="@drawable/empty_meets_list"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Brak\n odbytych\n zawodów"
-                    android:gravity="center"
-                    app:layout_constraintTop_toBottomOf="@id/empty_list_image"
-                    style="@style/TitleRoboto20Pt"/>
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:text="dsa"
+            app:image="@drawable/empty_meets_list"
+            android:visibility="visible"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/meets_fragment_last_meets_list"
             android:layout_width="match_parent"

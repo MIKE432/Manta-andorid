@@ -4,10 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apusart.manta.api.models.Athlete
+import com.apusart.manta.api.models.Meet
 import com.apusart.manta.api.models.Record
 import com.apusart.manta.api.models.Result
 import com.apusart.manta.api.serivces.AthletesService
 import com.apusart.manta.api.serivces.MantaService
+import com.apusart.manta.api.serivces.MeetService
 import com.apusart.manta.ui.GeneralMedalStats
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -25,34 +27,66 @@ class ComparedResult(val result: Result, val record: Record?) {
 class MeetViewModel: ViewModel() {
     private val athletesService = AthletesService()
     private val mantaService = MantaService()
+    private val meetService = MeetService()
 
     val results = MutableLiveData<List<Result>>()
-    val lastMeetResultCompared = MutableLiveData<List<ComparedResult>>()
+    val meetResultCompared = MutableLiveData<List<ComparedResult>>()
     val mRecords = MutableLiveData<List<Record>>()
     val inProgress = MutableLiveData(false)
-    val lastMeetMedalStat = MutableLiveData<GeneralMedalStats>()
+    val meetMedalStat = MutableLiveData<GeneralMedalStats>()
     val mShowContent = MutableLiveData(false)
+    val meet = MutableLiveData<Meet>()
+
+
     fun getResultsFromLastMeetByAthleteId(athlete: Athlete) {
         viewModelScope.launch {
             try {
                 inProgress.value = true
                 val result = athletesService.getResultsByAthleteId(athlete.athlete_id)
+
                 val lastMeetId = result.takeIf { it.isNotEmpty() }
                     ?.get(0)?.meet_id
                 val age = Calendar.getInstance().get(Calendar.YEAR) - athlete.ath_birth_year
-                val records = mantaService.getRecords(age = age, gender = athlete.gender_abbr, course = result.takeIf { it.isNotEmpty() }?.get(0)?.mt_course_abbr)
+
+                val records = mantaService.getRecords(age = if(age > 18) 18 else age, gender = athlete.gender_abbr, course = result.takeIf { it.isNotEmpty() }?.get(0)?.mt_course_abbr)
                 mRecords.value = records
 
                if(lastMeetId != null) {
-                   lastMeetResultCompared.value = result.takeIf { it.isNotEmpty() }
+                   meetResultCompared.value = result.takeIf { it.isNotEmpty() }
                        ?.filter { it.meet_id == lastMeetId }
                        ?.map { return@map ComparedResult(it, records.firstOrNull { record -> record.style_abbr ==  it.style_abbr && record.sev_distance == it.sev_distance }) }
                }
 
-                lastMeetMedalStat.value = GeneralMedalStats(lastMeetResultCompared.value?.count { it.result.res_place == 1 }, lastMeetResultCompared.value?.count { it.result.res_place == 2 }, lastMeetResultCompared.value?.count { it.result.res_place == 3 })
+                meetMedalStat.value = GeneralMedalStats(meetResultCompared.value?.count { it.result.res_place == 1 }, meetResultCompared.value?.count { it.result.res_place == 2 }, meetResultCompared.value?.count { it.result.res_place == 3 })
 
                 inProgress.value = false
                 mShowContent.value = !inProgress.value!! && lastMeetId != null
+            } catch (e: Exception) {}
+        }
+    }
+
+
+    fun getResultsFromMeetByAthleteId(athlete: Athlete, meet_id: Int?) {
+        viewModelScope.launch {
+            try {
+                inProgress.value = true
+
+
+                val result = meetService.getMeetsDetailsByAthleteId(athlete.athlete_id, meet_id ?: 1)
+                meet.value = result
+                val age = (result?.mt_to?.substring(0 , 4)?.toInt() ?: Calendar.getInstance().get(Calendar.YEAR)) - athlete.ath_birth_year
+                val records = mantaService.getRecords(age = age, gender = athlete.gender_abbr, course = result?.results.takeIf { it?.isNotEmpty() ?: false }?.get(0)?.res_course_abbr)
+                mRecords.value = records
+
+                if(meet_id != null) {
+                    meetResultCompared.value = result?.results.takeIf { it?.isNotEmpty() ?: false }
+                        ?.map { return@map ComparedResult(it, records.firstOrNull { record -> record.style_abbr ==  it.style_abbr && record.sev_distance == it.sev_distance }) }
+                }
+
+                meetMedalStat.value = GeneralMedalStats(meetResultCompared.value?.count { it.result.res_place == 1 }, meetResultCompared.value?.count { it.result.res_place == 2 }, meetResultCompared.value?.count { it.result.res_place == 3 })
+
+                inProgress.value = false
+                mShowContent.value = !inProgress.value!! && meet_id != null
             } catch (e: Exception) {}
         }
     }

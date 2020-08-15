@@ -143,16 +143,19 @@ class Meet(
     val mt_lxf_url_message: String,
     val mt_lxf_url_entries: String,
     val mt_lxf_url_entries_k: String,
-    val mt_lxf_url_results: String
+    val mt_lxf_url_results: String,
+    val results: List<Result>?
 )
 
 class MedalStat(
     val mt_grade: String,
     val mt_grade_abbr: String,
+    val stats: List<MedalDetails>?
+)
+class MedalDetails(
     val res_place: Int,
     val res_count: Int
 )
-
 class Result(
     val result_id: Int,
     val club_id: Int?,

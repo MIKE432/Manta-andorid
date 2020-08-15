@@ -30,12 +30,12 @@ class DashboardViewModel: ViewModel() {
             try {
                 isInProgress.value = true
                 val medalStats = mAthletesService.getMedalStatsByAthleteId(id, null)
-                if(medalStats.isNotEmpty()) {
-                    var gold = medalStats.firstOrNull { medalStat -> medalStat.res_place == 1 }
-                    var silver = medalStats.firstOrNull { medalStat -> medalStat.res_place == 2 }
-                    var bronze = medalStats.firstOrNull { medalStat -> medalStat.res_place == 3 }
+                if(medalStats != null) {
+                    val gold = medalStats.stats?.firstOrNull { stat -> stat.res_place == 1 }?.res_count ?: 0
+                    val silver = medalStats.stats?.firstOrNull { stat -> stat.res_place == 2 }?.res_count ?: 0
+                    val bronze = medalStats.stats?.firstOrNull { stat -> stat.res_place == 3 }?.res_count ?: 0
 
-                    mGeneralMedalStats.value = GeneralMedalStats(gold?.res_count ?: 0, silver?.res_count ?: 0, bronze?.res_count ?: 0)
+                    mGeneralMedalStats.value = GeneralMedalStats(gold, silver, bronze)
                 }
 
                 mostValuableResults.value = mAthletesService.getMostValuableResultsByAthleteId(id)
@@ -43,10 +43,11 @@ class DashboardViewModel: ViewModel() {
                 results.value = mAthletesService.getResultsByAthleteId(id, limit, ss_abbr, distance, course).filter { it.res_total_time != null && (if(dsq != "") true else dsq == it.res_dsq_abbr)}
 
                 incomingMeets.value = mMeetService.getIncomingMeetsByAthleteId(id, limit)
-                lastMeet.value = mMeetService.getLastMeetsByAthleteId(id, Const.defaultLimit).takeIf { it.isNotEmpty() }?.get(0)
+                lastMeet.value = mMeetService.getMeetsByAthleteId(id, Const.defaultLimit).takeIf { it.isNotEmpty() }?.get(0)
 
-                if(medalStats.isNotEmpty() || mostValuableResults.value?.isNotEmpty() != false)
+                if(medalStats != null || mostValuableResults.value?.isNotEmpty() != false)
                 isInProgress.value = false
+
             } catch(e: Exception) { e.printStackTrace() }
             finally {
                 isInProgress.value = false

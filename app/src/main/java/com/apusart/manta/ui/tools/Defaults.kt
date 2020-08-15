@@ -10,6 +10,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import com.apusart.manta.R
 import com.apusart.manta.api.models.Athlete
 import com.bumptech.glide.request.RequestOptions
@@ -267,3 +268,5 @@ open class OnSwipeTouchListener(val ctx: Context): View.OnTouchListener {
         }
     }
 }
+
+class LoadingScreen: Fragment(R.layout.loading_screen)

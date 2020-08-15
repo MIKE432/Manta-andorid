@@ -23,7 +23,7 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 
 
-class MeetFragment: Fragment(R.layout.last_meet_fragment) {
+class MeetFragment(private val meet_id: Int?): Fragment(R.layout.last_meet_fragment) {
     private val resultsViewModel: MeetViewModel by viewModels()
     private lateinit var comparedResultAdapter: ComparedResultAdapter
 
@@ -54,35 +54,36 @@ class MeetFragment: Fragment(R.layout.last_meet_fragment) {
 
         })
 
-        resultsViewModel.lastMeetResultCompared.observe(viewLifecycleOwner, Observer {
-            if(it.isNotEmpty()) {
-                last_meet_fragment_header.text = it[0].result.mt_name
-                last_meet_fragment_course.text = Const.courseSize.getString(it[0].result.mt_course_abbr)
-                last_meet_fragment_date.text = resources.getString(R.string.meeting_date, it[0].result.mt_from, it[0].result.mt_to)
-                last_meet_fragment_place.text = it[0].result.mt_city
-                last_meet_fragment_course.text = Const.courseSize.getString(it[0].result.mt_course_abbr)
-                if(it[0].result.mt_main_page != "") {
+        resultsViewModel.meet.observe(viewLifecycleOwner, Observer {
+            if(it != null) {
+                last_meet_fragment_header.text = it.mt_name
+                last_meet_fragment_course.text = Const.courseSize.getString(it.mt_course_abbr)
+                last_meet_fragment_date.text = resources.getString(R.string.meeting_date, it.mt_from, it.mt_to)
+                last_meet_fragment_place.text = it.mt_city
+                last_meet_fragment_course.text = Const.courseSize.getString(it.mt_course_abbr)
+
+                if(it.mt_main_page != "") {
 
                     multiple_button.setButtonOnClickListener(0) { v ->
 
-                        val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it[0].result.mt_main_page))
+                        val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it.mt_main_page))
                         startActivity(intent)
                     }
                 }
 
-                if(it[0].result.mt_start_list_page != "") {
+                if(it.mt_start_list_page != "") {
 
                     multiple_button.setButtonOnClickListener(1) { v ->
-                        val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it[0].result.mt_start_list_page))
+                        val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it.mt_start_list_page))
                         startActivity(intent)
                     }
                 }
 
-                if(it[0].result.mt_results_page != "") {
+                if(it.mt_results_page != "") {
                     multiple_button.addButton("Wyniki")
                     multiple_button.setButtonIcon(2, R.drawable.stopwatch_icon)
                     multiple_button.setButtonOnClickListener(2) { v ->
-                        val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it[0].result.mt_results_page))
+                        val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it.mt_results_page))
                         startActivity(intent)
                     }
                 }
@@ -90,17 +91,21 @@ class MeetFragment: Fragment(R.layout.last_meet_fragment) {
                 last_meet_fragment_nested_scroll_view.isVisible = false
                 last_meet_fragment_no_last_meet.isVisible = true
             }
+        })
+
+        resultsViewModel.meetResultCompared.observe(viewLifecycleOwner, Observer {
+
 
             comparedResultAdapter.submitList(it)
 
         })
 
         last_meet_fragment_refresher.setOnRefreshListener {
-            resultsViewModel.getResultsFromLastMeetByAthleteId(Prefs.getUser()!!)
+            resultsViewModel.getResultsFromMeetByAthleteId(Prefs.getUser()!!, meet_id)
             last_meet_fragment_refresher.isRefreshing = false
         }
 
-        resultsViewModel.getResultsFromLastMeetByAthleteId(Prefs.getUser()!!)
+        resultsViewModel.getResultsFromMeetByAthleteId(Prefs.getUser()!!, meet_id)
     }
 }
 

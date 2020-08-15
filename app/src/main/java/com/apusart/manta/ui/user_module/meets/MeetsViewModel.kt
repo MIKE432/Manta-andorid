@@ -13,7 +13,7 @@ class MeetsViewModel: ViewModel() {
     private val meetService = MeetService()
 
     val lastMeets = MutableLiveData<List<Meet>>()
-    val inProgressLastMeets = MutableLiveData(false)
+    val inProgressLastMeets = MutableLiveData<Boolean>()
 
     val incomingMeets = MutableLiveData<List<Meet>>()
     val inProgressIncomingMeets = MutableLiveData(false)
@@ -24,7 +24,7 @@ class MeetsViewModel: ViewModel() {
         viewModelScope.launch {
 
             try {
-                lastMeets.value =  meetService.getLastMeetsByAthleteId(id, Const.defaultLimit)
+                lastMeets.value =  meetService.getMeetsByAthleteId(id, Const.defaultLimit)
                 inProgressLastMeets.value = false
             } catch(e: Exception) {e.printStackTrace()}
         }

@@ -27,13 +27,21 @@ class MeetService {
         endpoints = retrofit.create(MantaEndpoints::class.java)
     }
 
-    suspend fun getLastMeetsByAthleteId(id: Int, limit: Int? = Const.defaultLimit): List<Meet> {
-        val result = endpoints.getLastMeetsByAthleteId(id, limit)
-        return result.lastMeets ?: listOf()
+    suspend fun getMeetsByAthleteId(id: Int, limit: Int? = Const.defaultLimit): List<Meet> {
+        val result = endpoints.getAllMeetsByAthleteId(id, limit)
+        return result.meets ?: listOf()
     }
 
     suspend fun getIncomingMeetsByAthleteId(id: Int, limit: Int? = Const.defaultLimit): List<Meet> {
         val result = endpoints.getIncomingMeetsByAthleteId(id, limit)
         return result.IncomingMeets ?: listOf()
     }
+
+
+    suspend fun getMeetsDetailsByAthleteId(id: Int, meet_id: Int): Meet? {
+        val result = endpoints.getMeetDetailsByAthleteId(id, meet_id)
+        return result.meet
+    }
+
+
 }

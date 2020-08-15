@@ -28,7 +28,9 @@ class MedalStatisticsFragment: Fragment(R.layout.medal_statistics_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         profile_fragment_athlete_medals_statistics.removeAllViews()
+
         medalStatsViewModel.mAllMedalStats.observe(viewLifecycleOwner, Observer { allMedalStats ->
+
             profile_fragment_athlete_medals_statistics.removeAllViews()
             allMedalStats.forEachIndexed { index, specificMedalStat ->
                 if (specificMedalStat != null) {
@@ -68,9 +70,10 @@ class MedalStatisticsFragment: Fragment(R.layout.medal_statistics_fragment) {
             allMedalStats.forEach { if(it == null) areAllNull += 1 }
 
             profile_fragment_athlete_medals_statistics_no_medals.isVisible = areAllNull == allMedalStats.size
-            profile_fragment_athlete_medals_statistics_scroll_view.isVisible = areAllNull != allMedalStats.size
+            medal_statistics_fragment_container.isVisible = areAllNull != allMedalStats.size
 
         })
+
         medalStatsViewModel.isAllMedalStatsRequestInProgress.observe(viewLifecycleOwner, Observer {
             profile_fragment_athlete_medals_statistics_spinner.isVisible = it
             profile_fragment_athlete_medals_statistics_scroll_view.isVisible = !it

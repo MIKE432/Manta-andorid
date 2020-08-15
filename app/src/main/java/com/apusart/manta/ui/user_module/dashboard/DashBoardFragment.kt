@@ -53,7 +53,6 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
         dashboard_information.addView(meetsInfo)
         dashboard_information.addView(lastMeet)
         dashboard_information.addView(achievements)
-        dashboard_information.addView(lastResults)
 
 
         lastMeet.last_meet_for_dashboard_multiple_button.setText(0, "WWW")
@@ -109,8 +108,8 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
                 }
 
 
-                lastMeet.setOnClickListener {
-                    findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToMeetsFragment(1))
+                lastMeet.setOnClickListener {x ->
+                    findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToMeetsFragment(it.meet_id))
                 }
 
             } else {
@@ -209,69 +208,6 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
 
 
 //        -----------------Last results statsistics--------------------
-
-
-        lastResults.setOnClickListener {
-            findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToMeetsFragment(1))
-        }
-
-        dashBoardViewModel.results.observe(viewLifecycleOwner, Observer {
-            when(it.isNotEmpty()) {
-            false -> { lastResults.isVisible = false }
-            true -> {
-                lastResults.last_results_2_container.isVisible = false
-                lastResults.last_results_1_header.text = getString(R.string.meet_header, it[0].mt_name, it[0].mt_from)
-                lastResults.last_result_1_header.text = getString(R.string.concurence_no_course, it[0].sev_distance.toString(), it[0].sst_name_pl)
-                lastResults.last_result_1_actual_time.text = Tools.convertResult(it[0].res_total_time?.toFloat() ?: 0f)
-                lastResults.last_result_1_actual_points.text = it[0].res_points.toString()
-                lastResults.last_result_1_place.text = it[0].res_place.toString()
-                lastResults.last_result_1_dsq.text = it[0].res_dsq_abbr
-                lastResults.last_result_1_additional_info_split_times.text = it[0].res_split_times
-
-                if(it[0].res_dsq_abbr != "")
-                    lastResults.last_result_1_additional_info_split_times.isVisible = it[0].res_split_times != ""
-
-                val x = (it[0].res_place != null && it[0].res_dsq_abbr == "")
-
-                lastResults.last_result_1_medalIcon.visibility = if(x) View.VISIBLE else View.INVISIBLE
-                lastResults.last_result_1_place.isVisible = x
-                lastResults.last_result_1_dsq.isVisible = it[0].res_dsq_abbr != ""
-                lastResults.last_result_1_actual_points.isVisible = it[0].res_points != 0
-                lastResults.last_result_1_medalIcon.setBackgroundResource(Tools.medal.getInt("${it[0].res_place}"))
-
-                if(it[0].res_dsq_abbr != "") {
-                    lastResults.last_result_1_actual_time.setTextColor(resources.getColor(R.color.cool_grey))
-                }
-
-                if(it.size > 2) {
-                    lastResults.last_results_2_container.isVisible = true
-
-                    lastResults.last_result_2_header.text = getString(R.string.meet_header, it[1].mt_name, it[1].mt_from)
-                    lastResults.last_results_2_header.text = getString(R.string.concurence_no_course, it[1].sev_distance.toString(), it[1].sst_name_pl)
-                    lastResults.last_result_2_actual_time.text = Tools.convertResult(it[1].res_total_time?.toFloat() ?: 0f)
-                    lastResults.last_result_2_actual_points.text = it[1].res_points.toString()
-                    lastResults.last_result_2_place.text = it[1].res_place.toString()
-                    lastResults.last_result_2_dsq.text = it[1].res_dsq_abbr
-                    lastResults.last_result_2_additional_info_split_times.text = it[1].res_split_times
-
-                    if(it[1].res_dsq_abbr != "")
-                        lastResults.last_result_2_additional_info_split_times.isVisible = it[1].res_split_times != ""
-
-                    val y = (it[1].res_place != null && it[1].res_dsq_abbr == "")
-
-                    lastResults.last_result_2_medalIcon.visibility = if(y) View.VISIBLE else View.INVISIBLE
-                    lastResults.last_result_2_place.isVisible = y
-                    lastResults.last_result_2_dsq.isVisible = it[1].res_dsq_abbr != ""
-                    lastResults.last_result_2_actual_points.isVisible = it[0].res_points != 0
-                    lastResults.last_result_2_medalIcon.setBackgroundResource(Tools.medal.getInt("${it[1].res_place}"))
-
-                    if(it[1].res_dsq_abbr != "") {
-                        lastResults.last_result_2_actual_time.setTextColor(resources.getColor(R.color.cool_grey))
-                    }
-                }
-            }
-        }
-        })
 
 
 

@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class GeneralMedalStats(val gold: Int? = 0, val silver: Int? = 0, val bronze: Int? = 0)
-class Stats(val gold: Int? = 0, val silver: Int? = 0, val bronze: Int? = 0, val otherplaces: List<MedalStat>, val grade: String?)
+class Stats(val gold: Int? = 0, val silver: Int? = 0, val bronze: Int? = 0, val otherplaces: List<MedalStat>?, val grade: String?)
 
 class MedalStatsViewModel: ViewModel() {
     private val mAthletesService = AthletesService()
@@ -22,12 +22,12 @@ class MedalStatsViewModel: ViewModel() {
         viewModelScope.launch {
             try {
                 val result = mAthletesService.getMedalStatsByAthleteId(id, grade)
-                if(result.isNotEmpty()) {
-                    val gold = result.firstOrNull { medalStat -> medalStat.res_place == 1 }
-                    val silver = result.firstOrNull { medalStat -> medalStat.res_place == 2 }
-                    val bronze = result.firstOrNull { medalStat -> medalStat.res_place == 3 }
+                if(result != null) {
+                    val gold = result?.stats?.firstOrNull { stat -> stat.res_place == 1 }?.res_count ?: 0
+                    val silver = result?.stats?.firstOrNull { stat -> stat.res_place == 2 }?.res_count ?: 0
+                    val bronze = result?.stats?.firstOrNull { stat -> stat.res_place == 3 }?.res_count ?: 0
 
-                    mGeneralMedalStats.value = GeneralMedalStats(gold?.res_count ?: 0, silver?.res_count ?: 0, bronze?.res_count ?: 0)
+                    mGeneralMedalStats.value = GeneralMedalStats(gold, silver, bronze)
                 }
 
             } catch(e: Exception) {}
@@ -37,23 +37,24 @@ class MedalStatsViewModel: ViewModel() {
     fun getAllMedalStats(id: Int) {
         isAllMedalStatsRequestInProgress.value = true
         viewModelScope.launch {
+            val allMedalStats = ArrayList<MedalStat?>()
+            for(i in 0..11) {
+                val x = mAthletesService.getMedalStatsByAthleteId(id, Const.gradesAbbr.getString(i.toString()))
+                allMedalStats.add(x)
+            }
             try {
-                val allMedalStats = ArrayList<List<MedalStat>>()
-                for(i in 0..11) {
-                    allMedalStats.add(mAthletesService.getMedalStatsByAthleteId(id, Const.gradesAbbr.getString(i.toString())))
-                }
+
 
                 val result = ArrayList<Stats?>()
 
                 allMedalStats.forEach {
-                    if(it.isEmpty())
+                    if(it?.stats.isNullOrEmpty())
                         result.add(null)
                     else {
-                        val gold = it.firstOrNull { medalStat -> medalStat.res_place == 1 }
-                        val silver = it.firstOrNull { medalStat -> medalStat.res_place == 2 }
-                        val bronze = it.firstOrNull { medalStat -> medalStat.res_place == 3 }
-                        val others = it.filter { medalStat -> (medalStat.res_place != 1) and (medalStat.res_place != 2) and (medalStat.res_place != 3) }
-                        result.add(Stats(gold?.res_count ?: 0, silver?.res_count ?: 0, bronze?.res_count ?: 0, others, it.takeIf { x -> x.isNotEmpty() }?.get(0)?.mt_grade ))
+                        val gold = it?.stats?.firstOrNull { stat -> stat.res_place == 1 }?.res_count ?: 0
+                        val silver = it?.stats?.firstOrNull { stat -> stat.res_place == 2 }?.res_count ?: 0
+                        val bronze = it?.stats?.firstOrNull { stat -> stat.res_place == 3 }?.res_count ?: 0
+                        result.add(Stats(gold, silver, bronze, null, it?.mt_grade ))
                     }
                 }
 

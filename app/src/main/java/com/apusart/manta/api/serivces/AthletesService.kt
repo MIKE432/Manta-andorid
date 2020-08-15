@@ -42,9 +42,9 @@ class AthletesService {
         return result.personalBestResults ?: listOf()
     }
 
-    suspend fun getMedalStatsByAthleteId(id: Int, grade: String? = null): List<MedalStat> {
+    suspend fun getMedalStatsByAthleteId(id: Int, grade: String? = null): MedalStat? {
         val result = endpoints.getMedalStatsByAthleteId(id, grade)
-        return result.medalStats ?: listOf()
+        return result.meetGrade
     }
 
     suspend fun getResultsByAthleteId(id: Int, limit: Int? = null, ss_abbr: String? = null, distance: Int? = null, course: String? = null): List<Result> {
