@@ -76,4 +76,8 @@
             android:id="@+id/action_personalBestFragment_to_resultDetails"
             app:destination="@id/resultDetails" />
     </fragment>
+    <fragment
+        android:id="@+id/devToolFragment"
+        android:name="com.apusart.manta.ui.tools.DevToolFragment"
+        android:label="DevToolFragment" />
 </navigation>

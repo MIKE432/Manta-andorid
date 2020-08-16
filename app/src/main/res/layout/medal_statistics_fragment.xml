@@ -32,7 +32,6 @@
                             android:layout_height="wrap_content"
                             style="@style/Body2MenuRoboto14Pt"
                             android:text="MEDALE"
-
                             android:paddingHorizontal="5dp"
                             app:layout_constraintTop_toTopOf="parent"/>
                         <LinearLayout

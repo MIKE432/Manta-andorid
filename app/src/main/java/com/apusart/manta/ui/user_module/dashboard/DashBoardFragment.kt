@@ -18,11 +18,9 @@ import com.apusart.manta.ui.tools.Const
 import com.apusart.manta.ui.tools.Tools
 import kotlinx.android.synthetic.main.medals_statistics_item.view.*
 import kotlinx.android.synthetic.main.dashboard_fragment.*
-import kotlinx.android.synthetic.main.last_results_for_dashboard.view.*
 import kotlinx.android.synthetic.main.achievements_for_dashboard.view.*
 import kotlinx.android.synthetic.main.last_meet_for_dashboard.view.*
-import kotlinx.android.synthetic.main.last_meet_fragment.*
-import kotlinx.android.synthetic.main.meet_information_for_dashboard.view.*
+import kotlinx.android.synthetic.main.incoming_meet_for_dashboard.view.*
 
 class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
     private var mUser: Athlete? = Prefs.getUser()
@@ -35,7 +33,7 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
 //        -----------------Meets--------------------
 
         val meetsInfo = LayoutInflater.from(this.context)
-            .inflate(R.layout.meet_information_for_dashboard, dashboard_information, false)
+            .inflate(R.layout.incoming_meet_for_dashboard, dashboard_information, false)
 
         val achievements = LayoutInflater.from(this.context)
             .inflate(R.layout.achievements_for_dashboard, dashboard_information, false)

@@ -3,6 +3,7 @@ package com.apusart.manta.ui.pick_athlete_module
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.Layout
@@ -56,13 +57,26 @@ class PickAthleteActivity: AppCompatActivity(R.layout.pick_athlete_activity) {
        // overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
 
         athletesAdapter = AthletesAdapter(this)
+
         viewModel.athletes.observe(this, Observer { athletes ->
             athletesAdapter.submitList(athletes)
+
+            if(Prefs.getPreviousAthlete() != null && athletes.isNotEmpty()) {
+                val athlete: Athlete? = athletesAdapter.currentList.firstOrNull { it.athlete_id == Prefs.getPreviousAthlete()?.athlete_id }
+                val position = athletesAdapter.currentList.indexOf(athlete ?: athletesAdapter.currentList[0])
+
+                pick_athlete_athletes_list.scrollToPosition(position)
+            }
+
         })
+
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+
         viewModel.inProgress.observe(this, Observer { v ->
             pick_athlete_athletes_list.isVisible = !v
             pick_athlete_progressbar.isVisible = v
+
+
         })
 
         viewModel.mantaAlph.observe(this, Observer { list ->
@@ -81,7 +95,7 @@ class PickAthleteActivity: AppCompatActivity(R.layout.pick_athlete_activity) {
                     val athlete: Athlete? = athletesAdapter.currentList.firstOrNull { it.ath_lastname.substring(0, 1) == s }
                     val position = athletesAdapter.currentList.indexOf(athlete ?: athletesAdapter.currentList[0])
 
-                    pick_athlete_athletes_list.smoothScrollToPosition(position)
+                    pick_athlete_athletes_list.scrollToPosition(position)
                     lastTouch = System.currentTimeMillis()
                     lifecycleScope.launch {
                         delay(2000)
@@ -183,6 +197,12 @@ class AthleteViewHolder(viewContainer: View, val context: Context): RecyclerView
         itemView.apply {
             pick_athlete_name.text = context.getString(R.string.user_name, item.ath_lastname, item.ath_firstname)
             pick_athlete_licence_no.text = context.getString(R.string.licence_no, if(item.ath_licence_no.toString() == "") "(Brak)" else item.ath_licence_no.toString())
+            val prevAthlete = Prefs.getPreviousAthlete()
+            background = ColorDrawable(resources.getColor(R.color.white))
+            if(prevAthlete != null && prevAthlete.athlete_id == item.athlete_id) {
+                background = resources.getDrawable(R.drawable.selected_ahtlete_background)
+            }
+
             val url = Const.baseUrl + item.ath_image_min_url
 
             item.ath_image_min_url?.let {

@@ -25,8 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/last_meet_for_dashboard_header"
-            android:background="@drawable/normal_ripple"
-            android:layout_marginHorizontal="5dp">
+            android:background="@drawable/rounded_corners_ripple"
+            android:paddingHorizontal="5dp">
             <TextView
                 android:id="@+id/last_meet_for_dashboard_meet_name"
                 android:layout_width="match_parent"

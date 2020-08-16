@@ -32,32 +32,34 @@ class PersonalBestFragment: Fragment(R.layout.personal_best_fragment) {
         super.onViewCreated(view, savedInstanceState)
         personalBestAdapter = PersonalBestAdapter(findNavController())
 
-        personal_best_25_list.apply {
+        personal_best_list.apply {
             adapter = personalBestAdapter
         }
 
-        personal_best_25_list.isNestedScrollingEnabled = false
+        personal_best_list.isNestedScrollingEnabled = false
 
-        viewModel.pb.observe(viewLifecycleOwner, Observer { pb ->
+        viewModel.pb1.observe(viewLifecycleOwner, Observer { pb ->
             personalBestAdapter.submitList(pb)
         })
+
         personal_best_refresher.setOnRefreshListener {
             viewModel.getPersonalBestsByAthleteId(Prefs.getUser()!!.athlete_id, 100)
             personal_best_refresher.isRefreshing = false
         }
+
         viewModel.getPersonalBestsByAthleteId(Prefs.getUser()!!.athlete_id, 100)
     }
 }
 
-class PersonalBestAdapter(val navController: NavController): ListAdapter<PersonalBest, PersonalBestViewHolder>(diffUtil) {
+class PersonalBestAdapter(val navController: NavController): ListAdapter<PersonalBestByCompetition, PersonalBestViewHolder>(diffUtil) {
 
-    object diffUtil: DiffUtil.ItemCallback<PersonalBest>() {
-        override fun areItemsTheSame(oldItem: PersonalBest, newItem: PersonalBest): Boolean {
+    object diffUtil: DiffUtil.ItemCallback<PersonalBestByCompetition>() {
+        override fun areItemsTheSame(oldItem: PersonalBestByCompetition, newItem: PersonalBestByCompetition): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: PersonalBest, newItem: PersonalBest): Boolean {
-            return ((oldItem.res_total_time == newItem.res_total_time) and (oldItem.res_total_time == newItem.res_total_time))
+        override fun areContentsTheSame(oldItem: PersonalBestByCompetition, newItem: PersonalBestByCompetition): Boolean {
+            return oldItem.equals(newItem)
         }
     }
 
@@ -67,8 +69,6 @@ class PersonalBestAdapter(val navController: NavController): ListAdapter<Persona
 
         return PersonalBestViewHolder(viewContainer as ViewGroup, navController)
     }
-
-
 
     override fun onBindViewHolder(holder: PersonalBestViewHolder, position: Int) {
         holder.bind(getItem(position))
@@ -94,18 +94,38 @@ class PersonalBestViewHolder(containerView: ViewGroup, val navController: NavCon
 //        globalLayoutListener(itemView, this)
     }
 
-    fun bind(pb: PersonalBest) {
+    fun bind(pb: PersonalBestByCompetition) {
+
+        val is25Null = pb.pb25 == null
+        val is50Null = pb.pb50 == null
         itemView.apply {
-            personal_best_item_header.text = "${pb.sev_distance}m ${pb.sst_name_pl}"
-            personal_best_item_course_type.text = Const.courseSize.getString(pb.res_course_abbr)
-            personal_best_item_25_date.text = pb.mt_from
-            personal_best_item_25_points.text = pb.res_points.toString()
-            personal_best_item_25_total_time.text = Tools.convertResult(pb.res_total_time.toFloat())
+            //visibility
+            personal_best_item_25_container.isVisible = !is25Null
+            personal_best_item_50_container.isVisible = !is50Null
+
+            personal_best_item_header.text = pb.concurence
+
+            //25
+            if(!is25Null) {
+                personal_best_item_25_total_time.text = Tools.convertResult(pb.pb25?.res_total_time?.toFloat())
+                personal_best_item_25_points.text = pb.pb25?.res_points.toString()
+            }
+
+            //50
+            if(!is50Null) {
+                personal_best_item_50_total_time.text = Tools.convertResult(pb.pb50?.res_total_time?.toFloat())
+                personal_best_item_50_points.text = pb.pb50?.res_points.toString()
+            }
         }
 
-        itemView.setOnClickListener {
-            navController.navigate(ResultsFragmentDirections.actionRecordsFragmentToResultDetails(ResultArgument(pb.sev_distance, pb.sst_name_pl, pb.res_course_abbr)))
-        }
+        if(!is25Null)
+            itemView.personal_best_item_25_container.setOnClickListener {
+                navController.navigate(ResultsFragmentDirections.actionRecordsFragmentToResultDetails(ResultArgument(pb.pb25!!.sev_distance, pb.pb25.sst_name_pl, pb.pb25.res_course_abbr)))
+            }
 
+        if(!is50Null)
+            itemView.personal_best_item_50_container.setOnClickListener {
+                navController.navigate(ResultsFragmentDirections.actionRecordsFragmentToResultDetails(ResultArgument(pb.pb50!!.sev_distance, pb.pb50.sst_name_pl, pb.pb50.res_course_abbr)))
+            }
     }
 }

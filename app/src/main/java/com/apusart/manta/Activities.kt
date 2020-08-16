@@ -120,6 +120,11 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
             Prefs.removeUser()
             startActivity(Intent(this, PickAthleteActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
         }
+        user_menu_dev_tools.setOnClickListener {
+            findNavController(R.id.logged_athlete_navigation_host)
+                .navigate(R.id.devToolFragment)
+            handleMenu()
+        }
 
         app_bar_out.setOnClickListener {
             handleMenu()
@@ -150,38 +155,5 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
                 }
             }
         }
-
-//        bottom_navigation.setOnNavigationItemReselectedListener {}
-//        bottom_navigation.setOnNavigationItemSelectedListener { item ->
-//
-//            if(mUserMenuStatus) {
-//                handleMenu()
-//            }
-//
-//            when(item.itemId) {
-//                R.id.navigation_dashboard -> {
-//                    navController.navigate(R.id.dashboardFragment)
-//                    return@setOnNavigationItemSelectedListener true
-//                }
-//                R.id.navigation_competition -> {
-//                    navController.navigate(R.id.meetsFragment)
-//                    return@setOnNavigationItemSelectedListener true
-//                }
-//                R.id.navigation_records -> {
-//                    navController.navigate(R.id.recordsFragment)
-//                    return@setOnNavigationItemSelectedListener true
-//                }
-//                R.id.navigation_profile -> {
-//                    navController.navigate(R.id.profileFragment)
-//                    return@setOnNavigationItemSelectedListener true
-//                }
-//
-//                else -> return@setOnNavigationItemSelectedListener true
-//            }
-//
-//        }
-
-
-
     }
 }

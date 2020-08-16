@@ -169,11 +169,13 @@ object Tools {
 
 object Prefs {
     private const val PREFS_NAME = "com.example.manta.AthletePrefs"
-    private const val ATHLETE = "Athlete"
+    private const val ATHLETE = "actual_athlete"
+    private const val PREV_ATHLETE = "prev_athlete"
     private var settings: SharedPreferences? = null
     private var editor: SharedPreferences.Editor? = null
     private val gson = Gson()
     private var actualAthlete: Athlete? = null
+    private var previousAthlete: Athlete? = null
 
     fun AthletePreference(context: Context?) {
 
@@ -186,11 +188,23 @@ object Prefs {
     }
 
     fun removeUser() {
+        previousAthlete = gson.fromJson((settings?.getString(ATHLETE, "") ?: ""), Athlete::class.java)
+
+        val stringifiedPrevAthlete = gson.toJson(previousAthlete)
+        editor?.putString(PREV_ATHLETE, stringifiedPrevAthlete)
+        editor?.commit()
+
         editor?.remove(ATHLETE)
         editor?.commit()
         actualAthlete = null
     }
     fun storeUser(athlete: Athlete) {
+        previousAthlete = gson.fromJson((settings?.getString(ATHLETE, "") ?: ""), Athlete::class.java)
+
+        val stringifiedPrevAthlete = gson.toJson(previousAthlete)
+        editor?.putString(PREV_ATHLETE, stringifiedPrevAthlete)
+        editor?.commit()
+
         val stringifiedAthlete = gson.toJson(athlete)
         editor?.putString(ATHLETE, stringifiedAthlete)
         editor?.commit()
@@ -202,6 +216,13 @@ object Prefs {
             return actualAthlete
         return gson.fromJson((settings?.getString(
             ATHLETE,"") ?: ""), Athlete::class.java)
+    }
+
+    fun getPreviousAthlete(): Athlete? {
+        if(previousAthlete != null)
+            return previousAthlete
+        return gson.fromJson((settings?.getString(
+            PREV_ATHLETE,"") ?: ""), Athlete::class.java)
     }
 }
 
@@ -270,3 +291,4 @@ open class OnSwipeTouchListener(val ctx: Context): View.OnTouchListener {
 }
 
 class LoadingScreen: Fragment(R.layout.loading_screen)
+class DevToolFragment: Fragment(R.layout.dev_tools_fragment)

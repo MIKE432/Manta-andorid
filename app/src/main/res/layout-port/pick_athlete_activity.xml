@@ -30,7 +30,7 @@
 
         <TextView
             android:id="@+id/pick_athlete_choose_athlete_text"
-            style="@style/h1.bold"
+            style="@style/TitleRoboto20Pt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"

@@ -11,15 +11,15 @@
         android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.apusart.manta.InitialActivity">
+        <activity android:name="com.apusart.manta.InitialActivity" android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.apusart.manta.ui.pick_athlete_module.WelcomeActivity"/>
-        <activity android:name=".ui.pick_athlete_module.PickAthleteActivity"/>
+        <activity android:name="com.apusart.manta.ui.pick_athlete_module.WelcomeActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.pick_athlete_module.PickAthleteActivity" android:screenOrientation="portrait" />
         <activity android:name="com.apusart.manta.UserActivity" android:screenOrientation="portrait" />
     </application>
 
