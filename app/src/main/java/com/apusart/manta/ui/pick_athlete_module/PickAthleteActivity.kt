@@ -32,6 +32,7 @@ import com.apusart.manta.api.models.Athlete
 import com.apusart.manta.ui.tools.Const
 import com.apusart.manta.ui.tools.OnSwipeTouchListener
 import com.apusart.manta.ui.tools.Prefs
+import com.reddit.indicatorfastscroll.FastScrollItemIndicator
 import kotlinx.android.synthetic.main.letter_for_scroll.view.*
 import kotlinx.android.synthetic.main.pick_athlete_activity.*
 import kotlinx.android.synthetic.main.pick_athlete_item.*
@@ -44,6 +45,7 @@ class PickAthleteActivity: AppCompatActivity(R.layout.pick_athlete_activity) {
     private val viewModel: AthletesViewModel by viewModels()
     private lateinit var athletesAdapter: AthletesAdapter
     private var lastTouch = 0L
+
     fun hideKayboard() {
         val view = this.currentFocus
         view?.let { v ->
@@ -68,6 +70,16 @@ class PickAthleteActivity: AppCompatActivity(R.layout.pick_athlete_activity) {
                 pick_athlete_athletes_list.scrollToPosition(position)
             }
 
+            if(athletes.isNotEmpty()) {
+                pick_athlete_scroll_bar.setupWithRecyclerView(pick_athlete_athletes_list, {
+                    val item = athletes.get(it)
+
+                    FastScrollItemIndicator.Text(item.ath_lastname.substring(0, 1).toUpperCase())
+                })
+
+                pick_athlete_fastscroller_thumb.setupWithFastScroller(pick_athlete_scroll_bar)
+            }
+
         })
 
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
@@ -79,61 +91,70 @@ class PickAthleteActivity: AppCompatActivity(R.layout.pick_athlete_activity) {
 
         })
 
-        viewModel.mantaAlph.observe(this, Observer { list ->
-            list.forEach { s ->
-                val textView = LayoutInflater.from(this)
-                    .inflate(R.layout.letter_for_scroll, pick_athlete_scroll_bar, false)
-                textView.letter.text = s
-                textView.layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    1f
-                )
-                pick_athlete_scroll_bar.addView(textView)
-                pick_athlete_scroll_bar.setOnClickListener(null)
-                textView.setOnClickListener { view ->
-                    val athlete: Athlete? = athletesAdapter.currentList.firstOrNull { it.ath_lastname.substring(0, 1) == s }
-                    val position = athletesAdapter.currentList.indexOf(athlete ?: athletesAdapter.currentList[0])
-
-                    pick_athlete_athletes_list.scrollToPosition(position)
-                    lastTouch = System.currentTimeMillis()
-                    lifecycleScope.launch {
-                        delay(2000)
-                        if(System.currentTimeMillis() - lastTouch > 2000) {
-                            pick_athlete_scroll_bar.isVisible = false
-                        }
-                    }
-                }
-            }
-        })
+//        viewModel.mantaAlph.observe(this, Observer { list ->
+//            list.forEach { s ->
+//                val textView = LayoutInflater.from(this)
+//                    .inflate(R.layout.letter_for_scroll, pick_athlete_scroll_bar, false)
+//                textView.letter.text = s
+//                textView.layoutParams = LinearLayout.LayoutParams(
+//                    LinearLayout.LayoutParams.MATCH_PARENT,
+//                    LinearLayout.LayoutParams.MATCH_PARENT,
+//                    1f
+//                )
+//                pick_athlete_scroll_bar.addView(textView)
+//                pick_athlete_scroll_bar.setOnClickListener(null)
+//                textView.setOnClickListener { view ->
+//                    val athlete: Athlete? = athletesAdapter.currentList.firstOrNull { it.ath_lastname.substring(0, 1) == s }
+//                    val position = athletesAdapter.currentList.indexOf(athlete ?: athletesAdapter.currentList[0])
+//
+//                    pick_athlete_athletes_list.scrollToPosition(position)
+//                    lastTouch = System.currentTimeMillis()
+//                    lifecycleScope.launch {
+//                        delay(2000)
+//                        if(System.currentTimeMillis() - lastTouch > 2000) {
+//                            pick_athlete_scroll_bar.isVisible = false
+//                        }
+//                    }
+//                }
+//            }
+//        })
 
         viewModel.getAthletes()
         pick_athlete_athletes_list.apply {
             adapter = athletesAdapter
         }
 
-        pick_athlete_scroll_bar.isVisible = false
+//        pick_athlete_scroll_bar.isVisible = false
         pick_athlete_athletes_list.addOnScrollListener(object: RecyclerView.OnScrollListener() {
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
 
-                when(newState) {
-                    RecyclerView.SCROLL_STATE_DRAGGING -> {
-                        pick_athlete_scroll_bar.isVisible = true
-                        lastTouch = System.currentTimeMillis()
-                    }
-                    RecyclerView.SCROLL_STATE_IDLE -> lifecycleScope.launch {
-                        delay(5000)
-                        if(System.currentTimeMillis() - lastTouch > 5000) {
-                            pick_athlete_scroll_bar.isVisible = false
-                        }
-
-                    }
-                }
-
+//                when(newState) {
+//                    RecyclerView.SCROLL_STATE_DRAGGING -> {
+//                        pick_athlete_scroll_bar.isVisible = true
+//                        lastTouch = System.currentTimeMillis()
+//                    }
+//                    RecyclerView.SCROLL_STATE_IDLE -> lifecycleScope.launch {
+//                        delay(5000)
+//                        if(System.currentTimeMillis() - lastTouch > 5000) {
+//                            pick_athlete_scroll_bar.isVisible = false
+//                        }
+//
+//                    }
+//                }
+                hideKayboard()
             }
         })
+
+
+//        pick_athlete_athletes_list.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+//                super.onScrollStateChanged(recyclerView, newState)
+//
+//                hideKayboard()
+//            }
+//        })
 
         pick_athlete_athletes_edit_text.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {

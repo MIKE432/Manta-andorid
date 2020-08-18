@@ -151,9 +151,11 @@ class ComparedResultViewHolder(container: View): RecyclerView.ViewHolder(contain
         itemView.place.isVisible = x
         itemView.result_comparison_item_dsq.isVisible = item.result.res_dsq_abbr != ""
         itemView.result_comparison_item_actual_points.isVisible = item.result.res_points != 0
+
         if(item.result.res_dsq_abbr != "") {
             itemView.result_comparison_item_actual_time.setTextColor(itemView.resources.getColor(R.color.cool_grey))
         }
+
         itemView.apply {
             result_comparison_item_header.text = resources.getString(R.string.concurence_no_course, item.result.sev_distance.toString(), item.result.sst_name_pl)
 //            result_comparison_item_progress_value.text = df.format(item.progress* 100).toString() + "%"

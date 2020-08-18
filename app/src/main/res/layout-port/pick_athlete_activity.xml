@@ -72,7 +72,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:background="@color/cool_grey"/>
 
-        <LinearLayout
+        <com.reddit.indicatorfastscroll.FastScrollerView
             android:id="@+id/pick_athlete_scroll_bar"
             android:layout_width="25dp"
             android:layout_height="0dp"
@@ -86,7 +86,17 @@
             android:background="@drawable/thumb"
             android:orientation="vertical">
 
-        </LinearLayout>
+
+        </com.reddit.indicatorfastscroll.FastScrollerView>
+        <com.reddit.indicatorfastscroll.FastScrollerThumbView
+            android:id="@+id/pick_athlete_fastscroller_thumb"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="@id/pick_athlete_scroll_bar"
+            app:layout_constraintTop_toTopOf="@+id/pick_athlete_scroll_bar"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/pick_athlete_scroll_bar"
+            />
         <ProgressBar
             android:id="@+id/pick_athlete_progressbar"
             style="?android:attr/progressBarStyle"
