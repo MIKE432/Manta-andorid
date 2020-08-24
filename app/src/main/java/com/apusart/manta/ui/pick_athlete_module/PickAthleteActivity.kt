@@ -72,7 +72,7 @@ class PickAthleteActivity: AppCompatActivity(R.layout.pick_athlete_activity) {
 
             if(athletes.isNotEmpty()) {
                 pick_athlete_scroll_bar.setupWithRecyclerView(pick_athlete_athletes_list, {
-                    val item = athletes.get(it)
+                    val item = athletes[it]
 
                     FastScrollItemIndicator.Text(item.ath_lastname.substring(0, 1).toUpperCase())
                 })
@@ -166,11 +166,11 @@ class PickAthleteActivity: AppCompatActivity(R.layout.pick_athlete_activity) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                pick_athlete_scroll_bar.isVisible = s.toString() == ""
+                pick_athlete_fastscroller_thumb.isVisible = s.toString() == ""
+                val newList = viewModel.athletes.value?.filter { it.ath_firstname.startsWith(s.toString(), true) or it.ath_lastname.startsWith(s.toString(), true) }
 
-                val athlete: Athlete? = athletesAdapter.currentList.firstOrNull { (it.ath_lastname.contains(s ?: "")) or (it.ath_firstname.contains(s ?: "")) }
-                val position = athletesAdapter.currentList.indexOf(athlete ?: athletesAdapter.currentList[0])
-
-                pick_athlete_athletes_list.scrollToPosition(position)
+                athletesAdapter.submitList(newList)
             }
 
         })
@@ -183,13 +183,19 @@ class AthletesAdapter(private val activity: Activity): ListAdapter<Athlete, Athl
 
     object diffUtil: DiffUtil.ItemCallback<Athlete>() {
         override fun areItemsTheSame(oldItem: Athlete, newItem: Athlete): Boolean {
-            return oldItem.athlete_id == newItem.athlete_id
+            return oldItem == newItem
         }
 
         override fun areContentsTheSame(oldItem: Athlete, newItem: Athlete): Boolean {
-            return oldItem.athlete_id == newItem.athlete_id
+            return oldItem.equals(newItem)
         }
     }
+
+//    override fun getItemViewType(position: Int): Int {
+//        return when(getItem(position)) {
+//
+//        }
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AthleteViewHolder {
         val viewContainer = LayoutInflater.from(parent.context)
@@ -201,10 +207,11 @@ class AthletesAdapter(private val activity: Activity): ListAdapter<Athlete, Athl
     }
 
     override fun onBindViewHolder(holder: AthleteViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val athlete = getItem(position)
+        holder.bind(athlete)
         holder.itemView.setOnClickListener {
             Prefs.AthletePreference(holder.context)
-            Prefs.storeUser(getItem(position))
+            Prefs.storeUser(athlete)
             startActivity(activity, Intent(activity, UserActivity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION or Intent.FLAG_ACTIVITY_CLEAR_TASK), null)
             activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)

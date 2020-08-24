@@ -40,16 +40,17 @@ class MeetFragment(private val meet_id: Int?): Fragment(R.layout.last_meet_fragm
         multiple_button.setButtonIcon(0, R.drawable.www_icon)
         multiple_button.setText(1, "Lista startowa")
         multiple_button.setButtonIcon(1, R.drawable.articles_icon)
-
+        multiple_button.addButton("Wyniki")
+        multiple_button.setButtonIcon(2, R.drawable.stopwatch_icon)
         resultsViewModel.inProgress.observe(viewLifecycleOwner, Observer {
 
             last_meet_fragment_spinner.isVisible = it
-            last_meet_fragment_nested_scroll_view.isVisible = !it
+//            last_meet_fragment_nested_scroll_view.isVisible = !it
         })
 
         resultsViewModel.mShowContent.observe(viewLifecycleOwner, Observer {
 
-            last_meet_fragment_nested_scroll_view.isVisible = it
+//            last_meet_fragment_nested_scroll_view.isVisible = it
             last_meet_fragment_no_last_meet.isVisible = !it
 
         })
@@ -69,6 +70,8 @@ class MeetFragment(private val meet_id: Int?): Fragment(R.layout.last_meet_fragm
                         val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it.mt_main_page))
                         startActivity(intent)
                     }
+                } else {
+                    multiple_button.setBackGround(0, R.color.cool_grey)
                 }
 
                 if(it.mt_start_list_page != "") {
@@ -77,18 +80,21 @@ class MeetFragment(private val meet_id: Int?): Fragment(R.layout.last_meet_fragm
                         val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it.mt_start_list_page))
                         startActivity(intent)
                     }
+                } else {
+                    multiple_button.setBackGround(1, R.color.black)
                 }
 
                 if(it.mt_results_page != "") {
-                    multiple_button.addButton("Wyniki")
-                    multiple_button.setButtonIcon(2, R.drawable.stopwatch_icon)
+
                     multiple_button.setButtonOnClickListener(2) { v ->
                         val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it.mt_results_page))
                         startActivity(intent)
                     }
+                } else {
+                    multiple_button.setBackGround(2, R.color.black)
                 }
             } else {
-                last_meet_fragment_nested_scroll_view.isVisible = false
+//                last_meet_fragment_nested_scroll_view.isVisible = false
                 last_meet_fragment_no_last_meet.isVisible = true
             }
         })

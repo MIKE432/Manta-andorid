@@ -11,79 +11,71 @@
         android:id="@+id/last_meet_fragment_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/last_meet_fragment_nested_scroll_view"
-            app:layout_constraintTop_toTopOf="parent"
+        <LinearLayout
+            android:id="@+id/last_meet_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/cool_grey"
-
-            >
-            <LinearLayout
-                android:id="@+id/last_meet_fragment_container"
+            android:orientation="vertical">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/last_meet_fragment_main_information_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/last_meet_fragment_main_information_container"
+                android:layout_height="wrap_content"
+
+                android:background="@drawable/header_section_background">
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:paddingHorizontal="10dp"
+                    android:id="@+id/last_meet_fragment_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
-                    android:background="@drawable/header_section_background">
-                    <TextView
-                        android:layout_marginTop="10dp"
-                        android:paddingHorizontal="10dp"
-                        android:id="@+id/last_meet_fragment_header"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/last_meet_fragment_meet_information_container"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center"
+                    style="@style/Body2MenuRoboto14Pt"
+                    tools:text="I Og\u00f3lnopolskie mistrzostwa O\u0142awy w p\u0142ywaniu"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/last_meet_fragment_meet_information_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toTopOf="@id/multiple_button"
+                    app:layout_constraintTop_toBottomOf="@id/last_meet_fragment_header">
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/last_meet_fragment_meet_information_container"
-                        android:layout_marginBottom="5dp"
-                        android:gravity="center"
-                        style="@style/Body2MenuRoboto14Pt"
-                        tools:text="I Og\u00f3lnopolskie mistrzostwa O\u0142awy w p\u0142ywaniu"/>
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/last_meet_fragment_meet_information_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        app:layout_constraintBottom_toTopOf="@id/multiple_button"
-                        app:layout_constraintTop_toBottomOf="@id/last_meet_fragment_header">
-                        <LinearLayout
+                        android:paddingHorizontal="10dp">
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:paddingHorizontal="10dp">
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-                                <LinearLayout
-                                    android:id="@+id/last_meet_fragment_place_container"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    android:layout_width="0dp"
+                            android:layout_height="wrap_content">
+                            <LinearLayout
+                                android:id="@+id/last_meet_fragment_place_container"
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                app:layout_constraintEnd_toStartOf="@id/last_meet_fragment_course_container"
+                                android:gravity="start"
+                                app:layout_constraintStart_toStartOf="parent">
+                                <TextView
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    app:layout_constraintEnd_toStartOf="@id/last_meet_fragment_course_container"
-                                    android:gravity="start"
-                                    app:layout_constraintStart_toStartOf="parent">
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Miejsce: "
-                                        style="@style/CaptionRoboto12Pt"
-                                        android:layout_marginEnd="3dp"/>
-                                    <TextView
-                                        android:id="@+id/last_meet_fragment_place"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        app:layout_constraintTop_toTopOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintEnd_toStartOf="@id/last_meet_fragment_date"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        style="@style/CaptionRoboto12PtBlack"
-                                        tools:text="Ostrów Wielkopolski"/>
-                                </LinearLayout>
+                                    android:text="Miejsce: "
+                                    style="@style/CaptionRoboto12Pt"
+                                    android:layout_marginEnd="3dp"/>
+                                <TextView
+                                    android:id="@+id/last_meet_fragment_place"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toStartOf="@id/last_meet_fragment_date"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    style="@style/CaptionRoboto12PtBlack"
+                                    tools:text="Ostrów Wielkopolski"/>
+                            </LinearLayout>
                             <LinearLayout
                                 android:id="@+id/last_meet_fragment_course_container"
                                 app:layout_constraintStart_toEndOf="@id/last_meet_fragment_place_container"
@@ -112,63 +104,72 @@
                                     tools:text="25m"/>
                             </LinearLayout>
 
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-                            <LinearLayout
-                                android:id="@+id/last_meet_fragment_date_container"
-                                app:layout_constraintStart_toEndOf="@id/last_meet_fragment_place_container"
-                                app:layout_constraintTop_toTopOf="parent"
-                                android:layout_width="match_parent"
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <LinearLayout
+                            android:id="@+id/last_meet_fragment_date_container"
+                            app:layout_constraintStart_toEndOf="@id/last_meet_fragment_place_container"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:gravity="start">
+                            <TextView
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
+                                android:text="Termin:"
+                                style="@style/CaptionRoboto12Pt"
+                                android:layout_marginEnd="3dp"/>
+                            <TextView
+                                android:id="@+id/last_meet_fragment_date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintStart_toEndOf="@id/last_meet_fragment_course"
+                                app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                android:gravity="start">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Termin:"
-                                    style="@style/CaptionRoboto12Pt"
-                                    android:layout_marginEnd="3dp"/>
-                                <TextView
-                                    android:id="@+id/last_meet_fragment_date"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    app:layout_constraintStart_toEndOf="@id/last_meet_fragment_course"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    style="@style/CaptionRoboto12PtBlack"
-                                    tools:text="27-06-2019"/>
-                            </LinearLayout>
-
+                                style="@style/CaptionRoboto12PtBlack"
+                                tools:text="27-06-2019"/>
                         </LinearLayout>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-                    <com.apusart.manta.ui.tools.MultipleButton
-                        android:id="@+id/multiple_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/last_meet_fragment_meet_information_container"
-                        app:layout_constraintBottom_toBottomOf="parent" />
+                    </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-                <LinearLayout
-                    android:id="@+id/last_meet_fragment_other_information_container"
-                    app:layout_constraintTop_toBottomOf="@id/last_meet_fragment_main_information_container"
+
+
+                <com.apusart.manta.ui.tools.MultipleButton
+                    android:id="@+id/multiple_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    app:layout_constraintTop_toBottomOf="@id/last_meet_fragment_meet_information_container"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:id="@+id/last_meet_fragment_other_information_container"
+                app:layout_constraintTop_toBottomOf="@id/last_meet_fragment_main_information_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/last_meet_fragment_results"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/last_meet_fragment_results"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
 
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-                </LinearLayout>
-
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+<!--        <androidx.core.widget.NestedScrollView-->
+<!--            android:id="@+id/last_meet_fragment_nested_scroll_view"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="@color/cool_grey"-->
+
+<!--            >-->
+<!--           -->
+<!--        </androidx.core.widget.NestedScrollView>-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/last_meet_fragment_no_last_meet"
             android:layout_width="match_parent"

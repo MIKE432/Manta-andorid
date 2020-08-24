@@ -83,6 +83,10 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
             setupImageView(icon)
             setupTextView()
         }
+
+        fun setBackGround(background: Int) {
+            setBackground(ColorDrawable(resources.getColor(background)))
+        }
     }
 
     init {
@@ -179,8 +183,11 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
     }
 
 
-
     fun setText(index: Int, text: String) {
         mChildButtons.takeIf { index < it.size }?.get(index)?.textView?.text = text
+    }
+
+    fun setBackGround(index: Int, background: Int) {
+        mChildButtons.takeIf { index < it.size }?.get(index)?.setBackGround(background)
     }
 }
