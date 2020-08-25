@@ -144,7 +144,8 @@ class Meet(
     val mt_lxf_url_entries: String,
     val mt_lxf_url_entries_k: String,
     val mt_lxf_url_results: String,
-    val results: List<Result>?
+    val results: List<Result>?,
+    val photos: List<Photo>?
 )
 
 class MedalStat(
@@ -156,6 +157,7 @@ class MedalDetails(
     val res_place: Int,
     val res_count: Int
 )
+
 class Result(
     val result_id: Int,
     val club_id: Int?,
@@ -285,4 +287,10 @@ val rsb_id: Int,
     val mt_lxf_url_entries: String,
     val mt_lxf_url_entries_k: String,
     val mt_lxf_url_results: String
+)
+
+class Photo(
+    val path: String,
+    val path_thumb_m: String?,
+    val path_thumb_s: String?
 )

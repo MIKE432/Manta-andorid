@@ -3,7 +3,6 @@ package com.apusart.manta.ui
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.apusart.manta.ui.tools.Const
 import com.apusart.manta.api.models.MedalStat
 import com.apusart.manta.api.serivces.AthletesService
 import kotlinx.coroutines.launch
@@ -22,13 +21,13 @@ class MedalStatsViewModel: ViewModel() {
         viewModelScope.launch {
             try {
                 val result = mAthletesService.getMedalStatsByAthleteId(id, grade)
-                if(result != null) {
-                    val gold = result?.stats?.firstOrNull { stat -> stat.res_place == 1 }?.res_count ?: 0
-                    val silver = result?.stats?.firstOrNull { stat -> stat.res_place == 2 }?.res_count ?: 0
-                    val bronze = result?.stats?.firstOrNull { stat -> stat.res_place == 3 }?.res_count ?: 0
+                val allMedals = result.filter { it.mt_grade_abbr == "ALL" }.takeIf { it.isNotEmpty() }
+                    ?.get(0)
+                val gold = allMedals?.stats?.firstOrNull { stat -> stat.res_place == 1 }?.res_count ?: 0
+                val silver = allMedals?.stats?.firstOrNull { stat -> stat.res_place == 2 }?.res_count ?: 0
+                val bronze = allMedals?.stats?.firstOrNull { stat -> stat.res_place == 3 }?.res_count ?: 0
 
-                    mGeneralMedalStats.value = GeneralMedalStats(gold, silver, bronze)
-                }
+                mGeneralMedalStats.value = GeneralMedalStats(gold, silver, bronze)
 
             } catch(e: Exception) {}
         }
@@ -37,34 +36,31 @@ class MedalStatsViewModel: ViewModel() {
     fun getAllMedalStats(id: Int) {
         isAllMedalStatsRequestInProgress.value = true
         viewModelScope.launch {
-            val allMedalStats = ArrayList<MedalStat?>()
-            for(i in 0..11) {
-                val x = mAthletesService.getMedalStatsByAthleteId(id, Const.gradesAbbr.getString(i.toString()))
-                allMedalStats.add(x)
-            }
             try {
-
-
+                val allMedalStats = mAthletesService.getMedalStatsByAthleteId(id)
                 val result = ArrayList<Stats?>()
 
-                allMedalStats.forEach {
-                    if(it?.stats.isNullOrEmpty())
+                allMedalStats.forEachIndexed { index, medalStat ->
+                    if(medalStat.stats.isNullOrEmpty())
                         result.add(null)
                     else {
-                        val gold = it?.stats?.firstOrNull { stat -> stat.res_place == 1 }?.res_count ?: 0
-                        val silver = it?.stats?.firstOrNull { stat -> stat.res_place == 2 }?.res_count ?: 0
-                        val bronze = it?.stats?.firstOrNull { stat -> stat.res_place == 3 }?.res_count ?: 0
-                        result.add(Stats(gold, silver, bronze, null, it?.mt_grade ))
+                        if(index != 0) {
+                            val gold = medalStat.stats.firstOrNull { stat -> stat.res_place == 1 }?.res_count ?: 0
+                            val silver = medalStat.stats.firstOrNull { stat -> stat.res_place == 2 }?.res_count ?: 0
+                            val bronze = medalStat.stats.firstOrNull { stat -> stat.res_place == 3 }?.res_count ?: 0
+                            result.add(Stats(gold, silver, bronze, null, medalStat.mt_grade))
+                        }
+
                     }
                 }
 
                 mAllMedalStats.value = result
-
+                isAllMedalStatsRequestInProgress.value = false
             } catch(e: Exception) {
                 e.printStackTrace()
             }
             finally {
-                isAllMedalStatsRequestInProgress.value = false
+
             }
         }
     }

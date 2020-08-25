@@ -27,16 +27,17 @@ class DashboardViewModel: ViewModel() {
     fun getInfoForDashboardByAthleteId(id: Int, limit: Int? = 10, ss_abbr: String? = null, distance: Int? = null, course: String? = null, dsq: String? = "") {
         viewModelScope.launch {
 
+
             try {
                 isInProgress.value = true
-                val medalStats = mAthletesService.getMedalStatsByAthleteId(id, null)
-                if(medalStats != null) {
-                    val gold = medalStats.stats?.firstOrNull { stat -> stat.res_place == 1 }?.res_count ?: 0
-                    val silver = medalStats.stats?.firstOrNull { stat -> stat.res_place == 2 }?.res_count ?: 0
-                    val bronze = medalStats.stats?.firstOrNull { stat -> stat.res_place == 3 }?.res_count ?: 0
+                val result = mAthletesService.getMedalStatsByAthleteId(id)
+                val allMedals = result.filter { it.mt_grade_abbr == "ALL" }.takeIf { it.isNotEmpty() }
+                    ?.get(0)
+                val gold = allMedals?.stats?.firstOrNull { stat -> stat.res_place == 1 }?.res_count ?: 0
+                val silver = allMedals?.stats?.firstOrNull { stat -> stat.res_place == 2 }?.res_count ?: 0
+                val bronze = allMedals?.stats?.firstOrNull { stat -> stat.res_place == 3 }?.res_count ?: 0
 
-                    mGeneralMedalStats.value = GeneralMedalStats(gold, silver, bronze)
-                }
+                mGeneralMedalStats.value = GeneralMedalStats(gold, silver, bronze)
 
                 mostValuableResults.value = mAthletesService.getMostValuableResultsByAthleteId(id)
 
@@ -45,7 +46,7 @@ class DashboardViewModel: ViewModel() {
                 incomingMeets.value = mMeetService.getIncomingMeetsByAthleteId(id, limit)
                 lastMeet.value = mMeetService.getMeetsByAthleteId(id, Const.defaultLimit).takeIf { it.isNotEmpty() }?.get(0)
 
-                if(medalStats != null || mostValuableResults.value?.isNotEmpty() != false)
+
                 isInProgress.value = false
 
             } catch(e: Exception) { e.printStackTrace() }

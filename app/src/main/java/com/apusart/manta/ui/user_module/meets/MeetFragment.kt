@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -17,23 +18,25 @@ import com.apusart.manta.R
 import com.apusart.manta.ui.tools.Const
 import com.apusart.manta.ui.tools.Prefs
 import com.apusart.manta.ui.tools.Tools
-import kotlinx.android.synthetic.main.last_meet_fragment.*
+import com.apusart.manta.ui.user_module.gallery.MiniPhotosAdapter
+import kotlinx.android.synthetic.main.meet_fragment.*
 import kotlinx.android.synthetic.main.result_comparison_item.view.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
 
-class MeetFragment(private val meet_id: Int?): Fragment(R.layout.last_meet_fragment) {
-    private val resultsViewModel: MeetViewModel by viewModels()
-    private lateinit var comparedResultAdapter: ComparedResultAdapter
+class MeetFragment(private val meet_id: Int?): Fragment(R.layout.meet_fragment) {
+    private val mMeetViewModel: MeetViewModel by viewModels()
+    private lateinit var mComparedResultAdapter: ComparedResultAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        comparedResultAdapter = ComparedResultAdapter()
+        mComparedResultAdapter = ComparedResultAdapter()
+
         last_meet_fragment_no_last_meet.isVisible = false
         last_meet_fragment_results.apply {
-            adapter = comparedResultAdapter
+            adapter = mComparedResultAdapter
         }
 
         multiple_button.setText(0, "WWW")
@@ -42,20 +45,35 @@ class MeetFragment(private val meet_id: Int?): Fragment(R.layout.last_meet_fragm
         multiple_button.setButtonIcon(1, R.drawable.articles_icon)
         multiple_button.addButton("Wyniki")
         multiple_button.setButtonIcon(2, R.drawable.stopwatch_icon)
-        resultsViewModel.inProgress.observe(viewLifecycleOwner, Observer {
+        multiple_button.addButton("Galeria")
+        multiple_button.setButtonIcon(3, R.drawable.gallery_icon64)
+
+        mMeetViewModel.inProgress.observe(viewLifecycleOwner, Observer {
 
             last_meet_fragment_spinner.isVisible = it
 //            last_meet_fragment_nested_scroll_view.isVisible = !it
         })
 
-        resultsViewModel.mShowContent.observe(viewLifecycleOwner, Observer {
+        mMeetViewModel.mShowContent.observe(viewLifecycleOwner, Observer {
 
 //            last_meet_fragment_nested_scroll_view.isVisible = it
             last_meet_fragment_no_last_meet.isVisible = !it
-
         })
 
-        resultsViewModel.meet.observe(viewLifecycleOwner, Observer {
+        mMeetViewModel.meetPhotos.observe(viewLifecycleOwner, Observer {
+            val areThereAnyPhotos = it.isNotEmpty() ?: false
+
+            if(areThereAnyPhotos) {
+                multiple_button.setButtonOnClickListener(3) {
+                    if(meet_id != null)
+                        findNavController().navigate(MeetsPagerDirections.actionMeetsFragmentToGalleryFragment(meet_id))
+                }
+            } else {
+                multiple_button.setToInactive(3, R.color.pale_grey_three)
+            }
+        })
+
+        mMeetViewModel.meet.observe(viewLifecycleOwner, Observer {
             if(it != null) {
                 last_meet_fragment_header.text = it.mt_name
                 last_meet_fragment_course.text = Const.courseSize.getString(it.mt_course_abbr)
@@ -71,7 +89,7 @@ class MeetFragment(private val meet_id: Int?): Fragment(R.layout.last_meet_fragm
                         startActivity(intent)
                     }
                 } else {
-                    multiple_button.setBackGround(0, R.color.cool_grey)
+                    multiple_button.setToInactive(0, R.color.pale_grey_three)
                 }
 
                 if(it.mt_start_list_page != "") {
@@ -81,7 +99,7 @@ class MeetFragment(private val meet_id: Int?): Fragment(R.layout.last_meet_fragm
                         startActivity(intent)
                     }
                 } else {
-                    multiple_button.setBackGround(1, R.color.black)
+                    multiple_button.setToInactive(1, R.color.pale_grey_three)
                 }
 
                 if(it.mt_results_page != "") {
@@ -91,27 +109,22 @@ class MeetFragment(private val meet_id: Int?): Fragment(R.layout.last_meet_fragm
                         startActivity(intent)
                     }
                 } else {
-                    multiple_button.setBackGround(2, R.color.black)
+                    multiple_button.setToInactive(2, R.color.pale_grey_three)
+
                 }
             } else {
 //                last_meet_fragment_nested_scroll_view.isVisible = false
                 last_meet_fragment_no_last_meet.isVisible = true
             }
-        })
 
-        resultsViewModel.meetResultCompared.observe(viewLifecycleOwner, Observer {
-
-
-            comparedResultAdapter.submitList(it)
 
         })
 
-        last_meet_fragment_refresher.setOnRefreshListener {
-            resultsViewModel.getResultsFromMeetByAthleteId(Prefs.getUser()!!, meet_id)
-            last_meet_fragment_refresher.isRefreshing = false
-        }
+        mMeetViewModel.meetResultCompared.observe(viewLifecycleOwner, Observer {
+            mComparedResultAdapter.submitList(it)
+        })
 
-        resultsViewModel.getResultsFromMeetByAthleteId(Prefs.getUser()!!, meet_id)
+        mMeetViewModel.getResultsFromMeetByAthleteId(Prefs.getUser()!!, meet_id)
     }
 }
 

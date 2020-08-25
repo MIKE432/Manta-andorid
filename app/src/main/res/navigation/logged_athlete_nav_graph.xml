@@ -44,6 +44,9 @@
             android:name="openOnPage"
             app:argType="integer"
             android:defaultValue="0"/>
+        <action
+            android:id="@+id/action_meetsFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -80,4 +83,13 @@
         android:id="@+id/devToolFragment"
         android:name="com.apusart.manta.ui.tools.DevToolFragment"
         android:label="DevToolFragment" />
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.apusart.manta.ui.user_module.gallery.GalleryFragment"
+        android:label="GalleryFragment" >
+        <argument
+            android:name="meet_id"
+            app:argType="integer"
+            android:defaultValue="-1"/>
+    </fragment>
 </navigation>

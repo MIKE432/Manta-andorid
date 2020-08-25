@@ -26,7 +26,7 @@ interface MantaEndpoints {
     @GET("athletes/{id}/personal-best-results")
     suspend fun getPersonalBestsByAthleteId(@Path("id") id: Int, @Query("limit") limit: Int?, @Query("style") ss_abbr: String? = null, @Query("distance") distance: Int? = null, @Query("course") course: String? = null): PersonalBestsResponse
 
-    @GET("athletes/{id}/medal-stats")
+    @GET("athletes/{id}/medals")
     suspend fun getMedalStatsByAthleteId(@Path("id") id: Int, @Query("grade-abbr") grade: String?,  @Query("up-to-place") upToPlace: Int? = null): MedalStatsResponse
 
     @GET("athletes/{id}/results")
@@ -37,5 +37,8 @@ interface MantaEndpoints {
 
     @GET("athletes/{id}/meets/{meet_id}/results")
     suspend fun getMeetDetailsByAthleteId(@Path("id") id: Int, @Path("meet_id") meetId: Int): MeetDetailsResponse
+
+    @GET("meets/{id}/photos")
+    suspend fun getPhotosByMeetId(@Path("id") id: Int): MeetPhotosResponse
 
 }

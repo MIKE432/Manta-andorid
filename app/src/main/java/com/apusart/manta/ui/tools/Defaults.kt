@@ -27,6 +27,10 @@ object Const {
     val glideAthleteIconOptions = RequestOptions()
         .placeholder(R.drawable.athlete_icon)
         .error(R.drawable.athlete_icon)
+
+    val glideMeetPhotoOptions = RequestOptions()
+        .placeholder(R.drawable.gradient_list)
+
     val gradesAbbr = bundleOf(
         "0" to "IO",
         "1" to "PS",

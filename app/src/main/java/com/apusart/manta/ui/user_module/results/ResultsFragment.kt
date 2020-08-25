@@ -30,13 +30,12 @@ class ResultsFragment: Fragment(R.layout.results_fragment) {
 }
 
 class UserResultsAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {
-    private val COUNT = 3
+    private val COUNT = 2
 
     override fun getItem(position: Int): Fragment {
         return when(position) {
-            0 -> MostValuableResultsFragment()
-            1 -> MedalStatisticsFragment()
-            2 -> PersonalBestFragment()
+            0 -> MedalStatisticsFragment()
+            1 -> PersonalBestFragment()
             else -> throw Exception("Unsupported fragment")
         }
     }
@@ -47,9 +46,8 @@ class UserResultsAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {
 
     override fun getPageTitle(position: Int): CharSequence? {
         return when(position) {
-            0 -> "Najwartościowsze wyniki"
-            1 -> "Statystyka medalowa"
-            2 -> "Życiówki"
+            0 -> "Statystyka medalowa"
+            1 -> "Życiówki"
             else -> throw Exception("Unsupported fragment")
         }
     }

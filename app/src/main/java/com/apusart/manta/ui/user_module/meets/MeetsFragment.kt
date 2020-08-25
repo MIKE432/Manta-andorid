@@ -34,7 +34,6 @@ class MeetsPager: Fragment(R.layout.meets_view_pager) {
           return MeetFragment(meetsViewModel.lastMeets.value?.get(position)?.meet_id ?: -1)
         }
 
-
         override fun getCount(): Int {
             return COUNT
         }
@@ -51,7 +50,7 @@ class MeetsPager: Fragment(R.layout.meets_view_pager) {
 
         meetsViewModel.lastMeets.observe(viewLifecycleOwner, Observer {
             meets_view_pager.isVisible = it.isNotEmpty()
-
+            meets_spinner.isVisible = false
 
             if(it.isEmpty()) {
                 no_meets_to_display.isVisible = true
@@ -63,12 +62,12 @@ class MeetsPager: Fragment(R.layout.meets_view_pager) {
 
                 meets_view_pager.apply {
                     adapter = meetsFragmentAdapter
-                    currentItem = (it as ArrayList).indexOf(it.firstOrNull { meet -> meet.meet_id == navArgs.openOnPage})
+                    if(navArgs.openOnPage != 0) {
+                        currentItem = (it as ArrayList).indexOf(it.firstOrNull { meet -> meet.meet_id == navArgs.openOnPage})
+                    }
                 }
             }
         })
-
-
 
         meetsViewModel.getLastMeetsByAthleteId(Prefs.getUser()!!.athlete_id)
 
