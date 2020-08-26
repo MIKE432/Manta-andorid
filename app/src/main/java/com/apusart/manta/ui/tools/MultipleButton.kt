@@ -176,7 +176,10 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
     }
 
     fun setButtonOnClickListener(index: Int, onClickListener: ((View) -> Unit)?) {
-        mChildButtons.takeIf { index < it.size }?.get(index)?.setOnClickListener(onClickListener) ?: throw Exception("index > it.size")
+        val child = mChildButtons.takeIf { index < it.size }?.get(index)
+        if(child?.hasOnClickListeners() != null) {
+            child.setOnClickListener(onClickListener) ?: throw Exception("index > it.size")
+        }
     }
 
 

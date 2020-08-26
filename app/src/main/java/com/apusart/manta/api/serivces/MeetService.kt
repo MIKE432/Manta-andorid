@@ -48,4 +48,9 @@ class MeetService {
         val result = endpoints.getPhotosByMeetId(id)
         return result.photos
     }
+
+    suspend fun getMeetById(id: Int): Meet {
+        val result = endpoints.getMeetById(id)
+        return result.meet
+    }
 }

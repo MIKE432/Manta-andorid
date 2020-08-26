@@ -149,8 +149,8 @@ class Meet(
 )
 
 class MedalStat(
-    val mt_grade: String,
-    val mt_grade_abbr: String,
+    val mg_name: String,
+    val mg_abbr: String,
     val stats: List<MedalDetails>?
 )
 class MedalDetails(

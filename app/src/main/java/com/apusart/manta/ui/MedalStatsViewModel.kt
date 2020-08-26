@@ -21,7 +21,7 @@ class MedalStatsViewModel: ViewModel() {
         viewModelScope.launch {
             try {
                 val result = mAthletesService.getMedalStatsByAthleteId(id, grade)
-                val allMedals = result.filter { it.mt_grade_abbr == "ALL" }.takeIf { it.isNotEmpty() }
+                val allMedals = result.filter { it.mg_abbr == "ALL" }.takeIf { it.isNotEmpty() }
                     ?.get(0)
                 val gold = allMedals?.stats?.firstOrNull { stat -> stat.res_place == 1 }?.res_count ?: 0
                 val silver = allMedals?.stats?.firstOrNull { stat -> stat.res_place == 2 }?.res_count ?: 0
@@ -48,7 +48,7 @@ class MedalStatsViewModel: ViewModel() {
                             val gold = medalStat.stats.firstOrNull { stat -> stat.res_place == 1 }?.res_count ?: 0
                             val silver = medalStat.stats.firstOrNull { stat -> stat.res_place == 2 }?.res_count ?: 0
                             val bronze = medalStat.stats.firstOrNull { stat -> stat.res_place == 3 }?.res_count ?: 0
-                            result.add(Stats(gold, silver, bronze, null, medalStat.mt_grade))
+                            result.add(Stats(gold, silver, bronze, null, medalStat.mg_name))
                         }
 
                     }

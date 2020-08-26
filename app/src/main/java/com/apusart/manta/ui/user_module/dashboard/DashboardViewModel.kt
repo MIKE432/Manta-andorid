@@ -22,7 +22,7 @@ class DashboardViewModel: ViewModel() {
     val results = MutableLiveData<List<Result>>()
     val incomingMeets = MutableLiveData<List<Meet>>()
     val lastMeet = MutableLiveData<Meet>()
-
+    val areTherePhotos = MutableLiveData<Boolean>()
 
     fun getInfoForDashboardByAthleteId(id: Int, limit: Int? = 10, ss_abbr: String? = null, distance: Int? = null, course: String? = null, dsq: String? = "") {
         viewModelScope.launch {
@@ -31,7 +31,8 @@ class DashboardViewModel: ViewModel() {
             try {
                 isInProgress.value = true
                 val result = mAthletesService.getMedalStatsByAthleteId(id)
-                val allMedals = result.filter { it.mt_grade_abbr == "ALL" }.takeIf { it.isNotEmpty() }
+
+                val allMedals = result.filter { it.mg_abbr == "ALL" }.takeIf { it.isNotEmpty() }
                     ?.get(0)
                 val gold = allMedals?.stats?.firstOrNull { stat -> stat.res_place == 1 }?.res_count ?: 0
                 val silver = allMedals?.stats?.firstOrNull { stat -> stat.res_place == 2 }?.res_count ?: 0
@@ -46,10 +47,16 @@ class DashboardViewModel: ViewModel() {
                 incomingMeets.value = mMeetService.getIncomingMeetsByAthleteId(id, limit)
                 lastMeet.value = mMeetService.getMeetsByAthleteId(id, Const.defaultLimit).takeIf { it.isNotEmpty() }?.get(0)
 
+                if(lastMeet.value?.meet_id != null) {
+                    val x = mMeetService.getPhotosByMeetId(lastMeet.value!!.meet_id)
+                    areTherePhotos.value = x?.isNotEmpty()
+                } else {
+                    areTherePhotos.value = false
+                }
 
-                isInProgress.value = false
-
-            } catch(e: Exception) { e.printStackTrace() }
+            } catch(e: Exception) {
+                e.printStackTrace()
+            }
             finally {
                 isInProgress.value = false
             }
