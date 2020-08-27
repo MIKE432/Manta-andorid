@@ -1,7 +1,12 @@
 package com.apusart.manta.ui.user_module.gallery
 
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -9,7 +14,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.apusart.manta.R
+import com.apusart.manta.ui.tools.Const
 import com.apusart.manta.ui.tools.Tools
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import kotlinx.android.synthetic.main.gallery_fragment.*
 import kotlinx.android.synthetic.main.gallery_slider.*
 
@@ -43,14 +52,34 @@ class SliderFragment: Fragment(R.layout.gallery_slider) {
     private lateinit var  mSliderAdapter: SliderAdapter
     private val mGalleryViewModel: GalleryViewModel by viewModels()
 
+    private fun sharePhoto(bitmap: Bitmap?) {
+        if(bitmap != null) {
+            val bmpUri = Tools.getBitmapFromImageView(bitmap, requireContext())
+
+            if(bmpUri != null) {
+                val intent = Intent()
+                    .setAction(Intent.ACTION_SEND)
+                    .putExtra(Intent.EXTRA_STREAM, bmpUri)
+                    .setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    .setType("image/*")
+
+                startActivity(Intent.createChooser(intent, "Udostępnij zdjęcie"))
+            } else {
+                Toast.makeText(context, "Wystąpił błąd", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(context, "Wystąpił błąd", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         if(navArgs.photos?.meetId != null)
             mGalleryViewModel. getMeetByMeetId(navArgs.photos?.meetId!!)
 
-        if(navArgs.photos?.data != null) {
-            mSliderAdapter = SliderAdapter(childFragmentManager, navArgs.photos!!.data!!)
+        if(navArgs.photos?.links != null) {
+            mSliderAdapter = SliderAdapter(childFragmentManager, navArgs.photos!!.links!!, gallery_slider_title, gallery_slider_bottom_tools)
         }
 
         gallery_slider.apply {
@@ -58,7 +87,29 @@ class SliderFragment: Fragment(R.layout.gallery_slider) {
             currentItem = navArgs.photos?.position ?: 0
         }
 
+        gallery_slider_share_button.setOnClickListener {
+
+            Glide
+                .with(requireContext())
+                .asBitmap()
+                .dontAnimate()
+                .load(Const.baseUrl + (navArgs.photos?.links?.get(gallery_slider.currentItem) ?: ""))
+                .into(object: CustomTarget<Bitmap>() {
+                    override fun onLoadCleared(placeholder: Drawable?) {}
+
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        sharePhoto(resource)
+                    }
+
+                })
+
+        }
+
         gallery_slider_back_arrow.setImageDrawable(Tools.changeIconColor(R.drawable.back_arrow_icon32, R.color.white, resources))
+
         gallery_slider_back_arrow.setOnClickListener {
             findNavController().popBackStack()
         }

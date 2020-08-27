@@ -3,18 +3,27 @@ package com.apusart.manta.ui.tools
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.hardware.display.DisplayManager
-import android.util.DisplayMetrics
+import android.net.Uri
+import android.os.Environment
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.apusart.manta.R
 import com.apusart.manta.api.models.Athlete
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.abs
@@ -169,6 +178,45 @@ object Tools {
     }
 
     val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY)
+
+    fun getBitmapFromImageView(bitmap: Bitmap, context: Context): Uri? {
+
+        var bmpUri: Uri? = null
+        try {
+
+            val file = File(
+                context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                "share_image_" + System.currentTimeMillis() + ".png"
+            )
+            val out = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, out)
+            out.close()
+            bmpUri = FileProvider.getUriForFile(context, context.applicationContext.packageName + ".provider", file)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return bmpUri
+    }
+
+    fun storeToDirectory(imageView: ImageView, context: Context, fileName: String) {
+        val drawable = imageView.drawable
+        val bmp = (drawable as BitmapDrawable).bitmap
+
+        val filePath = Environment.DIRECTORY_DCIM + "/Manta/"
+        val dir = File(filePath)
+        val file = File(dir, fileName)
+        try {
+            val outputStream = FileOutputStream(file)
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            Toast.makeText(context, "Zapisano!", Toast.LENGTH_SHORT).show()
+            outputStream.flush()
+            outputStream.close()
+        } catch(e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+
+
+    }
 }
 
 object Prefs {
@@ -296,3 +344,4 @@ open class OnSwipeTouchListener(val ctx: Context): View.OnTouchListener {
 
 class LoadingScreen: Fragment(R.layout.loading_screen)
 class DevToolFragment: Fragment(R.layout.dev_tools_fragment)
+class GenericFileProvider : FileProvider()

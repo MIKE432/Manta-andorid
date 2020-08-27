@@ -3,9 +3,11 @@ package com.apusart.manta
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewTreeObserver
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -44,23 +46,6 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
     private var mMenuHeight = 0
     private val mMedalStatsViewModel: MedalStatsViewModel by viewModels()
 
-    @SuppressLint("RestrictedApi")
-    override fun onBackPressed() {
-//
-//        val navController = findNavController(R.id.logged_athlete_navigation_host)
-//
-//        val x = bottom_navigation.selectedItemId
-//        when(navController.currentDestination?.id) {
-//            R.id.profileFragment -> { bottom_navigation.selectedItemId = R.id.navigation_dashboard }
-//            R.id.meetsFragment -> { bottom_navigation.selectedItemId = R.id.navigation_dashboard }
-//            R.id.recordsFragment -> { bottom_navigation.selectedItemId = R.id.navigation_dashboard }
-//            R.id.dashboardFragment -> finish()
-//            else ->  {  }
-//        }
-
-        super.onBackPressed()
-    }
-
     private fun handleMenu() {
         if(mUserMenuStatus.also { mUserMenuStatus = !mUserMenuStatus }) {
             Animations.slideView(user_menu, mMenuHeight, 0)
@@ -87,9 +72,6 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
         super.onCreate(savedInstanceState)
 
         bottom_navigation.applyNavController(findNavController(R.id.logged_athlete_navigation_host))
-
-
-
 
         Prefs.AthletePreference(applicationContext)
         mUser = Prefs.getUser()

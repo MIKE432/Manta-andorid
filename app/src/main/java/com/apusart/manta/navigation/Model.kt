@@ -14,7 +14,7 @@ data class ResultArgument(
 
 @Parcelize
 data class GallerySliderArgument(
-    val data: @RawValue List<Photo>?,
+    val links: List<String>?,
     val position: Int,
     val meetId: Int
 ): Parcelable

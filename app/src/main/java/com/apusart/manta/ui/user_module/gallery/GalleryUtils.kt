@@ -73,7 +73,7 @@ class PhotoViewHolder(container: View): RecyclerView.ViewHolder(container) {
 
             gallery_item_photo.setOnClickListener {
                 findNavController().navigate(GalleryFragmentDirections.actionGalleryFragmentToSliderFragment(
-                    GallerySliderArgument(currentList, position, meetId)
+                    GallerySliderArgument(currentList.map { it.path }, position, meetId)
                 ))
             }
 

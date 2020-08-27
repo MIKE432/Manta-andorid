@@ -8,7 +8,7 @@ import androidx.viewpager.widget.ViewPager
 class ViewPagerExtension(context: Context, attributesSet: AttributeSet): ViewPager(context, attributesSet) {
 
     override fun onTouchEvent(ev: MotionEvent?): Boolean {
-        var x: Boolean = true
+        var x = true
         try {
             x = super.onTouchEvent(ev)
         } catch (e: Exception) {
@@ -17,6 +17,7 @@ class ViewPagerExtension(context: Context, attributesSet: AttributeSet): ViewPag
 
         return x
     }
+
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
         try {
             return super.onInterceptTouchEvent(ev)
