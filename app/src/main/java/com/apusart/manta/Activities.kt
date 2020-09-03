@@ -1,11 +1,9 @@
 package com.apusart.manta
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.ViewTreeObserver
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -25,7 +23,7 @@ class InitialActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Prefs.AthletePreference(applicationContext)
+        Prefs.athletePreference(applicationContext)
 
         if(Prefs.getUser() != null) {
            startActivity(Intent(this, UserActivity::class.java)
@@ -43,23 +41,6 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
     private var mUserMenuStatus = false
     private var mMenuHeight = 0
     private val mMedalStatsViewModel: MedalStatsViewModel by viewModels()
-
-    @SuppressLint("RestrictedApi")
-    override fun onBackPressed() {
-//
-//        val navController = findNavController(R.id.logged_athlete_navigation_host)
-//
-//        val x = bottom_navigation.selectedItemId
-//        when(navController.currentDestination?.id) {
-//            R.id.profileFragment -> { bottom_navigation.selectedItemId = R.id.navigation_dashboard }
-//            R.id.meetsFragment -> { bottom_navigation.selectedItemId = R.id.navigation_dashboard }
-//            R.id.recordsFragment -> { bottom_navigation.selectedItemId = R.id.navigation_dashboard }
-//            R.id.dashboardFragment -> finish()
-//            else ->  {  }
-//        }
-
-        super.onBackPressed()
-    }
 
     private fun handleMenu() {
         if(mUserMenuStatus.also { mUserMenuStatus = !mUserMenuStatus }) {
@@ -83,18 +64,22 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Prefs.removeLastMeetId()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         bottom_navigation.applyNavController(findNavController(R.id.logged_athlete_navigation_host))
 
-
-
-
-        Prefs.AthletePreference(applicationContext)
+        Prefs.athletePreference(applicationContext)
         mUser = Prefs.getUser()
         user_name.text = getString(R.string.user_name, mUser?.ath_lastname, mUser?.ath_firstname)
         user_licence_no.text = getString(R.string.licence_no, if(mUser?.ath_licence_no != "") mUser?.ath_licence_no else "(Brak)")
+        if(mUser?.ath_birth_year!! > 1000)
+            athlete_birth_year.text = "'${mUser?.ath_birth_year.toString().substring(2,4)}"
 
         user_menu.viewTreeObserver.addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -119,6 +104,11 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
         user_menu_change_user_button.setOnClickListener {
             Prefs.removeUser()
             startActivity(Intent(this, PickAthleteActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+        }
+        user_menu_about.setOnClickListener {
+            findNavController(R.id.logged_athlete_navigation_host)
+                .navigate(R.id.about)
+            handleMenu()
         }
 
         app_bar_out.setOnClickListener {
@@ -150,38 +140,5 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
                 }
             }
         }
-
-//        bottom_navigation.setOnNavigationItemReselectedListener {}
-//        bottom_navigation.setOnNavigationItemSelectedListener { item ->
-//
-//            if(mUserMenuStatus) {
-//                handleMenu()
-//            }
-//
-//            when(item.itemId) {
-//                R.id.navigation_dashboard -> {
-//                    navController.navigate(R.id.dashboardFragment)
-//                    return@setOnNavigationItemSelectedListener true
-//                }
-//                R.id.navigation_competition -> {
-//                    navController.navigate(R.id.meetsFragment)
-//                    return@setOnNavigationItemSelectedListener true
-//                }
-//                R.id.navigation_records -> {
-//                    navController.navigate(R.id.recordsFragment)
-//                    return@setOnNavigationItemSelectedListener true
-//                }
-//                R.id.navigation_profile -> {
-//                    navController.navigate(R.id.profileFragment)
-//                    return@setOnNavigationItemSelectedListener true
-//                }
-//
-//                else -> return@setOnNavigationItemSelectedListener true
-//            }
-//
-//        }
-
-
-
     }
 }

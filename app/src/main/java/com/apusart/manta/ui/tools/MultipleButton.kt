@@ -1,7 +1,6 @@
 package com.apusart.manta.ui.tools
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
@@ -10,14 +9,9 @@ import android.view.*
 import android.widget.ImageView
 
 import android.widget.TextView
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.isVisible
 import com.apusart.manta.R
-import kotlinx.android.synthetic.main.graph.view.*
-import kotlinx.android.synthetic.main.multiple_button_item.view.*
 import java.lang.Exception
-import kotlin.math.max
 
 class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLayout(context, attributeSet) {
     private val mChildButtons = ArrayList<ChildButton>()
@@ -25,55 +19,57 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
 
 
     private inner class ChildButton: ConstraintLayout(context) {
-        val textView = TextView(context)
-        val imageView = ImageView(context)
+        val mTextView = TextView(context)
+        val mImageView = ImageView(context)
         private var mIsIconSet = false
-
+        var mIsActive = true
+        private var mIcon = 0
         init {
             id = View.generateViewId()
-            textView.id = View.generateViewId()
-            imageView.id = View.generateViewId()
+            mTextView.id = View.generateViewId()
+            mImageView.id = View.generateViewId()
             background = ColorDrawable(resources.getColor(R.color.cool_grey))
         }
 
         private fun setupTextView() {
-            textView.gravity = Gravity.CENTER
-            textView.ellipsize = TextUtils.TruncateAt.END
-            textView.setLines(1)
-            textView.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-            (textView.layoutParams as LayoutParams).topToBottom = imageView.id
-            (textView.layoutParams as LayoutParams).startToStart = 0
-            (textView.layoutParams as LayoutParams).endToEnd = 0
-            (textView.layoutParams as LayoutParams).bottomToBottom = 0
+            mTextView.gravity = Gravity.CENTER
+            mTextView.ellipsize = TextUtils.TruncateAt.END
+            mTextView.setLines(1)
+            mTextView.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+            (mTextView.layoutParams as LayoutParams).topToBottom = mImageView.id
+            (mTextView.layoutParams as LayoutParams).startToStart = 0
+            (mTextView.layoutParams as LayoutParams).endToEnd = 0
+            (mTextView.layoutParams as LayoutParams).bottomToBottom = 0
 
-            textView.setTextAppearance(R.style.CaptionRoboto12Pt)
-            textView.setTextColor(resources.getColor(R.color.black))
+            mTextView.setTextAppearance(R.style.CaptionRoboto12Pt)
+            mTextView.setTextColor(resources.getColor(R.color.black))
         }
 
         private fun setupImageView(icon: Int?) {
-            imageView.layoutParams = LayoutParams(Tools.toDp(24), Tools.toDp(24))
-            (imageView.layoutParams as LayoutParams).topToTop = 0
-            (imageView.layoutParams as LayoutParams).startToStart = 0
-            (imageView.layoutParams as LayoutParams).endToEnd = 0
-            (imageView.layoutParams as LayoutParams).bottomToBottom = 0
+            mIcon = icon ?: 0
+            mImageView.layoutParams = LayoutParams(Tools.toDp(24), Tools.toDp(24))
+            (mImageView.layoutParams as LayoutParams).topToTop = 0
+            (mImageView.layoutParams as LayoutParams).startToStart = 0
+            (mImageView.layoutParams as LayoutParams).endToEnd = 0
+            (mImageView.layoutParams as LayoutParams).bottomToBottom = 0
 
             if(icon == null)
-                imageView.visibility = View.INVISIBLE
+                mImageView.visibility = View.INVISIBLE
             else {
-                imageView.visibility = View.VISIBLE
-                imageView.setImageDrawable(Tools.changeIconColor(icon, R.color.cool_grey, resources))
+                mImageView.visibility = View.VISIBLE
+                mImageView.setImageDrawable(Tools.changeIconColor(icon, R.color.cool_grey, resources))
             }
 
         }
 
         fun setUpChild(text: String, icon: Int? = null, onClickListener: ((View) -> Unit)? = null): ChildButton {
             mIsIconSet = icon != null
-            this.textView.text = text
+            this.mTextView.text = text
             setOnClickListener(onClickListener)
             layoutParams = LayoutParams(0, LayoutParams.WRAP_CONTENT)
             setupImageView(icon)
             setupTextView()
-            addView(imageView, imageView.layoutParams)
+            addView(mImageView, mImageView.layoutParams)
 
             return this
         }
@@ -82,6 +78,15 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
             mIsIconSet = true
             setupImageView(icon)
             setupTextView()
+        }
+
+        fun setBackGround(background: Int) {
+            if(mIcon != 0) {
+                mImageView.setImageDrawable(Tools.changeIconColor(mIcon, background, resources))
+            }
+            isClickable = false
+            mIsActive = false
+
         }
     }
 
@@ -105,7 +110,7 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
         (child.layoutParams as LayoutParams).endToStart = mChildButtons[index + 1].id
         (child.layoutParams as LayoutParams).topToTop = 0
         (child.layoutParams as LayoutParams).bottomToBottom = 0
-        child.requestLayout()
+
     }
 
     private fun setupOuterChild(child: ChildButton, background: Drawable, index: Int) {
@@ -121,7 +126,7 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
 
         (child.layoutParams as LayoutParams).topToTop = 0
         (child.layoutParams as LayoutParams).bottomToBottom = 0
-        child.requestLayout()
+
     }
 
 
@@ -141,6 +146,7 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
                 else -> setupInnerChild(child, index)
             }
         }
+        requestLayout()
     }
 
     private fun addChildren() {
@@ -150,7 +156,7 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
     }
 
     fun addButton(text: String, onClickListener: ((View) -> Unit)? = null) {
-        mChildButtons.takeIf { it.size < MAX_CHILDREN_COUNT && mChildButtons.find { child -> child.textView.text == text } == null }?.add(ChildButton().setUpChild(text, null, onClickListener))
+        mChildButtons.takeIf { it.size < MAX_CHILDREN_COUNT && mChildButtons.find { child -> child.mTextView.text == text } == null }?.add(ChildButton().setUpChild(text, null, onClickListener))
         removeAllViews()
         setBackgrounds()
         addChildren()
@@ -158,7 +164,7 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
     }
 
     fun removeButton(text: String) {
-        mChildButtons.removeIf { it.textView.text == text }
+        mChildButtons.removeIf { it.mTextView.text == text }
     }
 
     fun removeButton(position: Int) {
@@ -170,7 +176,10 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
     }
 
     fun setButtonOnClickListener(index: Int, onClickListener: ((View) -> Unit)?) {
-        mChildButtons.takeIf { index < it.size }?.get(index)?.setOnClickListener(onClickListener) ?: throw Exception("index > it.size")
+        val child = mChildButtons.takeIf { index < it.size }?.get(index)
+        if(child?.hasOnClickListeners() != null) {
+            child.setOnClickListener(onClickListener) ?: throw Exception("index > it.size")
+        }
     }
 
 
@@ -179,8 +188,12 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
     }
 
 
-
     fun setText(index: Int, text: String) {
-        mChildButtons.takeIf { index < it.size }?.get(index)?.textView?.text = text
+        mChildButtons.takeIf { index < it.size }?.get(index)?.mTextView?.text = text
+    }
+
+    fun setToInactive(index: Int, background: Int) {
+        mChildButtons.takeIf { index < it.size }?.get(index)?.setBackGround(background)
+        setBackgrounds()
     }
 }

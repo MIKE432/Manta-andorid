@@ -20,7 +20,7 @@ class MostValuableResultsResponse(
     val mostValuableResults: List<MostValuableResult>
 )
 class MedalStatsResponse(
-    val meetGrade: MedalStat
+    val meetGrade: List<MedalStat>
 )
 
 class ResultsResponse(
@@ -33,4 +33,9 @@ class RecordsResponse(
 
 class MeetDetailsResponse(
     val meet: Meet
+)
+
+class MeetPhotosResponse(
+    val meet: Meet,
+    val photos: List<Photo>
 )

@@ -3,6 +3,7 @@ package com.apusart.manta.api.serivces
 import com.apusart.manta.ui.tools.Const
 import com.apusart.manta.api.calls.MantaEndpoints
 import com.apusart.manta.api.models.Meet
+import com.apusart.manta.api.models.Photo
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -43,5 +44,13 @@ class MeetService {
         return result.meet
     }
 
+    suspend fun getPhotosByMeetId(id: Int): List<Photo>? {
+        val result = endpoints.getPhotosByMeetId(id)
+        return result.photos
+    }
 
+    suspend fun getMeetById(id: Int): Meet {
+        val result = endpoints.getMeetById(id)
+        return result.meet
+    }
 }

@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/cool_grey">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/meets_view_pager"
@@ -29,5 +30,18 @@
         app:text="Brak \nodbytych\n zawodów"
         app:image="@drawable/empty_meets_list"
         android:visibility="gone"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/meets_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

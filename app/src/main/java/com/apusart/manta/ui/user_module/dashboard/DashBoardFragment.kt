@@ -16,18 +16,18 @@ import com.apusart.manta.api.models.Athlete
 import com.apusart.manta.navigation.ResultArgument
 import com.apusart.manta.ui.tools.Const
 import com.apusart.manta.ui.tools.Tools
+import com.apusart.manta.ui.user_module.meets.MeetsPagerDirections
 import kotlinx.android.synthetic.main.medals_statistics_item.view.*
 import kotlinx.android.synthetic.main.dashboard_fragment.*
-import kotlinx.android.synthetic.main.last_results_for_dashboard.view.*
 import kotlinx.android.synthetic.main.achievements_for_dashboard.view.*
 import kotlinx.android.synthetic.main.last_meet_for_dashboard.view.*
-import kotlinx.android.synthetic.main.last_meet_fragment.*
-import kotlinx.android.synthetic.main.meet_information_for_dashboard.view.*
+import kotlinx.android.synthetic.main.incoming_meet_for_dashboard.view.*
+import kotlinx.android.synthetic.main.meet_fragment.*
 
 class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
     private var mUser: Athlete? = Prefs.getUser()
-
-    private val dashBoardViewModel: DashboardViewModel by viewModels()
+    private val mDashBoardViewModel: DashboardViewModel by viewModels()
+    private var mMeet_id: Int = -1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +35,7 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
 //        -----------------Meets--------------------
 
         val meetsInfo = LayoutInflater.from(this.context)
-            .inflate(R.layout.meet_information_for_dashboard, dashboard_information, false)
+            .inflate(R.layout.incoming_meet_for_dashboard, dashboard_information, false)
 
         val achievements = LayoutInflater.from(this.context)
             .inflate(R.layout.achievements_for_dashboard, dashboard_information, false)
@@ -61,7 +61,7 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
         lastMeet.last_meet_for_dashboard_multiple_button.setButtonIcon(1, R.drawable.articles_icon)
 //        dashboard_information.addView(mvrs)
 
-        dashBoardViewModel.incomingMeets.observe(viewLifecycleOwner, Observer {
+        mDashBoardViewModel.incomingMeets.observe(viewLifecycleOwner, Observer {
 
             if(it.isNotEmpty()) {
 //                meetsInfo.meet_information_for_dashboard_incoming_meet_name.text = it[0].mt_name
@@ -72,44 +72,68 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
         })
 
 
+        mDashBoardViewModel.areTherePhotos.observe(viewLifecycleOwner, Observer { areThereAnyPhotos ->
+            if(areThereAnyPhotos) {
+                lastMeet.last_meet_for_dashboard_multiple_button.setButtonOnClickListener(3) {
+                    if(mMeet_id != -1) {
+                        Prefs.setPreviousMeetPhoto(0)
+                        findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToGalleryFragment(mMeet_id))
+                    }
 
-        dashBoardViewModel.lastMeet.observe(viewLifecycleOwner, Observer {
+                }
+            } else {
+                lastMeet.last_meet_for_dashboard_multiple_button.setToInactive(3, R.color.pale_grey_three)
+            }
+        })
+
+
+        mDashBoardViewModel.lastMeet.observe(viewLifecycleOwner, Observer {
             if(it != null) {
+                mMeet_id = it.meet_id
                 lastMeet.isVisible = true
                 lastMeet.last_meet_for_dashboard_meet_name.text = it.mt_name
                 lastMeet.last_meet_for_dashboard_meet_city.text = it.mt_city
                 lastMeet.last_meet_for_dashboard_course.text = Const.courseSize.getString(it.mt_course_abbr)
                 lastMeet.last_meet_for_dashboard_date.text = resources.getString(R.string.meeting_date, it.mt_from, it.mt_to)
+                lastMeet.last_meet_for_dashboard_multiple_button.addButton("Wyniki")
+                lastMeet.last_meet_for_dashboard_multiple_button.setButtonIcon(2, R.drawable.stopwatch_icon)
+                lastMeet.last_meet_for_dashboard_multiple_button.addButton("Galeria")
+                lastMeet.last_meet_for_dashboard_multiple_button.setButtonIcon(3, R.drawable.gallery_icon64)
 
                 if(it.mt_main_page != "") {
 
-                    lastMeet.last_meet_for_dashboard_multiple_button.setButtonOnClickListener(0) { v ->
+                    lastMeet.last_meet_for_dashboard_multiple_button.setButtonOnClickListener(0) { _ ->
 
                         val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it.mt_main_page))
                         startActivity(intent)
                     }
+                } else {
+                    lastMeet.last_meet_for_dashboard_multiple_button.setToInactive(0, R.color.pale_grey_three)
                 }
 
                 if(it.mt_start_list_page != "") {
 
-                    lastMeet.last_meet_for_dashboard_multiple_button.setButtonOnClickListener(1) { v ->
+                    lastMeet.last_meet_for_dashboard_multiple_button.setButtonOnClickListener(1) { _ ->
                         val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it.mt_start_list_page))
                         startActivity(intent)
                     }
+                } else {
+                    lastMeet.last_meet_for_dashboard_multiple_button.setToInactive(1, R.color.pale_grey_three)
                 }
 
                 if(it.mt_results_page != "") {
-                    lastMeet.last_meet_for_dashboard_multiple_button.addButton("Wyniki")
-                    lastMeet.last_meet_for_dashboard_multiple_button.setButtonIcon(2, R.drawable.stopwatch_icon)
-                    lastMeet.last_meet_for_dashboard_multiple_button.setButtonOnClickListener(2) { v ->
+
+                    lastMeet.last_meet_for_dashboard_multiple_button.setButtonOnClickListener(2) { _ ->
                         val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(it.mt_results_page))
                         startActivity(intent)
                     }
+                } else {
+                    lastMeet.last_meet_for_dashboard_multiple_button.setToInactive(2, R.color.pale_grey_three)
                 }
 
-
-                lastMeet.setOnClickListener {x ->
-                    findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToMeetsFragment(it.meet_id))
+                lastMeet.last_meet_for_dashboard_header_main_container.setOnClickListener { _ ->
+                    Prefs.setPreviousMeetId(it.meet_id)
+                    findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToMeetsFragment())
                 }
 
             } else {
@@ -120,7 +144,7 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
 //        -----------------Medal statsistics--------------------
 
 
-        dashBoardViewModel.mGeneralMedalStats.observe(viewLifecycleOwner, Observer {
+        mDashBoardViewModel.mGeneralMedalStats.observe(viewLifecycleOwner, Observer {
             achievements.medal_stats_item_gold_medal_count.text = "${it.gold}"
             achievements.medal_stats_item_silver_medal_count.text = "${it.silver}"
             achievements.medal_stats_item_bronze_medal_count.text = "${it.bronze}"
@@ -145,13 +169,12 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
         })
 
         achievements.medals_statistics_for_dashboard_container.setOnClickListener {
-            findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToRecordsFragment(1))
+            findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToRecordsFragment(0))
         }
 
 //        -----------------MVR statsistics--------------------
 
-
-        dashBoardViewModel.isInProgress.observe(viewLifecycleOwner, Observer {
+        mDashBoardViewModel.isInProgress.observe(viewLifecycleOwner, Observer {
 //            val best50 = mostValuableResultsViewModel.mostValuableResults.value?.firstOrNull { mvr -> mvr.res_course_abbr == "LCM" }
 //            val best25 = mostValuableResultsViewModel.mostValuableResults.value?.firstOrNull { mvr -> mvr.res_course_abbr == "SCM" }
 //            mvrs.mvr_for_dashboard_container.isVisible = (!it)
@@ -161,7 +184,7 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
             profile_fragment_athlete_medals_statistics_scroll_view.isVisible = !it
         })
 
-        dashBoardViewModel.mostValuableResults.observe(viewLifecycleOwner, Observer {
+        mDashBoardViewModel.mostValuableResults.observe(viewLifecycleOwner, Observer {
             val best50 = it.firstOrNull { mvr -> mvr.res_course_abbr == "LCM" }
             val best25 = it.firstOrNull { mvr -> mvr.res_course_abbr == "SCM" }
 //
@@ -221,7 +244,7 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
 //            resultsViewModel.getResultsByAthleteId(mUser!!.athlete_id)
 //            mostValuableResultsViewModel.getMostValuableResultsByAthleteId(mUser!!.athlete_id)
 //            medalStatsViewModel.getGeneralMedalStatsByAthleteId(mUser!!.athlete_id)
-            dashBoardViewModel.getInfoForDashboardByAthleteId(mUser!!.athlete_id)
+            mDashBoardViewModel.getInfoForDashboardByAthleteId(mUser!!.athlete_id)
             dashboard_refresher.isRefreshing = false
         }
 
@@ -231,6 +254,6 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
 //        mostValuableResultsViewModel.getMostValuableResultsByAthleteId(mUser!!.athlete_id)
 //        medalStatsViewModel.getGeneralMedalStatsByAthleteId(mUser!!.athlete_id)
 //
-        dashBoardViewModel.getInfoForDashboardByAthleteId(mUser!!.athlete_id)
+        mDashBoardViewModel.getInfoForDashboardByAthleteId(mUser!!.athlete_id)
     }
 }

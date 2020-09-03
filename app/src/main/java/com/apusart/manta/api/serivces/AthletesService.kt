@@ -37,19 +37,20 @@ class AthletesService {
         return result.mostValuableResults ?: listOf()
     }
 
-    suspend fun getPersonalBestsByAthleteId(id: Int, limit: Int? = Const.defaultLimit, ss_abbr: String? = null, distance: Int? = null, course: String? = null): List<PersonalBest> {
+    suspend fun getPersonalBestsByAthleteId(id: Int, limit: Int? = null, ss_abbr: String? = null, distance: Int? = null, course: String? = null): List<PersonalBest> {
         val result = endpoints.getPersonalBestsByAthleteId(id, limit, ss_abbr, distance, course)
         return result.personalBestResults ?: listOf()
     }
 
-    suspend fun getMedalStatsByAthleteId(id: Int, grade: String? = null): MedalStat? {
+    suspend fun getMedalStatsByAthleteId(id: Int, grade: String? = null): List<MedalStat> {
         val result = endpoints.getMedalStatsByAthleteId(id, grade)
-        return result.meetGrade
+        return result.meetGrade ?: listOf()
     }
 
     suspend fun getResultsByAthleteId(id: Int, limit: Int? = null, ss_abbr: String? = null, distance: Int? = null, course: String? = null): List<Result> {
         val result = endpoints.getResultsByAthleteId(id, limit, ss_abbr, distance, course)
         return result.results
     }
+
 
 }

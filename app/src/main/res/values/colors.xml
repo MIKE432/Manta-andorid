@@ -3,7 +3,8 @@
     <color name="colorPrimary">#002AA5</color>
     <color name="colorPrimaryDark">#002AA5</color>
     <color name="colorAccent">#002AA5</color>
-    <color name="grayTransparent">#6A595959</color>
+    <color name="grayTransparent">#46000000</color>
+    <color name="totalTransparent">#00000000</color>
     <color name="headerColor">#33b5e5</color>
     <color name="borderColor">#8198c7</color>
     <color name="white">#FFFFFF</color>

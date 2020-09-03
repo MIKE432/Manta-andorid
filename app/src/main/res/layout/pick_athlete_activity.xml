@@ -21,6 +21,8 @@
         <ImageView
             android:id="@+id/pick_athlete_activity_logo"
             style="@style/logo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -28,29 +30,25 @@
             android:layout_margin="10dp"
             />
 
-        <TextView
-            android:id="@+id/pick_athlete_choose_athlete_text"
-            style="@style/h1.bold"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/pick_athlete_athletes_edit_text"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/pick_athlete"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/pick_athlete_activity_logo"
-            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="10dp"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            android:hint="@string/pick_athlete"
+            style="@style/TitleRoboto20Pt"
+            android:drawableStart="@drawable/search_icon_drawable"
+            android:drawableTint="@color/cool_grey"
+            android:background="@null"
+            android:textColorHint="@color/cool_grey"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <EditText
-        android:id="@+id/pick_athlete_athletes_edit_text"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/pick_athlete_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/pick_athlete_athletes_list_container"
         android:layout_width="match_parent"
@@ -58,7 +56,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pick_athlete_athletes_edit_text">
+        app:layout_constraintTop_toBottomOf="@id/pick_athlete_title">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/pick_athlete_athletes_list"
@@ -70,9 +68,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/cool_grey"/>
+            android:background="@color/black"/>
 
-        <LinearLayout
+        <com.reddit.indicatorfastscroll.FastScrollerView
             android:id="@+id/pick_athlete_scroll_bar"
             android:layout_width="25dp"
             android:layout_height="0dp"
@@ -86,7 +84,17 @@
             android:background="@drawable/thumb"
             android:orientation="vertical">
 
-        </LinearLayout>
+
+        </com.reddit.indicatorfastscroll.FastScrollerView>
+        <com.reddit.indicatorfastscroll.FastScrollerThumbView
+            android:id="@+id/pick_athlete_fastscroller_thumb"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="@id/pick_athlete_scroll_bar"
+            app:layout_constraintTop_toTopOf="@+id/pick_athlete_scroll_bar"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/pick_athlete_scroll_bar"
+            />
         <ProgressBar
             android:id="@+id/pick_athlete_progressbar"
             style="?android:attr/progressBarStyle"
@@ -95,7 +103,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

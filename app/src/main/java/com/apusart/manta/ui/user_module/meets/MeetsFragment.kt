@@ -1,9 +1,11 @@
 package com.apusart.manta.ui.user_module.meets
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.*
 import androidx.lifecycle.Observer
@@ -11,6 +13,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.apusart.manta.ui.tools.Prefs
 import com.apusart.manta.R
 import com.apusart.manta.api.models.Meet
@@ -34,7 +37,6 @@ class MeetsPager: Fragment(R.layout.meets_view_pager) {
           return MeetFragment(meetsViewModel.lastMeets.value?.get(position)?.meet_id ?: -1)
         }
 
-
         override fun getCount(): Int {
             return COUNT
         }
@@ -48,10 +50,10 @@ class MeetsPager: Fragment(R.layout.meets_view_pager) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val prevMeetId = Prefs.getPreviousMeetId()
         meetsViewModel.lastMeets.observe(viewLifecycleOwner, Observer {
             meets_view_pager.isVisible = it.isNotEmpty()
-
+            meets_spinner.isVisible = false
 
             if(it.isEmpty()) {
                 no_meets_to_display.isVisible = true
@@ -61,14 +63,36 @@ class MeetsPager: Fragment(R.layout.meets_view_pager) {
                 meets_view_pager.isVisible = true
                 meetsFragmentAdapter = MeetsFragmentAdapter(childFragmentManager)
 
+                meets_view_pager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener {
+                    override fun onPageScrollStateChanged(state: Int) {
+
+                    }
+
+                    override fun onPageScrolled(
+                        position: Int,
+                        positionOffset: Float,
+                        positionOffsetPixels: Int
+                    ) {
+                        if(position < it.size) {
+                            Prefs.setPreviousMeetId(it[position].meet_id)
+                        }
+                    }
+
+                    override fun onPageSelected(position: Int) {
+//
+                    }
+
+                })
                 meets_view_pager.apply {
                     adapter = meetsFragmentAdapter
-                    currentItem = (it as ArrayList).indexOf(it.firstOrNull { meet -> meet.meet_id == navArgs.openOnPage})
+                    if(prevMeetId != 0) {
+                        currentItem = (it as ArrayList).indexOf(it.firstOrNull { meet -> meet.meet_id == prevMeetId })
+                    }
+                    setPageMarginDrawable(ColorDrawable(resources.getColor(R.color.black)))
+                    pageMargin = 5
                 }
             }
         })
-
-
 
         meetsViewModel.getLastMeetsByAthleteId(Prefs.getUser()!!.athlete_id)
 
@@ -207,8 +231,8 @@ sealed class MeetViewHolder(containerView: View): RecyclerView.ViewHolder(contai
             itemView.apply {
                 meet_item_meet_title.text = meet.mt_name
                 meet_item_meet_city.text = meet.mt_city
-                last_meet_for_dashboard_course.text = Const.courseSize.getString(meet.mt_course_abbr)
-                last_meet_for_dashboard_date.text = resources.getString(R.string.meeting_date, meet.mt_from, meet.mt_to)
+                meet_item_course.text = Const.courseSize.getString(meet.mt_course_abbr)
+                meet_item_date.text = resources.getString(R.string.meeting_date, meet.mt_from, meet.mt_to)
             }
         }
     }

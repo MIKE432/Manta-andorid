@@ -6,17 +6,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apusart.manta.ui.tools.Const
 import com.apusart.manta.api.models.PersonalBest
+import com.apusart.manta.api.models.Result
 import com.apusart.manta.api.serivces.AthletesService
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class PersonalBestByCompetition(val pb25: PersonalBest? = null, val pb50: PersonalBest? = null)
+class PersonalBestByCompetition(val pb25: PersonalBest? = null, val pb50: PersonalBest? = null, val concurence: String? = null)
 
 class PersonalBestsViewModel: ViewModel() {
     private val athletesService = AthletesService()
     val pb25 = MutableLiveData<List<PersonalBest>>()
     val pb50 = MutableLiveData<List<PersonalBest>>()
+    val pb1 = MutableLiveData<List<PersonalBestByCompetition>>()
     val pb = MutableLiveData<List<PersonalBest>>()
+    val isThereAnyPersonalBest = MutableLiveData<Boolean>()
 
     fun getPersonalBestsByAthleteId(id: Int, limit: Int? = Const.defaultLimit) {
         viewModelScope.launch {
@@ -26,18 +29,19 @@ class PersonalBestsViewModel: ViewModel() {
                 val personal_best_50 = result.filter { pb -> pb.res_course_abbr == "LCM" }
                 val res = ArrayList<PersonalBestByCompetition>()
                 for(i in personal_best_25) {
-                    res.add(PersonalBestByCompetition(i, personal_best_50.firstOrNull { (i.sst_name_pl == it.sst_name_pl) and (i.sev_distance == it.sev_distance) }))
+                    res.add(PersonalBestByCompetition(i, personal_best_50.firstOrNull { (i.sst_name_pl == it.sst_name_pl) and (i.sev_distance == it.sev_distance) }, "${i.sev_distance}m ${i.sst_name_pl}"))
                 }
 
                 for(i in personal_best_50) {
                     val hasPair = personal_best_25.firstOrNull { (i.sst_name_pl == it.sst_name_pl) and (i.sev_distance == it.sev_distance) } != null
-
-                    res.add(PersonalBestByCompetition(null, if(hasPair) null else i))
+                    if((!hasPair))
+                        res.add(PersonalBestByCompetition(null, i, "${i.sev_distance}m ${i.sst_name_pl}"))
                 }
 
-                pb.value = result
+                pb1.value = res
                 pb25.value = result.filter { pb -> pb.res_course_abbr == "SCM" }
                 pb50.value = result.filter { pb -> pb.res_course_abbr == "LCM" }
+                isThereAnyPersonalBest.value = pb25.value?.isNotEmpty() ?: false || pb50.value?.isNotEmpty() ?: false
             } catch(e: Exception) {}
         }
     }

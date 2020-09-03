@@ -5,9 +5,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/list_item">
+    style="@style/dashboard.item.no__horizontal_padding">
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:paddingHorizontal="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
@@ -15,58 +14,87 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="50m dowolny"
+            android:paddingHorizontal="5dp"
             style="@style/Body2MenuRoboto14Pt"
-            app:layout_constraintTop_toTopOf="parent"/>
-        <LinearLayout
-            android:id="@+id/personal_best_item_25_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/personal_best_item_header"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/personal_best_item_course_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/CaptionRoboto12Pt"
-                android:text="25m"/>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/personal_best_item_25_total_time"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/personal_best_item_25_date"
-                    tools:text="26.05"
-                    android:gravity="start"
-                    style="@style/Roboto14Pt" />
-                <TextView
-                    android:id="@+id/personal_best_item_25_date"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/personal_best_item_25_total_time"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/personal_best_item_25_points"
-                    tools:text="27-05-2020"
-                    android:layout_marginEnd="5dp"
-                    android:gravity="end"
-                    style="@style/Roboto14Pt" />
-                <TextView
-                    android:id="@+id/personal_best_item_25_points"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/personal_best_item_25_date"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="701"
-                    style="@style/Roboto14Pt" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            android:textAllCaps="true"
+            android:background="@drawable/bottom_border"/>
+       <androidx.constraintlayout.widget.ConstraintLayout
+           app:layout_constraintTop_toBottomOf="@id/personal_best_item_header"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <androidx.constraintlayout.widget.ConstraintLayout
+               app:layout_constraintTop_toTopOf="parent"
+               android:id="@+id/personal_best_item_container"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+               <LinearLayout
+                   android:id="@+id/personal_best_item_25_container"
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintEnd_toStartOf="@id/personal_best_item_50_container"
+                   android:layout_margin="5dp"
+                   android:orientation="vertical"
+                   android:background="@drawable/rounded_corners_ripple">
+                   <TextView
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:gravity="center"
+                       style="@style/CaptionRoboto12Pt"
+                       android:text="25m"/>
+                   <TextView
+                       android:id="@+id/personal_best_item_25_total_time"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:gravity="center"
+                       style="@style/Body1Roboto14Pt"
+                       tools:text="2:21.67"/>
+                   <TextView
+                       android:id="@+id/personal_best_item_25_points"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:gravity="center"
+                       style="@style/CaptionRoboto12Pt"
+                       tools:text="705"/>
+               </LinearLayout>
+               <LinearLayout
+                   android:id="@+id/personal_best_item_50_container"
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintStart_toEndOf="@id/personal_best_item_25_container"
+                   android:layout_margin="5dp"
+                   android:orientation="vertical"
+                   android:background="@drawable/rounded_corners_ripple"
+                   >
+                   <TextView
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:gravity="center"
+                       style="@style/CaptionRoboto12Pt"
+                       android:text="50m"/>
+                   <TextView
+                       android:id="@+id/personal_best_item_50_total_time"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:gravity="center"
+                       style="@style/Body1Roboto14Pt"
+                       tools:text="2:21.67"/>
+                   <TextView
+                       android:id="@+id/personal_best_item_50_points"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:gravity="center"
+                       style="@style/CaptionRoboto12Pt"
+                       tools:text="705"/>
+               </LinearLayout>
+           </androidx.constraintlayout.widget.ConstraintLayout>
+       </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

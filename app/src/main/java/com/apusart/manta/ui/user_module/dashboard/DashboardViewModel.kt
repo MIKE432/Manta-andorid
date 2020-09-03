@@ -22,21 +22,23 @@ class DashboardViewModel: ViewModel() {
     val results = MutableLiveData<List<Result>>()
     val incomingMeets = MutableLiveData<List<Meet>>()
     val lastMeet = MutableLiveData<Meet>()
-
+    val areTherePhotos = MutableLiveData<Boolean>()
 
     fun getInfoForDashboardByAthleteId(id: Int, limit: Int? = 10, ss_abbr: String? = null, distance: Int? = null, course: String? = null, dsq: String? = "") {
         viewModelScope.launch {
 
+
             try {
                 isInProgress.value = true
-                val medalStats = mAthletesService.getMedalStatsByAthleteId(id, null)
-                if(medalStats != null) {
-                    val gold = medalStats.stats?.firstOrNull { stat -> stat.res_place == 1 }?.res_count ?: 0
-                    val silver = medalStats.stats?.firstOrNull { stat -> stat.res_place == 2 }?.res_count ?: 0
-                    val bronze = medalStats.stats?.firstOrNull { stat -> stat.res_place == 3 }?.res_count ?: 0
+                val result = mAthletesService.getMedalStatsByAthleteId(id)
 
-                    mGeneralMedalStats.value = GeneralMedalStats(gold, silver, bronze)
-                }
+                val allMedals = result.filter { it.mg_abbr == "ALL" }.takeIf { it.isNotEmpty() }
+                    ?.get(0)
+                val gold = allMedals?.stats?.firstOrNull { stat -> stat.res_place == 1 }?.res_count ?: 0
+                val silver = allMedals?.stats?.firstOrNull { stat -> stat.res_place == 2 }?.res_count ?: 0
+                val bronze = allMedals?.stats?.firstOrNull { stat -> stat.res_place == 3 }?.res_count ?: 0
+
+                mGeneralMedalStats.value = GeneralMedalStats(gold, silver, bronze)
 
                 mostValuableResults.value = mAthletesService.getMostValuableResultsByAthleteId(id)
 
@@ -45,10 +47,16 @@ class DashboardViewModel: ViewModel() {
                 incomingMeets.value = mMeetService.getIncomingMeetsByAthleteId(id, limit)
                 lastMeet.value = mMeetService.getMeetsByAthleteId(id, Const.defaultLimit).takeIf { it.isNotEmpty() }?.get(0)
 
-                if(medalStats != null || mostValuableResults.value?.isNotEmpty() != false)
-                isInProgress.value = false
+                if(lastMeet.value?.meet_id != null) {
+                    val x = mMeetService.getPhotosByMeetId(lastMeet.value!!.meet_id)
+                    areTherePhotos.value = x?.isNotEmpty()
+                } else {
+                    areTherePhotos.value = false
+                }
 
-            } catch(e: Exception) { e.printStackTrace() }
+            } catch(e: Exception) {
+                e.printStackTrace()
+            }
             finally {
                 isInProgress.value = false
             }

@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_resultDetails"
             app:destination="@id/resultDetails" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
     </fragment>
     <fragment
         android:id="@+id/recordsFragment"
@@ -44,6 +47,9 @@
             android:name="openOnPage"
             app:argType="integer"
             android:defaultValue="0"/>
+        <action
+            android:id="@+id/action_meetsFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -76,4 +82,35 @@
             android:id="@+id/action_personalBestFragment_to_resultDetails"
             app:destination="@id/resultDetails" />
     </fragment>
+    <fragment
+        android:id="@+id/devToolFragment"
+        android:name="com.apusart.manta.ui.tools.DevToolFragment"
+        android:label="DevToolFragment" />
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.apusart.manta.ui.user_module.gallery.GalleryFragment"
+        android:label="GalleryFragment" >
+        <argument
+            android:name="meet_id"
+            app:argType="integer"
+            android:defaultValue="-1"/>
+        <action
+            android:id="@+id/action_galleryFragment_to_sliderFragment"
+            app:destination="@id/sliderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sliderFragment"
+        android:name="com.apusart.manta.ui.user_module.gallery.SliderFragment"
+        android:label="SliderFragment" >
+        <argument
+            android:name="photos"
+            app:argType="com.apusart.manta.navigation.GallerySliderArgument"
+            app:nullable="true"
+            android:defaultValue="@null"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/about"
+        android:name="com.apusart.manta.ui.user_module.About"
+        android:label="About" />
 </navigation>

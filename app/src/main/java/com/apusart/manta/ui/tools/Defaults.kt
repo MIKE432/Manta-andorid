@@ -3,18 +3,28 @@ package com.apusart.manta.ui.tools
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.hardware.display.DisplayManager
+import android.net.Uri
+import android.os.Environment
 import android.util.DisplayMetrics
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.apusart.manta.R
 import com.apusart.manta.api.models.Athlete
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.abs
@@ -27,6 +37,10 @@ object Const {
     val glideAthleteIconOptions = RequestOptions()
         .placeholder(R.drawable.athlete_icon)
         .error(R.drawable.athlete_icon)
+
+    val glideMeetPhotoOptions = RequestOptions()
+        .placeholder(R.drawable.gradient_list)
+
     val gradesAbbr = bundleOf(
         "0" to "IO",
         "1" to "PS",
@@ -165,17 +179,69 @@ object Tools {
     }
 
     val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY)
+
+    fun getBitmapFromImageView(bitmap: Bitmap, context: Context): Uri? {
+
+        var bmpUri: Uri? = null
+        try {
+
+            val file = File(
+                context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                "share_image_" + System.currentTimeMillis() + ".png"
+            )
+            val out = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, out)
+            out.close()
+            bmpUri = FileProvider.getUriForFile(context, context.applicationContext.packageName + ".provider", file)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return bmpUri
+    }
+
+    fun storeToDirectory(imageView: ImageView, context: Context, fileName: String) {
+        val drawable = imageView.drawable
+        val bmp = (drawable as BitmapDrawable).bitmap
+
+        val filePath = Environment.DIRECTORY_DCIM + "/Manta/"
+        val dir = File(filePath)
+        val file = File(dir, fileName)
+        try {
+            val outputStream = FileOutputStream(file)
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            Toast.makeText(context, "Zapisano!", Toast.LENGTH_SHORT).show()
+            outputStream.flush()
+            outputStream.close()
+        } catch(e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+    }
+
+    fun calculateNoOfColumns(
+        context: Context,
+        columnWidthDp: Float
+    ): Int { // For example columnWidthdp=180
+        val displayMetrics: DisplayMetrics = context.resources.displayMetrics
+        val screenWidthDp: Float = displayMetrics.widthPixels / displayMetrics.density
+        return (screenWidthDp / columnWidthDp + 0.5).toInt()
+    }
 }
 
 object Prefs {
     private const val PREFS_NAME = "com.example.manta.AthletePrefs"
-    private const val ATHLETE = "Athlete"
+    private const val ATHLETE = "actual_athlete"
+    private const val PREV_ATHLETE = "prev_athlete"
+    private const val PREV_MEET_TAB = "prev_meet_tab"
+    private const val PREV_MEET_PHOTO = "prev_meet_photo"
     private var settings: SharedPreferences? = null
     private var editor: SharedPreferences.Editor? = null
     private val gson = Gson()
-    private var actualAthlete: Athlete? = null
+    private var mActualAthlete: Athlete? = null
+    private var mPreviousAthlete: Athlete? = null
+    private var mPreviousMeetId = 0
+    private var mPreviousMeetPhoto = 0
 
-    fun AthletePreference(context: Context?) {
+    fun athletePreference(context: Context?) {
 
         if(context != null) {
             settings = context.getSharedPreferences(
@@ -186,22 +252,74 @@ object Prefs {
     }
 
     fun removeUser() {
+        mPreviousAthlete = gson.fromJson((settings?.getString(ATHLETE, "") ?: ""), Athlete::class.java)
+
+        val stringifiedPrevAthlete = gson.toJson(mPreviousAthlete)
+        editor?.putString(PREV_ATHLETE, stringifiedPrevAthlete)
+        editor?.commit()
+
         editor?.remove(ATHLETE)
         editor?.commit()
-        actualAthlete = null
+        mActualAthlete = null
     }
+
     fun storeUser(athlete: Athlete) {
+        mPreviousAthlete = gson.fromJson((settings?.getString(ATHLETE, "") ?: ""), Athlete::class.java)
+
+        val stringifiedPrevAthlete = gson.toJson(mPreviousAthlete)
+        editor?.putString(PREV_ATHLETE, stringifiedPrevAthlete)
+        editor?.commit()
+
         val stringifiedAthlete = gson.toJson(athlete)
         editor?.putString(ATHLETE, stringifiedAthlete)
         editor?.commit()
-        actualAthlete = athlete
+        mActualAthlete = athlete
     }
 
     fun getUser(): Athlete? {
-        if(actualAthlete != null)
-            return actualAthlete
+        if(mActualAthlete != null)
+            return mActualAthlete
         return gson.fromJson((settings?.getString(
             ATHLETE,"") ?: ""), Athlete::class.java)
+    }
+
+    fun getPreviousAthlete(): Athlete? {
+        if(mPreviousAthlete != null)
+            return mPreviousAthlete
+        return gson.fromJson((settings?.getString(
+            PREV_ATHLETE,"") ?: ""), Athlete::class.java)
+    }
+
+    fun setPreviousMeetId(id: Int) {
+        mPreviousMeetId = id
+        editor?.putInt(PREV_MEET_TAB, mPreviousMeetId)
+        editor?.commit()
+    }
+
+    fun getPreviousMeetId(): Int {
+
+        mPreviousMeetId = settings?.getInt(
+            PREV_MEET_TAB,0) ?: 0
+        return mPreviousMeetId
+    }
+
+    fun removeLastMeetId() {
+        mPreviousMeetId = 0
+        editor?.putInt(PREV_MEET_TAB, mPreviousMeetId)
+        editor?.commit()
+    }
+
+    fun setPreviousMeetPhoto(photoNo: Int) {
+        mPreviousMeetPhoto = photoNo
+        editor?.putInt(PREV_MEET_PHOTO, mPreviousMeetPhoto)
+        editor?.commit()
+    }
+
+
+    fun getPreviousMeetPhoto(): Int {
+        mPreviousMeetPhoto = settings?.getInt(
+            PREV_MEET_PHOTO,0) ?: 0
+        return mPreviousMeetPhoto
     }
 }
 
@@ -270,3 +388,5 @@ open class OnSwipeTouchListener(val ctx: Context): View.OnTouchListener {
 }
 
 class LoadingScreen: Fragment(R.layout.loading_screen)
+class DevToolFragment: Fragment(R.layout.dev_tools_fragment)
+class GenericFileProvider : FileProvider()
