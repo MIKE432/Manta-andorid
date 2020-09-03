@@ -1,11 +1,7 @@
 package com.apusart.manta
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.Environment
-import android.view.Menu
-import android.view.MenuItem
 import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -27,7 +23,7 @@ class InitialActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Prefs.AthletePreference(applicationContext)
+        Prefs.athletePreference(applicationContext)
 
         if(Prefs.getUser() != null) {
            startActivity(Intent(this, UserActivity::class.java)
@@ -68,15 +64,22 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Prefs.removeLastMeetId()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         bottom_navigation.applyNavController(findNavController(R.id.logged_athlete_navigation_host))
 
-        Prefs.AthletePreference(applicationContext)
+        Prefs.athletePreference(applicationContext)
         mUser = Prefs.getUser()
         user_name.text = getString(R.string.user_name, mUser?.ath_lastname, mUser?.ath_firstname)
         user_licence_no.text = getString(R.string.licence_no, if(mUser?.ath_licence_no != "") mUser?.ath_licence_no else "(Brak)")
+        if(mUser?.ath_birth_year!! > 1000)
+            athlete_birth_year.text = "'${mUser?.ath_birth_year.toString().substring(2,4)}"
 
         user_menu.viewTreeObserver.addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -102,9 +105,9 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
             Prefs.removeUser()
             startActivity(Intent(this, PickAthleteActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
         }
-        user_menu_dev_tools.setOnClickListener {
+        user_menu_about.setOnClickListener {
             findNavController(R.id.logged_athlete_navigation_host)
-                .navigate(R.id.devToolFragment)
+                .navigate(R.id.about)
             handleMenu()
         }
 

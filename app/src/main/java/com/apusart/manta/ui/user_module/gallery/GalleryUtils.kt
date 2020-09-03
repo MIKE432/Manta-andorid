@@ -14,6 +14,8 @@ import com.apusart.manta.R
 import com.apusart.manta.api.models.Photo
 import com.apusart.manta.navigation.GallerySliderArgument
 import com.apusart.manta.ui.tools.Const
+import com.apusart.manta.ui.tools.MiddleLayer
+import com.apusart.manta.ui.tools.Prefs
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.gallery_fragment.view.*
 import kotlinx.android.synthetic.main.gallery_item.view.*
@@ -67,21 +69,19 @@ class GalleryAdapter(private val meetId: Int): ListAdapter<Photo, PhotoViewHolde
 }
 
 class PhotoViewHolder(container: View): RecyclerView.ViewHolder(container) {
+
     fun bind(item: Photo, position: Int, currentList: List<Photo>, meetId: Int) {
 
         itemView.apply {
 
             gallery_item_photo.setOnClickListener {
+                Prefs.setPreviousMeetPhoto(position)
                 findNavController().navigate(GalleryFragmentDirections.actionGalleryFragmentToSliderFragment(
                     GallerySliderArgument(currentList.map { it.path }, position, meetId)
                 ))
             }
 
-            Glide
-                .with(this)
-                .load(Const.baseUrl + item.path_thumb_m)
-                .apply(Const.glideMeetPhotoOptions)
-                .into(gallery_item_photo)
+            MiddleLayer.loadIntoImageView(item.path_thumb_m, gallery_item_photo, context)
         }
     }
 }

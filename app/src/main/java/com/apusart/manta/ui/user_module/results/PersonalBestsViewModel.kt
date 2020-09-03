@@ -19,6 +19,7 @@ class PersonalBestsViewModel: ViewModel() {
     val pb50 = MutableLiveData<List<PersonalBest>>()
     val pb1 = MutableLiveData<List<PersonalBestByCompetition>>()
     val pb = MutableLiveData<List<PersonalBest>>()
+    val isThereAnyPersonalBest = MutableLiveData<Boolean>()
 
     fun getPersonalBestsByAthleteId(id: Int, limit: Int? = Const.defaultLimit) {
         viewModelScope.launch {
@@ -40,6 +41,7 @@ class PersonalBestsViewModel: ViewModel() {
                 pb1.value = res
                 pb25.value = result.filter { pb -> pb.res_course_abbr == "SCM" }
                 pb50.value = result.filter { pb -> pb.res_course_abbr == "LCM" }
+                isThereAnyPersonalBest.value = pb25.value?.isNotEmpty() ?: false || pb50.value?.isNotEmpty() ?: false
             } catch(e: Exception) {}
         }
     }

@@ -10,12 +10,13 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.apusart.manta.R
 import com.apusart.manta.api.models.Photo
 import com.apusart.manta.ui.tools.Const
+import com.apusart.manta.ui.tools.MiddleLayer
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.gallery_slider_item.*
 
 class SliderAdapter(fm: FragmentManager, private val links: List<String>, private val title: View, private val tools: View): FragmentStatePagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
-        return SliderItem(Const.baseUrl + links[position], title, tools)
+        return SliderItem(links[position], title, tools)
     }
 
     override fun getCount(): Int {
@@ -27,17 +28,7 @@ class SliderItem(private val photo: String, private val title: View, private val
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        gallery_slider_item_photo.setOnViewTapListener { _, _, _ ->
-            val isVisible = !title.isVisible
-            title.isVisible = isVisible
-            tools.isVisible = isVisible
-        }
-
-        Glide
-            .with(this)
-            .load(photo)
-            .into(gallery_slider_item_photo)
-
+        MiddleLayer.loadIntoImageView(photo, gallery_slider_item_photo, requireContext())
 
     }
 }

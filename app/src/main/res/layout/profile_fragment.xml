@@ -7,7 +7,7 @@
 <androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cool_grey">
+    android:background="@color/black">
     <LinearLayout
         android:id="@+id/profile_fragment_athlete_information"
         android:layout_width="match_parent"

@@ -6,23 +6,17 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
-import android.text.Layout
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.AbsListView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -30,21 +24,17 @@ import com.bumptech.glide.Glide
 import com.apusart.manta.*
 import com.apusart.manta.api.models.Athlete
 import com.apusart.manta.ui.tools.Const
-import com.apusart.manta.ui.tools.OnSwipeTouchListener
 import com.apusart.manta.ui.tools.Prefs
+import com.apusart.manta.ui.tools.Tools
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator
-import kotlinx.android.synthetic.main.letter_for_scroll.view.*
 import kotlinx.android.synthetic.main.pick_athlete_activity.*
-import kotlinx.android.synthetic.main.pick_athlete_item.*
 import kotlinx.android.synthetic.main.pick_athlete_item.view.*
 import kotlinx.android.synthetic.main.pick_athlete_item.view.pick_athlete_item_image
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.user_activity.*
 
 class PickAthleteActivity: AppCompatActivity(R.layout.pick_athlete_activity) {
     private val viewModel: AthletesViewModel by viewModels()
     private lateinit var athletesAdapter: AthletesAdapter
-    private var lastTouch = 0L
 
     fun hideKayboard() {
         val view = this.currentFocus
@@ -91,70 +81,34 @@ class PickAthleteActivity: AppCompatActivity(R.layout.pick_athlete_activity) {
 
         })
 
-//        viewModel.mantaAlph.observe(this, Observer { list ->
-//            list.forEach { s ->
-//                val textView = LayoutInflater.from(this)
-//                    .inflate(R.layout.letter_for_scroll, pick_athlete_scroll_bar, false)
-//                textView.letter.text = s
-//                textView.layoutParams = LinearLayout.LayoutParams(
-//                    LinearLayout.LayoutParams.MATCH_PARENT,
-//                    LinearLayout.LayoutParams.MATCH_PARENT,
-//                    1f
-//                )
-//                pick_athlete_scroll_bar.addView(textView)
-//                pick_athlete_scroll_bar.setOnClickListener(null)
-//                textView.setOnClickListener { view ->
-//                    val athlete: Athlete? = athletesAdapter.currentList.firstOrNull { it.ath_lastname.substring(0, 1) == s }
-//                    val position = athletesAdapter.currentList.indexOf(athlete ?: athletesAdapter.currentList[0])
-//
-//                    pick_athlete_athletes_list.scrollToPosition(position)
-//                    lastTouch = System.currentTimeMillis()
-//                    lifecycleScope.launch {
-//                        delay(2000)
-//                        if(System.currentTimeMillis() - lastTouch > 2000) {
-//                            pick_athlete_scroll_bar.isVisible = false
-//                        }
-//                    }
-//                }
-//            }
-//        })
-
         viewModel.getAthletes()
         pick_athlete_athletes_list.apply {
             adapter = athletesAdapter
         }
 
-//        pick_athlete_scroll_bar.isVisible = false
         pick_athlete_athletes_list.addOnScrollListener(object: RecyclerView.OnScrollListener() {
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-
-//                when(newState) {
-//                    RecyclerView.SCROLL_STATE_DRAGGING -> {
-//                        pick_athlete_scroll_bar.isVisible = true
-//                        lastTouch = System.currentTimeMillis()
-//                    }
-//                    RecyclerView.SCROLL_STATE_IDLE -> lifecycleScope.launch {
-//                        delay(5000)
-//                        if(System.currentTimeMillis() - lastTouch > 5000) {
-//                            pick_athlete_scroll_bar.isVisible = false
-//                        }
-//
-//                    }
-//                }
                 hideKayboard()
             }
         })
 
+        pick_athlete_athletes_edit_text.setOnTouchListener { v, event ->
+            val DRAWABLE_LEFT = 0;
+            val DRAWABLE_TOP = 1;
+            val DRAWABLE_RIGHT = 2;
+            val DRAWABLE_BOTTOM = 3;
 
-//        pick_athlete_athletes_list.addOnScrollListener(object: RecyclerView.OnScrollListener() {
-//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//                super.onScrollStateChanged(recyclerView, newState)
-//
-//                hideKayboard()
-//            }
-//        })
+            if(event.getAction() == MotionEvent.ACTION_UP) {
+                if(event.getRawX() >= (pick_athlete_athletes_edit_text.right - Tools.toDp(32))) {
+                    pick_athlete_athletes_edit_text.text.clear()
+                    v.performClick()
+                    return@setOnTouchListener true
+                }
+            }
+            return@setOnTouchListener false
+        }
 
         pick_athlete_athletes_edit_text.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -166,10 +120,16 @@ class PickAthleteActivity: AppCompatActivity(R.layout.pick_athlete_activity) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                pick_athlete_scroll_bar.isVisible = s.toString() == ""
-                pick_athlete_fastscroller_thumb.isVisible = s.toString() == ""
-                val newList = viewModel.athletes.value?.filter { it.ath_firstname.startsWith(s.toString(), true) or it.ath_lastname.startsWith(s.toString(), true) }
+                val isThereAText = s.toString() != ""
 
+                pick_athlete_scroll_bar.isVisible = !isThereAText
+                pick_athlete_fastscroller_thumb.isVisible = !isThereAText
+                val newList = viewModel.athletes.value?.filter {
+                    it.ath_firstname.startsWith(s.toString(), true) or
+                    it.ath_lastname.startsWith(s.toString(), true) or
+                    "${it.ath_firstname} ${it.ath_lastname}".startsWith(s.toString(), true) or
+                    "${it.ath_lastname} ${it.ath_firstname}".startsWith(s.toString(), true)}
+                pick_athlete_athletes_edit_text.setCompoundDrawablesWithIntrinsicBounds(R.drawable.search_icon_drawable,0, if (isThereAText) R.drawable.erase_icon16 else 0, 0)
                 athletesAdapter.submitList(newList)
             }
 
@@ -210,7 +170,7 @@ class AthletesAdapter(private val activity: Activity): ListAdapter<Athlete, Athl
         val athlete = getItem(position)
         holder.bind(athlete)
         holder.itemView.setOnClickListener {
-            Prefs.AthletePreference(holder.context)
+            Prefs.athletePreference(holder.context)
             Prefs.storeUser(athlete)
             startActivity(activity, Intent(activity, UserActivity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION or Intent.FLAG_ACTIVITY_CLEAR_TASK), null)
@@ -230,7 +190,8 @@ class AthleteViewHolder(viewContainer: View, val context: Context): RecyclerView
             if(prevAthlete != null && prevAthlete.athlete_id == item.athlete_id) {
                 background = resources.getDrawable(R.drawable.selected_ahtlete_background)
             }
-
+            if(item.ath_birth_year > 1000)
+                pick_athlete_birth_year.text = "'${item?.ath_birth_year.toString().substring(2,4)}"
             val url = Const.baseUrl + item.ath_image_min_url
 
             item.ath_image_min_url?.let {

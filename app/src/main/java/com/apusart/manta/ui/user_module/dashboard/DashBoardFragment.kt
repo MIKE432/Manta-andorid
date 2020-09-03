@@ -26,9 +26,9 @@ import kotlinx.android.synthetic.main.meet_fragment.*
 
 class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
     private var mUser: Athlete? = Prefs.getUser()
-
     private val mDashBoardViewModel: DashboardViewModel by viewModels()
     private var mMeet_id: Int = -1
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -75,8 +75,11 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
         mDashBoardViewModel.areTherePhotos.observe(viewLifecycleOwner, Observer { areThereAnyPhotos ->
             if(areThereAnyPhotos) {
                 lastMeet.last_meet_for_dashboard_multiple_button.setButtonOnClickListener(3) {
-                    if(mMeet_id != -1)
+                    if(mMeet_id != -1) {
+                        Prefs.setPreviousMeetPhoto(0)
                         findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToGalleryFragment(mMeet_id))
+                    }
+
                 }
             } else {
                 lastMeet.last_meet_for_dashboard_multiple_button.setToInactive(3, R.color.pale_grey_three)
@@ -129,8 +132,8 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
                 }
 
                 lastMeet.last_meet_for_dashboard_header_main_container.setOnClickListener { _ ->
-
-                    findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToMeetsFragment(it.meet_id))
+                    Prefs.setPreviousMeetId(it.meet_id)
+                    findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToMeetsFragment())
                 }
 
             } else {

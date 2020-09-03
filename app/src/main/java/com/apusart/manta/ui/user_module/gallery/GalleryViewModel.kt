@@ -13,13 +13,18 @@ class GalleryViewModel: ViewModel() {
     private val meetService = MeetService()
     val photos = MutableLiveData<List<Photo>>()
     val meet = MutableLiveData<Meet>()
+    val inProgress = MutableLiveData<Boolean>()
 
     fun getMeetByMeetId(meetId: Int) {
         viewModelScope.launch {
             try {
+                inProgress.value = true
                 meet.value = meetService.getMeetById(meetId)
+                photos.value = meetService.getPhotosByMeetId(meetId)
             } catch (e: Exception) {
                 e.printStackTrace()
+            } finally {
+                inProgress.value = false
             }
         }
     }

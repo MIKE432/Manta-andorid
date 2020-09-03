@@ -4,17 +4,18 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.apusart.manta.R
 import com.apusart.manta.ui.tools.Const
+import com.apusart.manta.ui.tools.Prefs
 import com.apusart.manta.ui.tools.Tools
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -31,18 +32,38 @@ class GalleryFragment: Fragment(R.layout.gallery_fragment) {
         super.onViewCreated(view, savedInstanceState)
         mGalleryAdapter = GalleryAdapter(mArgs.meetId)
 
-
         gallery_fragment_gallery.apply {
             adapter = mGalleryAdapter
-            layoutManager = GridLayoutManager(context, 3)
+            layoutManager = GridLayoutManager(context, Tools.calculateNoOfColumns(context, 128f))
         }
+
 
         mGalleryViewModel.photos.observe(viewLifecycleOwner, Observer {
             mGalleryAdapter.submitList(it)
+            val scrollToPosition = Prefs.getPreviousMeetPhoto()
+
+            val scrollTo = if(scrollToPosition > it.size) 0 else scrollToPosition
+            gallery_fragment_gallery.postDelayed({
+                gallery_fragment_gallery.scrollToPosition(scrollTo)
+            }, 200)
+        })
+
+        mGalleryViewModel.meet.observe(viewLifecycleOwner, Observer {
+            if(it != null) {
+                gallery_fragment_meet_details.isVisible = true
+                gallery_fragment_meet_details.apply {
+                    mMeetCity = it.mt_city
+                    mMeetTitle = it.mt_name
+                    mMeetCourse = Const.courseSize.getString(it.mt_course_abbr, "25m")
+                    mMeetDate = resources.getString(R.string.meeting_date, it.mt_from, it.mt_to)
+                }
+            } else {
+                gallery_fragment_meet_details.isVisible = false
+            }
         })
 
         if(mArgs.meetId != -1) {
-            mGalleryViewModel.getPhotosByMeetId(mArgs.meetId)
+            mGalleryViewModel.getMeetByMeetId(mArgs.meetId)
         }
     }
 }
@@ -76,7 +97,7 @@ class SliderFragment: Fragment(R.layout.gallery_slider) {
         super.onViewCreated(view, savedInstanceState)
 
         if(navArgs.photos?.meetId != null)
-            mGalleryViewModel. getMeetByMeetId(navArgs.photos?.meetId!!)
+            mGalleryViewModel.getMeetByMeetId(navArgs.photos?.meetId!!)
 
         if(navArgs.photos?.links != null) {
             mSliderAdapter = SliderAdapter(childFragmentManager, navArgs.photos!!.links!!, gallery_slider_title, gallery_slider_bottom_tools)
@@ -95,23 +116,15 @@ class SliderFragment: Fragment(R.layout.gallery_slider) {
                 .dontAnimate()
                 .load(Const.baseUrl + (navArgs.photos?.links?.get(gallery_slider.currentItem) ?: ""))
                 .into(object: CustomTarget<Bitmap>() {
-                    override fun onLoadCleared(placeholder: Drawable?) {}
 
+                    override fun onLoadCleared(placeholder: Drawable?) {}
                     override fun onResourceReady(
                         resource: Bitmap,
                         transition: Transition<in Bitmap>?
                     ) {
                         sharePhoto(resource)
                     }
-
                 })
-
-        }
-
-        gallery_slider_back_arrow.setImageDrawable(Tools.changeIconColor(R.drawable.back_arrow_icon32, R.color.white, resources))
-
-        gallery_slider_back_arrow.setOnClickListener {
-            findNavController().popBackStack()
         }
 
         mGalleryViewModel.meet.observe(viewLifecycleOwner, Observer {

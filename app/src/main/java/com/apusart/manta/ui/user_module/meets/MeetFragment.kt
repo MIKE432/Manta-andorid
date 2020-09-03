@@ -65,8 +65,11 @@ class MeetFragment(private val meet_id: Int?): Fragment(R.layout.meet_fragment) 
 
             if(areThereAnyPhotos) {
                 multiple_button.setButtonOnClickListener(3) {
-                    if(meet_id != null)
+                    if(meet_id != null) {
+                        Prefs.setPreviousMeetPhoto(0)
                         findNavController().navigate(MeetsPagerDirections.actionMeetsFragmentToGalleryFragment(meet_id))
+                    }
+
                 }
             } else {
                 multiple_button.setToInactive(3, R.color.pale_grey_three)

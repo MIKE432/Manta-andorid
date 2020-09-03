@@ -10,7 +10,9 @@
         android:id="@+id/last_meet_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/black"
+        >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/last_meet_fragment_main_information_container"
             android:layout_width="match_parent"
@@ -137,13 +139,19 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/last_meet_fragment_meet_information_container"
                 app:layout_constraintBottom_toBottomOf="parent" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/cool_grey"
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
         <LinearLayout
             android:id="@+id/last_meet_fragment_other_information_container"
             app:layout_constraintTop_toBottomOf="@id/last_meet_fragment_main_information_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/black">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/last_meet_fragment_results"
@@ -197,7 +205,7 @@
         android:id="@+id/last_meet_fragment_spinner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/cool_grey"
+        android:background="@color/black"
         android:visibility="gone"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">

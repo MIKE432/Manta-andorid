@@ -109,4 +109,8 @@
             android:defaultValue="@null"
             />
     </fragment>
+    <fragment
+        android:id="@+id/about"
+        android:name="com.apusart.manta.ui.user_module.About"
+        android:label="About" />
 </navigation>

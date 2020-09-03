@@ -61,12 +61,12 @@ class ResultDetailsFragment: Fragment(R.layout.result_details_fragment) {
             result_details_dsq_value.text = it.toString()
         })
 
-        result_details_refresher.setOnRefreshListener {
-//            result_details_res_split_times_container.removeAllViews()
-            personalBestsViewModel.getPersonalBest(Prefs.getUser()!!.athlete_id, 5, Const.styles.getString(navArgs.resultData?.ss_abbr) ?: navArgs.resultData?.ss_abbr, navArgs.resultData?.distance, navArgs.resultData?.res_course_abbr)
-            resultsViewModel.getResultsByAthleteId(Prefs.getUser()!!.athlete_id, 300, Const.styles.getString(navArgs.resultData?.ss_abbr) ?: navArgs.resultData?.ss_abbr, navArgs.resultData?.distance, navArgs.resultData?.res_course_abbr)
-            result_details_refresher.isRefreshing = false
-        }
+//        result_details_refresher.setOnRefreshListener {
+////            result_details_res_split_times_container.removeAllViews()
+//            personalBestsViewModel.getPersonalBest(Prefs.getUser()!!.athlete_id, 5, Const.styles.getString(navArgs.resultData?.ss_abbr) ?: navArgs.resultData?.ss_abbr, navArgs.resultData?.distance, navArgs.resultData?.res_course_abbr)
+//            resultsViewModel.getResultsByAthleteId(Prefs.getUser()!!.athlete_id, 300, Const.styles.getString(navArgs.resultData?.ss_abbr) ?: navArgs.resultData?.ss_abbr, navArgs.resultData?.distance, navArgs.resultData?.res_course_abbr)
+//            result_details_refresher.isRefreshing = false
+//        }
 
         personalBestsViewModel.getPersonalBest(Prefs.getUser()!!.athlete_id, 1, Const.styles.getString(navArgs.resultData?.ss_abbr) ?: navArgs.resultData?.ss_abbr, navArgs.resultData?.distance, navArgs.resultData?.res_course_abbr)
         resultsViewModel.getResultsByAthleteId(Prefs.getUser()!!.athlete_id, 300, Const.styles.getString(navArgs.resultData?.ss_abbr) ?: navArgs.resultData?.ss_abbr, navArgs.resultData?.distance, navArgs.resultData?.res_course_abbr)

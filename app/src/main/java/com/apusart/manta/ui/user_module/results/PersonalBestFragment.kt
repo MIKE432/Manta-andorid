@@ -36,10 +36,13 @@ class PersonalBestFragment: Fragment(R.layout.personal_best_fragment) {
             adapter = personalBestAdapter
         }
 
-        personal_best_list.isNestedScrollingEnabled = false
-
         viewModel.pb1.observe(viewLifecycleOwner, Observer { pb ->
             personalBestAdapter.submitList(pb)
+        })
+
+        viewModel.isThereAnyPersonalBest.observe(viewLifecycleOwner, Observer {
+            no_personal_bests.isVisible = !it
+            personal_best_list.isVisible = it
         })
 
         personal_best_refresher.setOnRefreshListener {

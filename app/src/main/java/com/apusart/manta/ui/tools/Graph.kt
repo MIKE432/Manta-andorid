@@ -83,11 +83,12 @@ class DataPoints(val context: Context, private var mHeight: Float, private var m
 class Point(context: Context): View(context) {
 
     companion object {
-        val radius = 7.5f
+        const val radius = 7.5f
     }
 
     val params =  RelativeLayout.LayoutParams((radius * 2).toInt(), (radius * 2).toInt())
     lateinit var result: Result
+
     fun mSetBackground(c: Int = Color.parseColor("#000000")) {
         val gradientDrawable = GradientDrawable()
         val strokeWidth = radius.toInt() * 2
@@ -112,6 +113,8 @@ class Graph(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) 
     private val mPainter = Paint()
     private val mLinesPainter = Paint()
     private val mLinesBetweenResultsPainter = Paint()
+
+
     init {
         addView(mGraph)
         setUpPainters()
@@ -127,6 +130,7 @@ class Graph(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) 
         super.onDraw(canvas)
         graph_container.visibility = View.VISIBLE
         graph_spinner.isVisible = false
+
     }
 
     private fun setUpPainters() {

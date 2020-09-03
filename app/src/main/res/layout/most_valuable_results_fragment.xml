@@ -19,7 +19,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@color/cool_grey"/>
+            android:background="@color/black"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/most_valuable_results_list_no_mvr"

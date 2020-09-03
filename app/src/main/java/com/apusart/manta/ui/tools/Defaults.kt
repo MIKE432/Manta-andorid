@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Environment
+import android.util.DisplayMetrics
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -214,8 +215,15 @@ object Tools {
         } catch(e: FileNotFoundException) {
             e.printStackTrace()
         }
+    }
 
-
+    fun calculateNoOfColumns(
+        context: Context,
+        columnWidthDp: Float
+    ): Int { // For example columnWidthdp=180
+        val displayMetrics: DisplayMetrics = context.resources.displayMetrics
+        val screenWidthDp: Float = displayMetrics.widthPixels / displayMetrics.density
+        return (screenWidthDp / columnWidthDp + 0.5).toInt()
     }
 }
 
@@ -223,13 +231,17 @@ object Prefs {
     private const val PREFS_NAME = "com.example.manta.AthletePrefs"
     private const val ATHLETE = "actual_athlete"
     private const val PREV_ATHLETE = "prev_athlete"
+    private const val PREV_MEET_TAB = "prev_meet_tab"
+    private const val PREV_MEET_PHOTO = "prev_meet_photo"
     private var settings: SharedPreferences? = null
     private var editor: SharedPreferences.Editor? = null
     private val gson = Gson()
-    private var actualAthlete: Athlete? = null
-    private var previousAthlete: Athlete? = null
+    private var mActualAthlete: Athlete? = null
+    private var mPreviousAthlete: Athlete? = null
+    private var mPreviousMeetId = 0
+    private var mPreviousMeetPhoto = 0
 
-    fun AthletePreference(context: Context?) {
+    fun athletePreference(context: Context?) {
 
         if(context != null) {
             settings = context.getSharedPreferences(
@@ -240,41 +252,74 @@ object Prefs {
     }
 
     fun removeUser() {
-        previousAthlete = gson.fromJson((settings?.getString(ATHLETE, "") ?: ""), Athlete::class.java)
+        mPreviousAthlete = gson.fromJson((settings?.getString(ATHLETE, "") ?: ""), Athlete::class.java)
 
-        val stringifiedPrevAthlete = gson.toJson(previousAthlete)
+        val stringifiedPrevAthlete = gson.toJson(mPreviousAthlete)
         editor?.putString(PREV_ATHLETE, stringifiedPrevAthlete)
         editor?.commit()
 
         editor?.remove(ATHLETE)
         editor?.commit()
-        actualAthlete = null
+        mActualAthlete = null
     }
-    fun storeUser(athlete: Athlete) {
-        previousAthlete = gson.fromJson((settings?.getString(ATHLETE, "") ?: ""), Athlete::class.java)
 
-        val stringifiedPrevAthlete = gson.toJson(previousAthlete)
+    fun storeUser(athlete: Athlete) {
+        mPreviousAthlete = gson.fromJson((settings?.getString(ATHLETE, "") ?: ""), Athlete::class.java)
+
+        val stringifiedPrevAthlete = gson.toJson(mPreviousAthlete)
         editor?.putString(PREV_ATHLETE, stringifiedPrevAthlete)
         editor?.commit()
 
         val stringifiedAthlete = gson.toJson(athlete)
         editor?.putString(ATHLETE, stringifiedAthlete)
         editor?.commit()
-        actualAthlete = athlete
+        mActualAthlete = athlete
     }
 
     fun getUser(): Athlete? {
-        if(actualAthlete != null)
-            return actualAthlete
+        if(mActualAthlete != null)
+            return mActualAthlete
         return gson.fromJson((settings?.getString(
             ATHLETE,"") ?: ""), Athlete::class.java)
     }
 
     fun getPreviousAthlete(): Athlete? {
-        if(previousAthlete != null)
-            return previousAthlete
+        if(mPreviousAthlete != null)
+            return mPreviousAthlete
         return gson.fromJson((settings?.getString(
             PREV_ATHLETE,"") ?: ""), Athlete::class.java)
+    }
+
+    fun setPreviousMeetId(id: Int) {
+        mPreviousMeetId = id
+        editor?.putInt(PREV_MEET_TAB, mPreviousMeetId)
+        editor?.commit()
+    }
+
+    fun getPreviousMeetId(): Int {
+
+        mPreviousMeetId = settings?.getInt(
+            PREV_MEET_TAB,0) ?: 0
+        return mPreviousMeetId
+    }
+
+    fun removeLastMeetId() {
+        mPreviousMeetId = 0
+        editor?.putInt(PREV_MEET_TAB, mPreviousMeetId)
+        editor?.commit()
+    }
+
+    fun setPreviousMeetPhoto(photoNo: Int) {
+        mPreviousMeetPhoto = photoNo
+        editor?.putInt(PREV_MEET_PHOTO, mPreviousMeetPhoto)
+        editor?.commit()
+    }
+
+
+    fun getPreviousMeetPhoto(): Int {
+        mPreviousMeetPhoto = settings?.getInt(
+            PREV_MEET_PHOTO,0) ?: 0
+        return mPreviousMeetPhoto
     }
 }
 
