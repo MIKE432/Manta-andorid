@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorPrimary"
+    android:background="@color/primary_900"
     android:layout_height="wrap_content"
 >
     <LinearLayout
@@ -38,41 +38,45 @@
             android:paddingHorizontal="10dp"
             android:text="@string/dashboard"/>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/nav_bar_n2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/nav_bar_center_icon_background"
+        android:gravity="center"
+        android:orientation="vertical"
+
         android:paddingTop="8dp"
         android:paddingBottom="6dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/nav_bar_n3"
-
         app:layout_constraintStart_toEndOf="@id/nav_bar_n1"
-        android:layout_width="0dp"
-        android:background="@drawable/nav_bar_center_icon_background"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
         <ImageView
             android:id="@+id/nav_bar_n2_image"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/swimmer_icon"
-
             android:layout_gravity="center"
-            />
+
+            android:src="@drawable/swimmer_icon" />
+
         <TextView
             android:id="@+id/nav_bar_n2_text"
+            style="@style/CaptionRoboto12Pt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/nav_default_color"
-            style="@style/CaptionRoboto12Pt"
             android:ellipsize="end"
-            android:maxLines="1"
             android:gravity="center"
+            android:maxLines="1"
             android:paddingHorizontal="10dp"
-            android:text="@string/competition"/>
+            android:text="@string/competition"
+            android:textColor="@color/nav_default_color" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/nav_bar_n3"
         android:paddingTop="8dp"

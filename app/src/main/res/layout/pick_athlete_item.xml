@@ -60,7 +60,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0"
-                style="@style/Body2MenuRoboto14Pt"
+                style="?Body2MenuRoboto14Pt"
                 app:layout_constraintHorizontal_bias="0"
                 tools:text="Zofia Raszczuk" />
             <TextView
@@ -70,7 +70,7 @@
                 app:layout_constraintBottom_toTopOf="@id/pick_athlete_licence_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Roboto14Pt"
+                style="?Roboto14Pt"
                 android:textColor="@color/cool_grey"
                 android:layout_marginStart="10dp"
                 tools:text="'99"/>
@@ -81,7 +81,7 @@
                 app:layout_constraintTop_toBottomOf="@id/pick_athlete_name"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="@string/licence_no"
-                style="@style/CaptionRoboto12Pt"/>
+                style="?CaptionRoboto12Pt"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

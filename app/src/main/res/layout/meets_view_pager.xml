@@ -4,24 +4,17 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/cool_grey">
+    android:background="?background">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/meets_view_pager"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/meets_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="?background"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone">
-        <androidx.viewpager.widget.PagerTabStrip
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:background="#33b5e5"
-            android:paddingVertical="8dp"
-            style="@style/Body3Roboto14Pt"
-            android:textColor="#fff" />
-    </androidx.viewpager.widget.ViewPager>
+        android:visibility="gone" />
     <com.apusart.manta.ui.tools.EmptyStateComponent
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/no_meets_to_display"
@@ -34,7 +27,7 @@
         android:id="@+id/meets_spinner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black">
+        android:background="?background">
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

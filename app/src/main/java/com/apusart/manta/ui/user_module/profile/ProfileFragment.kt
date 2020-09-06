@@ -1,5 +1,6 @@
 package com.apusart.manta.ui.user_module.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -11,8 +12,10 @@ import kotlinx.android.synthetic.main.profile_fragment.*
 
 class ProfileFragment: Fragment(R.layout.profile_fragment) {
     private var mUser: Athlete? = Prefs.getUser()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         if (mUser != null) {
 
@@ -51,6 +54,13 @@ class ProfileFragment: Fragment(R.layout.profile_fragment) {
             } else {
                 profile_fragment_athlete_train_to_container.isVisible = false
             }
+        }
+
+
+        toggle_theme.setOnClickListener {
+            Prefs.toggleCurrentTheme()
+
+            requireActivity().recreate()
         }
     }
 }

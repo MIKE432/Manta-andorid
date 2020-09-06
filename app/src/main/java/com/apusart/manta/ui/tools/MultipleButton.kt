@@ -10,13 +10,15 @@ import android.widget.ImageView
 
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.apusart.manta.R
 import java.lang.Exception
 
 class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLayout(context, attributeSet) {
     private val mChildButtons = ArrayList<ChildButton>()
     private val MAX_CHILDREN_COUNT = 5
-
+    private val mTheme = Prefs.getCurrentTheme()
 
     private inner class ChildButton: ConstraintLayout(context) {
         val mTextView = TextView(context)
@@ -57,7 +59,11 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
                 mImageView.visibility = View.INVISIBLE
             else {
                 mImageView.visibility = View.VISIBLE
-                mImageView.setImageDrawable(Tools.changeIconColor(icon, R.color.cool_grey, resources))
+                mImageView.setImageResource(icon)
+                if(mTheme == 0)
+                    mImageView.setColorFilter(ContextCompat.getColor(context, R.color.cool_grey))
+                else
+                    mImageView.setColorFilter(ContextCompat.getColor(context, R.color.cool_grey))
             }
 
         }
@@ -82,7 +88,10 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
 
         fun setBackGround(background: Int) {
             if(mIcon != 0) {
-                mImageView.setImageDrawable(Tools.changeIconColor(mIcon, background, resources))
+                if(Prefs.getCurrentTheme() == 0)
+                    mImageView.setColorFilter(ContextCompat.getColor(context, R.color.pale_grey_three))
+                else
+                    mImageView.setColorFilter(ContextCompat.getColor(context, R.color.dark_grey))
             }
             isClickable = false
             mIsActive = false
@@ -104,7 +113,7 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
     }
 
     private fun setupInnerChild(child: ChildButton, index: Int) {
-        child.background = resources.getDrawable(R.drawable.multiple_button_inner_button)
+        child.background = ResourcesCompat.getDrawable(resources, if(mTheme == 0) R.drawable.multiple_button_inner_button else R.drawable.multiple_button_inner_button_dark, null)
 
         (child.layoutParams as LayoutParams).startToEnd = mChildButtons[index - 1].id
         (child.layoutParams as LayoutParams).endToStart = mChildButtons[index + 1].id
@@ -113,7 +122,7 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
 
     }
 
-    private fun setupOuterChild(child: ChildButton, background: Drawable, index: Int) {
+    private fun setupOuterChild(child: ChildButton, background: Drawable?, index: Int) {
         child.background = background
 
         if(index == 0) {
@@ -135,12 +144,12 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
             when (index) {
                 0 -> setupOuterChild(
                     child,
-                    resources.getDrawable(R.drawable.multiple_button_first_button),
+                    ResourcesCompat.getDrawable(resources, if(mTheme == 0) R.drawable.multiple_button_first_button else R.drawable.multiple_button_first_button_dark, null),
                     index
                 )
                 mChildButtons.size - 1 -> setupOuterChild(
                     child,
-                    resources.getDrawable(R.drawable.multiple_button_last_button),
+                    ResourcesCompat.getDrawable(resources, if(mTheme == 0) R.drawable.multiple_button_last_button else R.drawable.multiple_button_last_button_dark, null),
                     index
                 )
                 else -> setupInnerChild(child, index)
@@ -193,7 +202,9 @@ class MultipleButton(context: Context, attributeSet: AttributeSet): ConstraintLa
     }
 
     fun setToInactive(index: Int, background: Int) {
-        mChildButtons.takeIf { index < it.size }?.get(index)?.setBackGround(background)
+        val child = mChildButtons.takeIf { index < it.size }?.get(index)
+        child?.setBackGround(background)
+
         setBackgrounds()
     }
 }

@@ -12,7 +12,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:tint="@color/white"
+        app:tint="@color/white"
         tools:src="@drawable/www_icon"/>
     <TextView
         android:id="@+id/text"

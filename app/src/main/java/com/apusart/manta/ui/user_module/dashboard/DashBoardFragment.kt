@@ -133,7 +133,7 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
 
                 lastMeet.last_meet_for_dashboard_header_main_container.setOnClickListener { _ ->
                     Prefs.setPreviousMeetId(it.meet_id)
-                    findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToMeetsFragment())
+                    findNavController().navigate(DashBoardFragmentDirections.actionDashboardFragmentToMeetFragment(it.meet_id))
                 }
 
             } else {

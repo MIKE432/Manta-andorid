@@ -1,5 +1,6 @@
 package com.apusart.manta.ui.tools
 
+import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
@@ -15,6 +16,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.apusart.manta.R
@@ -119,9 +121,9 @@ object Tools {
         return (x * (Resources.getSystem().displayMetrics.density) + 0.5f).toInt()
     }
 
-    fun changeIconColor(src: Int, newColor: Int, resources: Resources): Drawable {
-        val newSrc = resources.getDrawable(src)
-        newSrc.setTint(resources.getColor(newColor))
+    fun changeIconColor(src: Int, newColor: Int, resources: Resources): Drawable? {
+        val newSrc = ResourcesCompat.getDrawable(resources, src, null)
+        newSrc?.setTint(resources.getColor(newColor))
         return newSrc
     }
 
@@ -233,6 +235,7 @@ object Prefs {
     private const val PREV_ATHLETE = "prev_athlete"
     private const val PREV_MEET_TAB = "prev_meet_tab"
     private const val PREV_MEET_PHOTO = "prev_meet_photo"
+    private const val CURRENT_THEME = "current_theme"
     private var settings: SharedPreferences? = null
     private var editor: SharedPreferences.Editor? = null
     private val gson = Gson()
@@ -240,6 +243,7 @@ object Prefs {
     private var mPreviousAthlete: Athlete? = null
     private var mPreviousMeetId = 0
     private var mPreviousMeetPhoto = 0
+    private var mCurrentTheme = 0
 
     fun athletePreference(context: Context?) {
 
@@ -320,6 +324,38 @@ object Prefs {
         mPreviousMeetPhoto = settings?.getInt(
             PREV_MEET_PHOTO,0) ?: 0
         return mPreviousMeetPhoto
+    }
+
+    fun toggleCurrentTheme() {
+
+        mCurrentTheme = settings?.getInt(
+            CURRENT_THEME,0) ?: 0
+        if(mCurrentTheme == 0) {
+            mCurrentTheme = 1
+            editor?.putInt(CURRENT_THEME, mCurrentTheme)
+            editor?.commit()
+        } else {
+            mCurrentTheme = 0
+            editor?.putInt(CURRENT_THEME, mCurrentTheme)
+            editor?.commit()
+        }
+    }
+
+    fun getCurrentTheme(): Int  {
+        mCurrentTheme = settings?.getInt(
+            CURRENT_THEME,0) ?: 0
+
+        return mCurrentTheme
+    }
+}
+
+class ThemeUtils {
+    companion object ThemeUtils {
+
+        var sTheme = R.style.Manta_Theme_Dark
+        fun setTheme(activity: Activity) {
+            activity.setTheme(sTheme)
+        }
     }
 }
 

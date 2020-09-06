@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_galleryFragment"
             app:destination="@id/galleryFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_meetFragment"
+            app:destination="@id/meetFragment" />
     </fragment>
     <fragment
         android:id="@+id/recordsFragment"
@@ -50,6 +53,9 @@
         <action
             android:id="@+id/action_meetsFragment_to_galleryFragment"
             app:destination="@id/galleryFragment" />
+        <action
+            android:id="@+id/action_meetsFragment_to_meetFragment"
+            app:destination="@id/meetFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -113,4 +119,20 @@
         android:id="@+id/about"
         android:name="com.apusart.manta.ui.user_module.About"
         android:label="About" />
+    <fragment
+        android:id="@+id/settingsActivity"
+        android:name="com.apusart.manta.SettingsActivity"
+        android:label="SettingsActivity" />
+    <fragment
+        android:id="@+id/meetFragment"
+        android:name="com.apusart.manta.ui.user_module.meets.MeetFragment"
+        android:label="MeetFragment" >
+        <argument
+            android:name="meet_id"
+            app:argType="integer"
+            android:defaultValue="-1"/>
+        <action
+            android:id="@+id/action_meetFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+    </fragment>
 </navigation>

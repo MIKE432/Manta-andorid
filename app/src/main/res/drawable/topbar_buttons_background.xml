@@ -2,7 +2,7 @@
 <ripple android:color="?rippleEffectColor" xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape >
-            <solid android:color="?contentColor" />
+            <solid android:color="?topBarColor" />
         </shape>
     </item>
 </ripple>

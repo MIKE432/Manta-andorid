@@ -16,7 +16,7 @@
             android:text="OSIĄGNIĘCIA"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            style="@style/ButtonRoboto14Pt"
+            style="?ButtonRoboto14Pt"
             android:background="@drawable/bottom_border"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,7 +38,7 @@
                 android:text="Najbardziej wartościowe wyniki"
                 android:gravity="center"
                 android:layout_gravity="center"
-                style="@style/Roboto14Pt"
+                style="?Roboto14Pt"
                 android:background="@drawable/horizontal_border"
                 />
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -61,28 +61,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        style="@style/CaptionRoboto12Pt"
+                        style="?CaptionRoboto12Pt"
                         android:text="25m"/>
                     <TextView
                         android:id="@+id/achievements_mvr_25_concurence"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        style="@style/Body1Roboto14Pt"
+                        style="?Body1Roboto14Pt"
                         tools:text="200m zmienny"/>
                     <TextView
                         android:id="@+id/achievements_mvr_25_total_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        style="@style/Body1Roboto14Pt"
+                        style="?Body1Roboto14Pt"
                         tools:text="2:21.67"/>
                     <TextView
                         android:id="@+id/achievements_mvr_25_points"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        style="@style/Body1Roboto14Pt"
+                        style="?Body1Roboto14Pt"
                         tools:text="705"/>
                 </LinearLayout>
                 <LinearLayout
@@ -100,28 +100,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        style="@style/CaptionRoboto12Pt"
+                        style="?CaptionRoboto12Pt"
                         android:text="50m"/>
                     <TextView
                         android:id="@+id/achievements_mvr_50_concurence"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        style="@style/Body1Roboto14Pt"
+                        style="?Body1Roboto14Pt"
                         tools:text="200m zmienny"/>
                     <TextView
                         android:id="@+id/achievements_mvr_50_total_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        style="@style/Body1Roboto14Pt"
+                        style="?Body1Roboto14Pt"
                         tools:text="2:21.67"/>
                     <TextView
                         android:id="@+id/achievements_mvr_50_points"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        style="@style/Body1Roboto14Pt"
+                        style="?Body1Roboto14Pt"
                         tools:text="705"/>
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>

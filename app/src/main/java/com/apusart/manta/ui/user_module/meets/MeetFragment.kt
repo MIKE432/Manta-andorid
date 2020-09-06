@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -18,16 +19,16 @@ import com.apusart.manta.R
 import com.apusart.manta.ui.tools.Const
 import com.apusart.manta.ui.tools.Prefs
 import com.apusart.manta.ui.tools.Tools
-import com.apusart.manta.ui.user_module.gallery.MiniPhotosAdapter
 import kotlinx.android.synthetic.main.meet_fragment.*
 import kotlinx.android.synthetic.main.result_comparison_item.view.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
 
-class MeetFragment(private val meet_id: Int?): Fragment(R.layout.meet_fragment) {
+class MeetFragment: Fragment(R.layout.meet_fragment) {
     private val mMeetViewModel: MeetViewModel by viewModels()
     private lateinit var mComparedResultAdapter: ComparedResultAdapter
+    private val mArgs by navArgs<MeetFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -65,9 +66,9 @@ class MeetFragment(private val meet_id: Int?): Fragment(R.layout.meet_fragment) 
 
             if(areThereAnyPhotos) {
                 multiple_button.setButtonOnClickListener(3) {
-                    if(meet_id != null) {
+                    if(mArgs.meetId != -1) {
                         Prefs.setPreviousMeetPhoto(0)
-                        findNavController().navigate(MeetsPagerDirections.actionMeetsFragmentToGalleryFragment(meet_id))
+                        findNavController().navigate(MeetFragmentDirections.actionMeetFragmentToGalleryFragment(mArgs.meetId))
                     }
 
                 }
@@ -127,7 +128,7 @@ class MeetFragment(private val meet_id: Int?): Fragment(R.layout.meet_fragment) 
             mComparedResultAdapter.submitList(it)
         })
 
-        mMeetViewModel.getResultsFromMeetByAthleteId(Prefs.getUser()!!, meet_id)
+        mMeetViewModel.getResultsFromMeetByAthleteId(Prefs.getUser()!!, mArgs.meetId)
     }
 }
 

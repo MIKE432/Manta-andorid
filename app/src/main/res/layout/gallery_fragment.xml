@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/black">
+    android:background="?background">
     <com.apusart.manta.ui.tools.MeetItem
         android:id="@+id/gallery_fragment_meet_details"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,5 +20,5 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        android:background="@color/black"/>
+        android:background="?background"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
