@@ -1,12 +1,23 @@
 package com.apusart.manta
 
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.PersistableBundle
+import android.util.Log
+import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import com.apusart.manta.api.models.Athlete
 import com.apusart.manta.ui.Animations
@@ -16,7 +27,10 @@ import com.apusart.manta.ui.pick_athlete_module.WelcomeActivity
 import com.apusart.manta.ui.tools.Const
 import com.apusart.manta.ui.tools.Prefs
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.settings_fragment.*
 import kotlinx.android.synthetic.main.user_activity.*
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 
 class InitialActivity: AppCompatActivity() {
@@ -36,11 +50,21 @@ class InitialActivity: AppCompatActivity() {
     }
 }
 
-class UserActivity: AppCompatActivity(R.layout.user_activity) {
+class UserActivityViewModel: ViewModel() {
+    val theme = MutableLiveData<Int>()
+
+
+    fun setTheme(t: Int) {
+        theme.value = t
+    }
+}
+
+class UserActivity: AppCompatActivity() {
     private var mUser: Athlete? = null
     private var mUserMenuStatus = false
     private var mMenuHeight = 0
     private val mMedalStatsViewModel: MedalStatsViewModel by viewModels()
+    private val mUserActivityViewModel: UserActivityViewModel by viewModels()
 
     private fun handleMenu() {
         if(mUserMenuStatus.also { mUserMenuStatus = !mUserMenuStatus }) {
@@ -54,13 +78,25 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        overridePendingTransition(R.anim.slide_in_left, 0)
+        val x = Prefs.getCurrentTheme()
+
+        if(x != mUserActivityViewModel.theme.value) {
+            mUserActivityViewModel.setTheme(x)
+        }
+    }
+
     override fun onStop() {
         super.onStop()
+        Log.d("stop", "stop")
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
     override fun onPause() {
         super.onPause()
+        Log.d("pause", "pause")
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
@@ -70,8 +106,12 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
 
+        super.onCreate(savedInstanceState)
+        val x = Prefs.getCurrentTheme()
+        setTheme(if(x == 1) R.style.Manta_Theme_Dark else R.style.Manta_Theme_Light)
+        setContentView(R.layout.user_activity)
         bottom_navigation.applyNavController(findNavController(R.id.logged_athlete_navigation_host))
 
         Prefs.athletePreference(applicationContext)
@@ -105,9 +145,16 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
             Prefs.removeUser()
             startActivity(Intent(this, PickAthleteActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
         }
+
         user_menu_about.setOnClickListener {
             findNavController(R.id.logged_athlete_navigation_host)
                 .navigate(R.id.about)
+            handleMenu()
+        }
+
+        user_menu_settings.setOnClickListener {
+            findNavController(R.id.logged_athlete_navigation_host)
+                .navigate(R.id.settingsActivity)
             handleMenu()
         }
 
@@ -139,6 +186,18 @@ class UserActivity: AppCompatActivity(R.layout.user_activity) {
                     bottom_navigation.isVisible = false
                 }
             }
+        }
+    }
+}
+
+class SettingsActivity: Fragment(R.layout.settings_fragment) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        theme_switcher.setOnCheckedChangeListener { buttonView, isChecked ->
+            Prefs.toggleCurrentTheme(isChecked)
+            activity?.recreate()
         }
     }
 }

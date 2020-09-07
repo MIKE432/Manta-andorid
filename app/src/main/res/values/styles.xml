@@ -1,12 +1,5 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowAnimationStyle">@style/ActivityAnimator</item>
-    </style>
     <style name="logo">
         <item name="android:layout_width">60dp</item>
         <item name="android:layout_height">60dp</item>
@@ -111,68 +104,12 @@
         <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
     </style>
 
-    <style name="HeadlineRoboto24Pt">
-        <item name="android:textSize">24sp</item>
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:lineSpacingExtra">8sp</item>
-        <item name="android:textColor">@color/white</item>
+    <style name="CardViewStyle" parent="Base.CardView">
     </style>
-    <style name="TitleRoboto20Pt">
-        <item name="android:textSize">20sp</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/black</item>
+    <style name="CardViewStyle.Dark">
+        <item name="cardBackgroundColor">@color/cool_grey</item>
     </style>
-    <style name="Body2MenuRoboto14Pt">
-        <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:lineSpacingExtra">4sp</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
-    <style name="ButtonRoboto14Pt">
-        <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:letterSpacing">0.01</item>
-        <item name="android:textColor">#de000000</item>
-    </style>
-    <style name="Roboto14Pt">
-        <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:letterSpacing">0.02</item>
-        <item name="android:lineSpacingExtra">4sp</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
-    <style name="Body1Roboto14Pt">
-        <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:lineSpacingExtra">6sp</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
-    <style name="Body3Roboto14Pt">
-        <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:letterSpacing">0.02</item>
-        <item name="android:lineSpacingExtra">4sp</item>
-        <item name="android:textColor">@color/cool_grey</item>
-    </style>
-    <style name="CaptionRoboto12Pt">
-        <item name="android:textSize">12sp</item>
-        <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:lineSpacingExtra">8sp</item>
-        <item name="android:textColor">@color/cool_grey</item>
-    </style>
-    <style name="CaptionRoboto12PtBlack">
-        <item name="android:textSize">12sp</item>
-        <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:lineSpacingExtra">8sp</item>
-        <item name="android:textColor">@color/black</item>
+    <style name="CardViewStyle.Light">
+        <item name="cardBackgroundColor">@color/white</item>
     </style>
 </resources>

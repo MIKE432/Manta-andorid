@@ -27,7 +27,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    style="@style/Roboto14Pt"
+                    style="?Roboto14Pt"
                     android:gravity="center"
                     android:background="@drawable/horizontal_border"
                     />

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,49 +10,38 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/last_meet_for_dashboard_header"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/meet_list_item_header_main_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/last_meet_caps"
-            style="?Body2MenuRoboto14Pt"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            android:background="@drawable/bottom_border"
-            />
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/last_meet_for_dashboard_header_main_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/last_meet_for_dashboard_header"
             android:background="@drawable/rounded_corners_ripple"
             android:paddingHorizontal="5dp">
             <TextView
-                android:id="@+id/last_meet_for_dashboard_meet_name"
+                android:id="@+id/meet_list_item_meet_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/last_meet_for_additional_info_container"
+                app:layout_constraintBottom_toTopOf="@id/meet_list_item_additional_info_container"
                 style="?Body2MenuRoboto14Pt"
                 android:gravity="center"
                 tools:text="I Og\u00f3lnopolskie mistrzostwa O\u0142awy w p\u0142ywaniu"/>
             <LinearLayout
 
-                android:id="@+id/last_meet_for_additional_info_container"
+                android:id="@+id/meet_list_item_additional_info_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/last_meet_for_dashboard_meet_name"
+                app:layout_constraintTop_toBottomOf="@id/meet_list_item_meet_name"
                 android:orientation="vertical">
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <LinearLayout
-                        android:id="@+id/last_meet_for_dashboard_meet_city_container"
+                        android:id="@+id/meet_list_item_meet_city_container"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/last_meet_for_dashboard_course_container"
+                        app:layout_constraintEnd_toStartOf="@id/meet_list_item_course_container"
                         app:layout_constraintStart_toStartOf="parent"
                         android:orientation="horizontal">
                         <TextView
@@ -61,19 +51,19 @@
                             style="?CaptionRoboto12Pt"
                             android:text="Miejsce: "/>
                         <TextView
-                            android:id="@+id/last_meet_for_dashboard_meet_city"
+                            android:id="@+id/meet_list_item_meet_city"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="?CaptionRoboto12PtBlack"
                             tools:text="Oława"/>
                     </LinearLayout>
                     <LinearLayout
-                        android:id="@+id/last_meet_for_dashboard_course_container"
+                        android:id="@+id/meet_list_item_course_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/last_meet_for_dashboard_meet_city_container"
+                        app:layout_constraintStart_toEndOf="@id/meet_list_item_meet_city_container"
                         android:orientation="horizontal"
                         android:gravity="end">
                         <TextView
@@ -83,7 +73,7 @@
                             style="?CaptionRoboto12Pt"
                             android:text="Basen: "/>
                         <TextView
-                            android:id="@+id/last_meet_for_dashboard_course"
+                            android:id="@+id/meet_list_item_course"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="?CaptionRoboto12PtBlack"
@@ -101,7 +91,7 @@
                         style="?CaptionRoboto12Pt"
                         android:text="Termin:"/>
                     <TextView
-                        android:id="@+id/last_meet_for_dashboard_date"
+                        android:id="@+id/meet_list_item_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="?CaptionRoboto12PtBlack"
@@ -111,8 +101,8 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         <com.apusart.manta.ui.tools.MultipleButton
-            android:id="@+id/last_meet_for_dashboard_multiple_button"
-            app:layout_constraintTop_toBottomOf="@id/last_meet_for_dashboard_header_main_container"
+            android:id="@+id/meet_list_item_multiple_button"
+            app:layout_constraintTop_toBottomOf="@id/meet_list_item_header_main_container"
             android:layout_marginTop="3dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

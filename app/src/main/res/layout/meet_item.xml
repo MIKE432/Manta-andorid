@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="?contentColor"
     android:layout_margin="0dp">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -48,13 +48,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="3dp"
-                        style="@style/CaptionRoboto12Pt"
+                        style="?CaptionRoboto12Pt"
                         android:text="Miejsce: "/>
                     <TextView
                         android:id="@+id/meet_item_meet_city"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/CaptionRoboto12PtBlack"
+                        style="?CaptionRoboto12PtBlack"
                         tools:text="Oława"/>
                 </LinearLayout>
                 <LinearLayout
@@ -70,13 +70,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="3dp"
-                        style="@style/CaptionRoboto12Pt"
+                        style="?CaptionRoboto12Pt"
                         android:text="Basen: "/>
                     <TextView
                         android:id="@+id/meet_item_course"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/CaptionRoboto12PtBlack"
+                        style="?CaptionRoboto12PtBlack"
                         tools:text="Oława"/>
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -88,13 +88,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="3dp"
-                    style="@style/CaptionRoboto12Pt"
+                    style="?CaptionRoboto12Pt"
                     android:text="Termin:"/>
                 <TextView
                     android:id="@+id/meet_item_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/CaptionRoboto12PtBlack"
+                    style="?CaptionRoboto12PtBlack"
                     tools:text="12.05.2012"/>
             </LinearLayout>
         </LinearLayout>

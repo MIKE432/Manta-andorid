@@ -15,7 +15,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
-                style="@style/ButtonRoboto14Pt"
+                style="?ButtonRoboto14Pt"
                 android:background="@drawable/bottom_border"
                 android:text="@string/incoming_meet_caps"/>
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,7 +49,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        style="@style/Body3Roboto14Pt"
+                        style="?Body3Roboto14Pt"
                         android:text="@string/no_incoming_meet" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>

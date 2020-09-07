@@ -1,171 +1,101 @@
 package com.apusart.manta.ui.user_module.meets
 
-import android.graphics.drawable.ColorDrawable
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.*
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import com.apusart.manta.ui.tools.Prefs
 import com.apusart.manta.R
 import com.apusart.manta.api.models.Meet
+import com.apusart.manta.api.serivces.MeetService
 import com.apusart.manta.ui.tools.Const
-import com.apusart.manta.ui.tools.LoadingScreen
-import kotlinx.android.synthetic.main.incoming_meets_fragment.*
-import kotlinx.android.synthetic.main.last_meets_fragment.*
-import kotlinx.android.synthetic.main.meet_item.view.*
+import kotlinx.android.synthetic.main.meet_fragment.*
+import kotlinx.android.synthetic.main.meet_list_item.view.*
 import kotlinx.android.synthetic.main.meets_view_pager.*
+import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class MeetsPager: Fragment(R.layout.meets_view_pager) {
-    private lateinit var meetsFragmentAdapter: MeetsFragmentAdapter
-    private val navArgs by navArgs<MeetsPagerArgs>()
-    private val meetsViewModel: MeetsViewModel by viewModels()
+class MeetsFragmentViewModel: ViewModel() {
+    val mMeetService = MeetService()
+    val mLastMeets = MutableLiveData<List<Meet>>()
+    val mInProgress = MutableLiveData<Boolean>()
 
-    private inner class MeetsFragmentAdapter(fm: FragmentManager): FragmentStatePagerAdapter (fm) {
-        private val COUNT = meetsViewModel.lastMeets.value?.size ?: 0
+    fun getLastMeets(athleteId: Int) {
+        viewModelScope.launch {
+            try {
+                mInProgress.value = true
+                val resMeets = mMeetService.getMeetsByAthleteId(athleteId)
+                mLastMeets.value = resMeets.map { it.also { mt ->
+                    it.photos = mMeetService.getPhotosByMeetId(mt.meet_id)
+                } }
 
-        override fun getItem(position: Int): Fragment {
-          return MeetFragment(meetsViewModel.lastMeets.value?.get(position)?.meet_id ?: -1)
-        }
-
-        override fun getCount(): Int {
-            return COUNT
-        }
-
-        override fun getPageTitle(position: Int): CharSequence? {
-
-            val meet = meetsViewModel.lastMeets.value?.get(position)
-            return  "${meet?.mt_city} ${meet?.mt_from?.substring(0, 4)}"
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                mInProgress.value = false
+            }
         }
     }
+}
+
+class MeetsPager: Fragment(R.layout.meets_view_pager) {
+    private lateinit var mMeetsAdapter: MeetsAdapter
+    private val navArgs by navArgs<MeetsPagerArgs>()
+    private val mMeetsViewModel: MeetsFragmentViewModel by viewModels()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val prevMeetId = Prefs.getPreviousMeetId()
-        meetsViewModel.lastMeets.observe(viewLifecycleOwner, Observer {
-            meets_view_pager.isVisible = it.isNotEmpty()
-            meets_spinner.isVisible = false
 
+
+
+        mMeetsViewModel.mInProgress.observe(viewLifecycleOwner, Observer {
+            meets_spinner.isVisible = it
+        })
+
+
+        mMeetsViewModel.mLastMeets.observe(viewLifecycleOwner, Observer {
+            meets_list.isVisible = it.isNotEmpty()
+
+            mMeetsAdapter = MeetsAdapter(findNavController(), requireActivity())
             if(it.isEmpty()) {
                 no_meets_to_display.isVisible = true
-                meets_view_pager.isVisible = false
+                meets_list.isVisible = false
             } else {
                 no_meets_to_display.isVisible = false
-                meets_view_pager.isVisible = true
-                meetsFragmentAdapter = MeetsFragmentAdapter(childFragmentManager)
+                meets_list.isVisible = true
 
-                meets_view_pager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener {
-                    override fun onPageScrollStateChanged(state: Int) {
-
-                    }
-
-                    override fun onPageScrolled(
-                        position: Int,
-                        positionOffset: Float,
-                        positionOffsetPixels: Int
-                    ) {
-                        if(position < it.size) {
-                            Prefs.setPreviousMeetId(it[position].meet_id)
-                        }
-                    }
-
-                    override fun onPageSelected(position: Int) {
-//
-                    }
-
-                })
-                meets_view_pager.apply {
-                    adapter = meetsFragmentAdapter
-                    if(prevMeetId != 0) {
-                        currentItem = (it as ArrayList).indexOf(it.firstOrNull { meet -> meet.meet_id == prevMeetId })
-                    }
-                    setPageMarginDrawable(ColorDrawable(resources.getColor(R.color.black)))
-                    pageMargin = 5
+                mMeetsAdapter.submitList(it)
+                meets_list.apply {
+                    adapter = mMeetsAdapter
                 }
+
+
             }
         })
 
-        meetsViewModel.getLastMeetsByAthleteId(Prefs.getUser()!!.athlete_id)
-
+        mMeetsViewModel.getLastMeets(Prefs.getUser()!!.athlete_id)
     }
 }
 
-class LastMeetsFragment: Fragment(R.layout.last_meets_fragment) {
-    private val meetsViewModel: MeetsViewModel by viewModels()
-    private lateinit var lastMeetsAdapter:  LastMeetsAdapter
-    private val athlete = Prefs.getUser()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        lastMeetsAdapter = LastMeetsAdapter()
-
-        meetsViewModel.lastMeets.observe(viewLifecycleOwner, Observer { lastMeets ->
-
-            meets_fragment_last_meets_empty_list_info.isVisible = lastMeets.isEmpty()
-            meets_fragment_last_meets_list.isVisible = lastMeets.isNotEmpty()
-
-            lastMeetsAdapter.submitList(lastMeets)
-        })
-
-        meetsViewModel.inProgressLastMeets.observe(viewLifecycleOwner, Observer {
-            meets_fragment_last_meets_list.isVisible = !it && lastMeetsAdapter.currentList.isNotEmpty()
-        })
-
-        meets_fragment_last_meets_list.apply {
-            adapter = lastMeetsAdapter
-        }
-
-        meetsViewModel.getLastMeetsByAthleteId(athlete!!.athlete_id)
-
-        meets_fragment_last_meets_swipe_layout.setOnRefreshListener {
-            meetsViewModel.getLastMeetsByAthleteId(athlete.athlete_id)
-            meets_fragment_last_meets_swipe_layout.isRefreshing = false
-        }
-    }
-}
-
-class IncomingMeetsFragment: Fragment(R.layout.incoming_meets_fragment) {
-    private val meetsViewModel: MeetsViewModel by viewModels()
-    private lateinit var incomingMeetsAdapter: IncomingMeetsAdapter
-    private val athlete = Prefs.getUser()
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        incomingMeetsAdapter = IncomingMeetsAdapter()
-
-        meets_fragment_incoming_meets_list.apply {
-            adapter = incomingMeetsAdapter
-        }
-
-        meetsViewModel.incomingMeets.observe(viewLifecycleOwner, Observer { incMeets ->
-
-            meets_fragment_incoming_meets_empty_list_info.isVisible = incMeets.isEmpty()
-            meets_fragment_incoming_meets_list.isVisible = incMeets.isNotEmpty()
-
-
-            incomingMeetsAdapter.submitList(incMeets)
-        })
-
-        meetsViewModel.getIncomingMeetsByAthleteId(athlete!!.athlete_id)
-
-        meets_fragment_incoming_meets_swipe_layout.setOnRefreshListener {
-            meetsViewModel.getIncomingMeetsByAthleteId(athlete.athlete_id)
-            meets_fragment_incoming_meets_swipe_layout.isRefreshing = false
-        }
-    }
-}
-
-class IncomingMeetsAdapter: ListAdapter<Meet, MeetViewHolder>(diffUtil) {
-
+class MeetsAdapter(private val navController: NavController, private val activity: Activity): ListAdapter<Meet, MeetViewHolder>(diffUtil) {
     object diffUtil: DiffUtil.ItemCallback<Meet>() {
         override fun areItemsTheSame(oldItem: Meet, newItem: Meet): Boolean {
             return oldItem.meet_id == newItem.meet_id
@@ -177,62 +107,82 @@ class IncomingMeetsAdapter: ListAdapter<Meet, MeetViewHolder>(diffUtil) {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeetViewHolder {
-        val viewContainer = LayoutInflater.from(parent.context)
-            .inflate(R.layout.meet_item, parent, false)
+        val container = LayoutInflater.from(parent.context)
+            .inflate(R.layout.meet_list_item, parent, false)
 
-        return MeetViewHolder.IncomingMeet(viewContainer)
+        return MeetViewHolder(container, navController, activity)
     }
 
     override fun onBindViewHolder(holder: MeetViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-
 }
 
-class LastMeetsAdapter: ListAdapter<Meet, MeetViewHolder>(diffUtil) {
 
-    object diffUtil: DiffUtil.ItemCallback<Meet>() {
-        override fun areItemsTheSame(oldItem: Meet, newItem: Meet): Boolean {
-            return oldItem.meet_id == newItem.meet_id
-        }
+class MeetViewHolder(container: View, private val navController: NavController, private val activity: Activity): RecyclerView.ViewHolder(container) {
 
-        override fun areContentsTheSame(oldItem: Meet, newItem: Meet): Boolean {
-            return oldItem.meet_id == newItem.meet_id
-        }
-    }
+    fun bind(meet: Meet) {
+        itemView.apply {
+            meet_list_item_multiple_button.setText(0, "WWW")
+            meet_list_item_multiple_button.setButtonIcon(0, R.drawable.www_icon)
+            meet_list_item_multiple_button.setText(1, "Lista startowa")
+            meet_list_item_multiple_button.setButtonIcon(1, R.drawable.articles_icon)
+            meet_list_item_multiple_button.addButton("Wyniki")
+            meet_list_item_multiple_button.setButtonIcon(2, R.drawable.stopwatch_icon)
+            meet_list_item_multiple_button.addButton("Galeria")
+            meet_list_item_multiple_button.setButtonIcon(3, R.drawable.gallery_icon64)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeetViewHolder {
-        val viewContainer = LayoutInflater.from(parent.context)
-            .inflate(R.layout.meet_item, parent, false)
+            meet.run {
+                meet_list_item_meet_name.text = mt_name
+                meet_list_item_meet_city.text = mt_city
+                meet_list_item_course.text = Const.courseSize.getString(mt_course_abbr)
+                meet_list_item_date.text = resources.getString(R.string.meeting_date, mt_from, mt_to)
 
-        return MeetViewHolder.LastMeets(viewContainer)
-    }
+                meet_list_item_header_main_container.setOnClickListener {
+                    navController.navigate(MeetsPagerDirections.actionMeetsFragmentToMeetFragment(meet_id))
+                }
 
-    override fun onBindViewHolder(holder: MeetViewHolder, position: Int) {
-        holder.bind(getItem(position))
-    }
+                val areThereAnyPhotos = photos?.isNotEmpty() ?: false
 
-}
+                if(areThereAnyPhotos) {
+                    meet_list_item_multiple_button.setButtonOnClickListener(3) {
+                        Prefs.setPreviousMeetPhoto(0)
+                        navController.navigate(MeetsPagerDirections.actionMeetsFragmentToGalleryFragment(meet_id))
+                    }
+                } else {
+                    meet_list_item_multiple_button.setToInactive(3, R.color.pale_grey_three)
+                }
 
-sealed class MeetViewHolder(containerView: View): RecyclerView.ViewHolder(containerView) {
-    abstract fun bind(meet: Meet)
+                if(mt_main_page != "") {
+                    meet_list_item_multiple_button.setButtonOnClickListener(0) { v ->
 
-    class IncomingMeet(containerView: View): MeetViewHolder(containerView) {
-        override fun bind(meet: Meet) {
-            itemView.apply {
-                meet_item_meet_title.text = meet.mt_name
-                meet_item_meet_city.text = meet.mt_city
-            }
-        }
-    }
+                        val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(mt_main_page))
+                        activity.startActivity(intent)
+                    }
+                } else {
+                    meet_list_item_multiple_button.setToInactive(0, R.color.pale_grey_three)
+                }
 
-    class LastMeets(containerView: View): MeetViewHolder(containerView) {
-        override fun bind(meet: Meet) {
-            itemView.apply {
-                meet_item_meet_title.text = meet.mt_name
-                meet_item_meet_city.text = meet.mt_city
-                meet_item_course.text = Const.courseSize.getString(meet.mt_course_abbr)
-                meet_item_date.text = resources.getString(R.string.meeting_date, meet.mt_from, meet.mt_to)
+                if(mt_start_list_page != "") {
+
+                    meet_list_item_multiple_button.setButtonOnClickListener(1) { v ->
+                        val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(mt_start_list_page))
+                        activity.startActivity(intent)
+                    }
+                } else {
+                    meet_list_item_multiple_button.setToInactive(1, R.color.pale_grey_three)
+                }
+
+                if(mt_results_page != "") {
+
+                    meet_list_item_multiple_button.setButtonOnClickListener(2) { v ->
+                        val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(mt_results_page))
+                        activity.startActivity(intent)
+                    }
+                } else {
+                    meet_list_item_multiple_button.setToInactive(2, R.color.pale_grey_three)
+
+                }
             }
         }
     }
