@@ -1,40 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<androidx.core.widget.NestedScrollView
     android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:background="?background">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/meets_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="?background"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone" />
-    <com.apusart.manta.ui.tools.EmptyStateComponent
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/no_meets_to_display"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:text="Brak \nodbytych\n zawodów"
-        app:image="@drawable/empty_meets_list"
-        android:visibility="gone"/>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/meets_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?background">
-        <ProgressBar
-            android:layout_width="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:text="Przeszłe zawody"
+            style="?HeadlineRoboto24Pt"
+            android:padding="15dp"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="460dp">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/meets_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="?background"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="invisible" />
+            <com.apusart.manta.ui.tools.EmptyStateComponent
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/no_meets_to_display"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:text="Brak \nodbytych\n zawodów"
+                app:image="@drawable/empty_meets_list"
+                android:visibility="gone"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/meets_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?background">
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nadchodzące zawody"
+            style="?HeadlineRoboto24Pt"
+            android:padding="15dp"/>
+<!--        this is mockupped-->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            style="@style/dashboard.item.no_padding"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?Body3Roboto14Pt"
+                    android:text="Brak nadchodzących zawodów"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

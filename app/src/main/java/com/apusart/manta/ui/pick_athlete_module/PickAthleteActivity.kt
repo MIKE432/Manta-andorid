@@ -32,7 +32,7 @@ import kotlinx.android.synthetic.main.pick_athlete_item.view.*
 import kotlinx.android.synthetic.main.pick_athlete_item.view.pick_athlete_item_image
 import kotlinx.android.synthetic.main.user_activity.*
 
-class PickAthleteActivity: AppCompatActivity(R.layout.pick_athlete_activity) {
+class PickAthleteActivity: AppCompatActivity() {
     private val viewModel: AthletesViewModel by viewModels()
     private lateinit var athletesAdapter: AthletesAdapter
 
@@ -45,9 +45,11 @@ class PickAthleteActivity: AppCompatActivity(R.layout.pick_athlete_activity) {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val x = Prefs.getCurrentTheme()
+        setTheme(if(x == 1) R.style.Manta_Theme_Dark else R.style.Manta_Theme_Light)
         super.onCreate(savedInstanceState)
        // overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-
+        setContentView(R.layout.pick_athlete_activity)
         athletesAdapter = AthletesAdapter(this)
 
         viewModel.athletes.observe(this, Observer { athletes ->

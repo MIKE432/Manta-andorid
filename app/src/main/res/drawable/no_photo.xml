@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:width="300dp"
+        android:height="300dp"
+        android:top="400dp"
+        android:bottom="400dp"
+        android:start="400dp"
+        android:end="400dp">
+        <bitmap android:src="@drawable/no_photo_icon128"
+            android:tint="@color/cool_grey"/>
+    </item>
+</layer-list>
