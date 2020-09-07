@@ -17,6 +17,7 @@
     <attr name="tabsColor" format="color" />
     <attr name="topBarColor" format="color" />
     <attr name="tabsTextStyle" format="reference" />
+    <attr name="isDarkTheme" format="boolean" />
 
     <style name="Manta.Theme.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -40,6 +41,7 @@
         <item name="tabsColor">@color/secondary_900</item>
         <item name="topBarColor">@color/white</item>
         <item name="tabsTextStyle">@style/Body1Roboto14Pt.Dark</item>
+        <item name="isDarkTheme">false</item>
     </style>
 
     <style name="Manta.Theme.Dark" parent="Theme.AppCompat.Light.NoActionBar">
@@ -65,6 +67,7 @@
         <item name="tabsColor">@color/secondary_50</item>
         <item name="topBarColor">@color/dark_grey</item>
         <item name="tabsTextStyle">@style/Body1Roboto14Pt.Light</item>
+        <item name="isDarkTheme">true</item>
     </style>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">

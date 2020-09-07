@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -151,7 +153,9 @@ class UserActivity: AppCompatActivity() {
         }
 
         user_menu_settings.setOnClickListener {
-            recreate()
+            findNavController(R.id.logged_athlete_navigation_host)
+                .navigate(R.id.settingsActivity)
+            handleMenu()
         }
 
         app_bar_out.setOnClickListener {
@@ -186,15 +190,14 @@ class UserActivity: AppCompatActivity() {
     }
 }
 
-class SettingsActivity: AppCompatActivity(R.layout.settings_fragment) {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        val x = Prefs.getCurrentTheme()
-        setTheme(if(x == 1) R.style.Manta_Theme_Dark else R.style.Manta_Theme_Light)
-        super.onCreate(savedInstanceState)
-        overridePendingTransition(0,0)
-        toggle_theme1.setOnClickListener {
-            Prefs.toggleCurrentTheme()
-            settings_activity.background = ColorDrawable(ContextCompat.getColor(applicationContext, if(Prefs.getCurrentTheme() == 1) R.color.dark_grey else R.color.cool_grey))
+class SettingsActivity: Fragment(R.layout.settings_fragment) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        theme_switcher.setOnCheckedChangeListener { buttonView, isChecked ->
+            Prefs.toggleCurrentTheme(isChecked)
+            activity?.recreate()
         }
     }
 }

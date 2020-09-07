@@ -341,6 +341,19 @@ object Prefs {
         }
     }
 
+    fun toggleCurrentTheme(b: Boolean) {
+
+        if(b) {
+            mCurrentTheme = 1
+            editor?.putInt(CURRENT_THEME, mCurrentTheme)
+            editor?.commit()
+        } else {
+            mCurrentTheme = 0
+            editor?.putInt(CURRENT_THEME, mCurrentTheme)
+            editor?.commit()
+        }
+    }
+
     fun getCurrentTheme(): Int  {
         mCurrentTheme = settings?.getInt(
             CURRENT_THEME,0) ?: 0
