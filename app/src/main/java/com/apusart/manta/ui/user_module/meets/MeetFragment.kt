@@ -19,6 +19,7 @@ import com.apusart.manta.R
 import com.apusart.manta.ui.tools.Const
 import com.apusart.manta.ui.tools.Prefs
 import com.apusart.manta.ui.tools.Tools
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.meet_fragment.*
 import kotlinx.android.synthetic.main.result_comparison_item.view.*
 import java.math.RoundingMode
@@ -192,6 +193,8 @@ class ComparedResultViewHolder(container: View): RecyclerView.ViewHolder(contain
             result_comparison_item_actual_points.text = item.result.res_points.toString()
             result_comparison_item_additional_info_split_times.text = item.result.res_split_times
             result_comparison_item_dsq.text = item.result.res_dsq_abbr
+
+
         }
     }
 }

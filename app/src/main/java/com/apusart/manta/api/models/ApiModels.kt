@@ -145,7 +145,8 @@ class Meet(
     val mt_lxf_url_entries_k: String,
     val mt_lxf_url_results: String,
     val results: List<Result>?,
-    var photos: List<Photo>?
+    var photos: List<Photo>?,
+    val path: String?
 )
 
 class MedalStat(

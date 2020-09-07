@@ -25,6 +25,7 @@ import com.apusart.manta.R
 import com.apusart.manta.api.models.Meet
 import com.apusart.manta.api.serivces.MeetService
 import com.apusart.manta.ui.tools.Const
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.meet_fragment.*
 import kotlinx.android.synthetic.main.meet_list_item.view.*
 import kotlinx.android.synthetic.main.meets_view_pager.*
@@ -41,9 +42,7 @@ class MeetsFragmentViewModel: ViewModel() {
             try {
                 mInProgress.value = true
                 val resMeets = mMeetService.getMeetsByAthleteId(athleteId)
-                mLastMeets.value = resMeets.map { it.also { mt ->
-                    it.photos = mMeetService.getPhotosByMeetId(mt.meet_id)
-                } }
+                mLastMeets.value = resMeets
 
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -63,12 +62,9 @@ class MeetsPager: Fragment(R.layout.meets_view_pager) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         mMeetsViewModel.mInProgress.observe(viewLifecycleOwner, Observer {
             meets_spinner.isVisible = it
         })
-
 
         mMeetsViewModel.mLastMeets.observe(viewLifecycleOwner, Observer {
             meets_list.isVisible = it.isNotEmpty()
@@ -142,15 +138,27 @@ class MeetViewHolder(container: View, private val navController: NavController, 
                     navController.navigate(MeetsPagerDirections.actionMeetsFragmentToMeetFragment(meet_id))
                 }
 
-                val areThereAnyPhotos = photos?.isNotEmpty() ?: false
+                val areThereAnyPhotos = meet.path != null
+
+
+
+
 
                 if(areThereAnyPhotos) {
+                    Glide.with(itemView)
+                        .load(Const.baseUrl + meet.path)
+                        .error(R.drawable.no_photo)
+                        .into(meet_list_item_image)
+
                     meet_list_item_multiple_button.setButtonOnClickListener(3) {
                         Prefs.setPreviousMeetPhoto(0)
                         navController.navigate(MeetsPagerDirections.actionMeetsFragmentToGalleryFragment(meet_id))
                     }
                 } else {
                     meet_list_item_multiple_button.setToInactive(3, R.color.pale_grey_three)
+                    Glide.with(itemView)
+                        .load(R.drawable.no_photo)
+                        .into(meet_list_item_image)
                 }
 
                 if(mt_main_page != "") {

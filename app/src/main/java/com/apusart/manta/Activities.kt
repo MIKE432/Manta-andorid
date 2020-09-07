@@ -107,10 +107,9 @@ class UserActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-
-        super.onCreate(savedInstanceState)
         val x = Prefs.getCurrentTheme()
         setTheme(if(x == 1) R.style.Manta_Theme_Dark else R.style.Manta_Theme_Light)
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.user_activity)
         bottom_navigation.applyNavController(findNavController(R.id.logged_athlete_navigation_host))
 
