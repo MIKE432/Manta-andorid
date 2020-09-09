@@ -10,6 +10,17 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/result_details_header"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Zawody"
+            android:gravity="center"
+            android:background="?tabsColor"
+            android:paddingVertical="8dp"
+            style="?tabsTextStyle"
+            />
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Przeszłe zawody"

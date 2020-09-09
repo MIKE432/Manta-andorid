@@ -140,7 +140,9 @@ class MeetViewHolder(container: View, private val navController: NavController, 
 
                 val areThereAnyPhotos = meet.path != null
 
-
+                meet_list_item_image_container.setOnClickListener {
+                    navController.navigate(MeetsPagerDirections.actionMeetsFragmentToMeetFragment(meet_id))
+                }
 
 
 
@@ -154,8 +156,10 @@ class MeetViewHolder(container: View, private val navController: NavController, 
                         Prefs.setPreviousMeetPhoto(0)
                         navController.navigate(MeetsPagerDirections.actionMeetsFragmentToGalleryFragment(meet_id))
                     }
+
                 } else {
                     meet_list_item_multiple_button.setToInactive(3, R.color.pale_grey_three)
+
                     Glide.with(itemView)
                         .load(R.drawable.no_photo)
                         .into(meet_list_item_image)

@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?contentColor">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,24 +55,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.15"/>
-            <LinearLayout
-                android:id="@+id/graph_axisY"
-                android:layout_width="2dp"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="@id/graph_graph"
-                app:layout_constraintBottom_toTopOf="@id/graph_axisX"
-                app:layout_constraintEnd_toStartOf="@id/graph_graph"
-                android:background="@color/black"
-                android:orientation="vertical"/>
-            <LinearLayout
-                android:id="@+id/graph_axisX"
-                android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:background="@color/black"
-                app:layout_constraintTop_toBottomOf="@id/graph_graph"
-                app:layout_constraintEnd_toEndOf="@id/graph_graph"
-                app:layout_constraintStart_toStartOf="@id/graph_axisY"
-                android:orientation="horizontal"/>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/graph_axisYData"
                 android:layout_width="0dp"
@@ -79,14 +63,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:background="?contentColor"
                 app:layout_constraintEnd_toStartOf="@id/graph_guidelineY"
                 />
-
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/graph_axisXData"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:background="?contentColor"
                 app:layout_constraintStart_toEndOf="@id/graph_guidelineY"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="@id/graph_guidelineX"
@@ -102,7 +86,24 @@
 <!--                    android:text="27-06-2020"-->
 <!--                    style="@style/CaptionRoboto12Pt"/>-->
             </androidx.constraintlayout.widget.ConstraintLayout>
-
+            <LinearLayout
+                android:id="@+id/graph_axisY"
+                android:layout_width="2dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="@id/graph_graph"
+                app:layout_constraintBottom_toTopOf="@id/graph_axisX"
+                app:layout_constraintEnd_toStartOf="@id/graph_graph"
+                android:background="?iconsTint"
+                android:orientation="vertical"/>
+            <LinearLayout
+                android:id="@+id/graph_axisX"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:background="?iconsTint"
+                app:layout_constraintTop_toBottomOf="@id/graph_graph"
+                app:layout_constraintEnd_toEndOf="@id/graph_graph"
+                app:layout_constraintStart_toStartOf="@id/graph_axisY"
+                android:orientation="horizontal"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

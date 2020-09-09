@@ -55,12 +55,5 @@ class ProfileFragment: Fragment(R.layout.profile_fragment) {
                 profile_fragment_athlete_train_to_container.isVisible = false
             }
         }
-
-
-        toggle_theme.setOnClickListener {
-            Prefs.toggleCurrentTheme()
-
-            requireActivity().recreate()
-        }
     }
 }

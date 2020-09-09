@@ -2,6 +2,7 @@ package com.apusart.manta.ui.tools
 
 import android.content.Context
 import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.*
@@ -12,6 +13,7 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID
 import androidx.constraintlayout.widget.ConstraintSet.PARENT_ID
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.core.view.setMargins
 import androidx.core.view.setPadding
@@ -88,13 +90,21 @@ class Point(context: Context): View(context) {
 
     val params =  RelativeLayout.LayoutParams((radius * 2).toInt(), (radius * 2).toInt())
     lateinit var result: Result
+    private val mTheme = Prefs.getCurrentTheme()
 
-    fun mSetBackground(c: Int = Color.parseColor("#000000")) {
+    fun mSetBackground(c: Int =
+                           if(mTheme == 1)
+                               ResourcesCompat.getColor(resources, R.color.white, null)
+                           else
+                               ResourcesCompat.getColor(resources, R.color.black, null)): Point {
+
         val gradientDrawable = GradientDrawable()
         val strokeWidth = radius.toInt() * 2
         gradientDrawable.shape = GradientDrawable.OVAL
         gradientDrawable.setStroke(strokeWidth, c)
         background = gradientDrawable
+
+        return this
     }
 
     init {
@@ -113,7 +123,7 @@ class Graph(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) 
     private val mPainter = Paint()
     private val mLinesPainter = Paint()
     private val mLinesBetweenResultsPainter = Paint()
-
+    private val mTheme = Prefs.getCurrentTheme()
 
     init {
         addView(mGraph)
@@ -130,21 +140,31 @@ class Graph(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) 
         super.onDraw(canvas)
         graph_container.visibility = View.VISIBLE
         graph_spinner.isVisible = false
-
     }
 
     private fun setUpPainters() {
-        mPainter.strokeWidth = 4f
-        mPainter.color = resources.getColor(R.color.black)
-        mPainter.style = Paint.Style.FILL
 
+        mPainter.strokeWidth = 4f
         mLinesPainter.strokeWidth = 2f
-        mLinesPainter.color = resources.getColor(R.color.cool_grey)
-        mLinesPainter.style = Paint.Style.FILL
-
         mPainter.strokeWidth = 4f
-        mPainter.color = resources.getColor(R.color.dark_seafoam)
+
         mPainter.style = Paint.Style.FILL
+        mLinesPainter.style = Paint.Style.FILL
+        mPainter.style = Paint.Style.FILL
+
+        if(mTheme == 1) {
+
+            mPainter.color = resources.getColor(R.color.white)
+            mLinesPainter.color = resources.getColor(R.color.primary_100)
+            mPainter.color = resources.getColor(R.color.dark_seafoam)
+
+        } else {
+
+            mPainter.color = resources.getColor(R.color.black)
+            mLinesPainter.color = resources.getColor(R.color.primary_900)
+            mPainter.color = resources.getColor(R.color.dark_seafoam)
+
+        }
     }
 
     fun resetData() {
@@ -164,17 +184,20 @@ class Graph(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) 
 
     fun applyData() {
         mDrawablePoints = mDataPoints.setDim(mHeight, mWidth).mapToDrawablePoints()
+
         mDrawablePoints.forEach { point ->
             point.setOnClickListener {
                 Toast.makeText(context, point.result.res_total_time, Toast.LENGTH_SHORT).show()
             }
         }
+
         graph_graph.removeAllViews()
         graph_axisYData.removeAllViews()
         graph_axisXData.removeAllViews()
 
         val bestRes = mDrawablePoints.minBy { it.params.topMargin }
         bestRes?.mSetBackground(Color.parseColor("#EEB507"))
+
         mDrawablePoints.forEach { point ->
             mGraph.graph_graph.addView(point, point.params)
         }
@@ -183,9 +206,11 @@ class Graph(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) 
         if(mDrawablePoints.size > 1) {
 
             mDrawablePoints = mDrawablePoints.sortedBy { it.params.leftMargin }
-            drawLinesBetweenResults(canvas, mPainter)
+            drawLinesBetweenResults(canvas, mLinesPainter)
         }
+        val bmp = BitmapDrawable(resources, mBitmap)
         graph_imageView.setImageBitmap(mBitmap)
+        graph_imageView.setBackgroundColor(if(mTheme == 1) ResourcesCompat.getColor(resources, R.color.light_grey, null) else ResourcesCompat.getColor(resources, R.color.white, null))
         drawLinesToPoints(canvas, mLinesPainter)
 //        drawLinesForPoint(canvas, bestRes!!, mLinesPainter)
         mGraph.invalidate()
