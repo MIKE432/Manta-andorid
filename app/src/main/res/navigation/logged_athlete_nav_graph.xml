@@ -19,16 +19,24 @@
         </action>
         <action
             android:id="@+id/action_dashboardFragment_to_meetsFragment"
-            app:destination="@id/meetsFragment" />
+            app:destination="@id/meetsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_dashboardFragment_to_resultDetails"
-            app:destination="@id/resultDetails" />
+            app:destination="@id/resultDetails"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_dashboardFragment_to_galleryFragment"
-            app:destination="@id/galleryFragment" />
+            app:destination="@id/galleryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_dashboardFragment_to_meetFragment"
-            app:destination="@id/meetFragment" />
+            app:destination="@id/meetFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/recordsFragment"
@@ -52,10 +60,15 @@
             android:defaultValue="0"/>
         <action
             android:id="@+id/action_meetsFragment_to_galleryFragment"
-            app:destination="@id/galleryFragment" />
+            app:destination="@id/galleryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right"
+            />
         <action
             android:id="@+id/action_meetsFragment_to_meetFragment"
-            app:destination="@id/meetFragment" />
+            app:destination="@id/meetFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -133,6 +146,8 @@
             android:defaultValue="-1"/>
         <action
             android:id="@+id/action_meetFragment_to_galleryFragment"
-            app:destination="@id/galleryFragment" />
+            app:destination="@id/galleryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 </navigation>

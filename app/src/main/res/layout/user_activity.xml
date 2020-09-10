@@ -13,7 +13,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="?topBarColor">
+        android:background="?topBarColor"
+        android:transitionName="pick_athlete_to_header">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/user_information_container"
             android:layout_width="match_parent"

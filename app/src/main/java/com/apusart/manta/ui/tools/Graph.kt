@@ -134,12 +134,14 @@ class Graph(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) 
                 graph_graph.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
         })
+
+        graph_container.visibility = View.INVISIBLE
+        graph_spinner.isVisible = true
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        graph_container.visibility = View.VISIBLE
-        graph_spinner.isVisible = false
+
     }
 
     private fun setUpPainters() {
@@ -215,7 +217,7 @@ class Graph(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) 
 //        drawLinesForPoint(canvas, bestRes!!, mLinesPainter)
         mGraph.invalidate()
 
-        graph_graph.visibility = View.VISIBLE
+        graph_container.visibility = View.VISIBLE
         graph_spinner.isVisible = false
     }
 

@@ -14,7 +14,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.util.Pair
+import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
@@ -36,6 +39,11 @@ class PickAthleteActivity: AppCompatActivity() {
     private val viewModel: AthletesViewModel by viewModels()
     private lateinit var athletesAdapter: AthletesAdapter
 
+
+    companion object {
+        var mLastClick: Long = 0
+    }
+
     fun hideKayboard() {
         val view = this.currentFocus
         view?.let { v ->
@@ -48,7 +56,10 @@ class PickAthleteActivity: AppCompatActivity() {
         val x = Prefs.getCurrentTheme()
         setTheme(if(x == 1) R.style.Manta_Theme_Dark else R.style.Manta_Theme_Light)
         super.onCreate(savedInstanceState)
-       // overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+
+
+
+
         setContentView(R.layout.pick_athlete_activity)
         athletesAdapter = AthletesAdapter(this)
 
@@ -74,7 +85,7 @@ class PickAthleteActivity: AppCompatActivity() {
 
         })
 
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
 
         viewModel.inProgress.observe(this, Observer { v ->
             pick_athlete_athletes_list.isVisible = !v
@@ -87,6 +98,8 @@ class PickAthleteActivity: AppCompatActivity() {
         pick_athlete_athletes_list.apply {
             adapter = athletesAdapter
         }
+
+        pick_athlete_athletes_list.isMotionEventSplittingEnabled = false
 
         pick_athlete_athletes_list.addOnScrollListener(object: RecyclerView.OnScrollListener() {
 
@@ -172,11 +185,20 @@ class AthletesAdapter(private val activity: Activity): ListAdapter<Athlete, Athl
         val athlete = getItem(position)
         holder.bind(athlete)
         holder.itemView.setOnClickListener {
-            Prefs.athletePreference(holder.context)
-            Prefs.storeUser(athlete)
-            startActivity(activity, Intent(activity, UserActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION or Intent.FLAG_ACTIVITY_CLEAR_TASK), null)
-            activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+
+            val now = System.currentTimeMillis()
+
+            if(now - PickAthleteActivity.mLastClick > 1000) {
+                Prefs.athletePreference(holder.context)
+                Prefs.storeUser(athlete)
+                PickAthleteActivity.mLastClick = now
+
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.itemView, "pick_athlete_to_header"))
+
+                startActivity(activity, Intent(activity, UserActivity::class.java), options.toBundle())
+            }
+
+
         }
     }
 }
@@ -189,9 +211,11 @@ class AthleteViewHolder(viewContainer: View, val context: Context): RecyclerView
             pick_athlete_licence_no.text = context.getString(R.string.licence_no, if(item.ath_licence_no.toString() == "") "(Brak)" else item.ath_licence_no.toString())
             val prevAthlete = Prefs.getPreviousAthlete()
             background = ColorDrawable(resources.getColor(R.color.white))
+
             if(prevAthlete != null && prevAthlete.athlete_id == item.athlete_id) {
                 background = resources.getDrawable(R.drawable.selected_ahtlete_background)
             }
+
             if(item.ath_birth_year > 1000)
                 pick_athlete_birth_year.text = "'${item?.ath_birth_year.toString().substring(2,4)}"
             val url = Const.baseUrl + item.ath_image_min_url
