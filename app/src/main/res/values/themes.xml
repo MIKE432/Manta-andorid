@@ -19,11 +19,15 @@
     <attr name="tabsTextStyle" format="reference" />
     <attr name="isDarkTheme" format="boolean" />
 
-    <style name="Manta.Theme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Manta.Theme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAnimationStyle">@style/ActivityAnimator</item>
+    </style>
+
+    <style name="Manta.Theme.Light">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/primary_900</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowAnimationStyle">@style/ActivityAnimator</item>
         <item name="cardViewStyle">@style/CardView.Light</item>
         <item name="rippleEffectColor">@color/black</item>
         <item name="contentColor">@color/white</item>
@@ -44,12 +48,10 @@
         <item name="isDarkTheme">false</item>
     </style>
 
-    <style name="Manta.Theme.Dark" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Manta.Theme.Dark">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/colorAccent</item>
-
-        <item name="android:windowAnimationStyle">@style/ActivityAnimator</item>
         <item name="cardViewStyle">@style/CardView.Dark</item>
         <item name="rippleEffectColor">@color/white</item>
         <item name="contentColor">#FF424242</item>

@@ -80,7 +80,7 @@ class UserActivity: AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        overridePendingTransition(R.anim.slide_in_left, 0)
+//        overridePendingTransition(R.anim.slide_in_left, 0)
         val x = Prefs.getCurrentTheme()
 
         if(x != mUserActivityViewModel.theme.value) {
@@ -91,13 +91,13 @@ class UserActivity: AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         Log.d("stop", "stop")
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+//        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
     override fun onPause() {
         super.onPause()
         Log.d("pause", "pause")
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+//        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
     override fun onDestroy() {
@@ -106,7 +106,7 @@ class UserActivity: AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+//        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         val x = Prefs.getCurrentTheme()
         setTheme(if(x == 1) R.style.Manta_Theme_Dark else R.style.Manta_Theme_Light)
         super.onCreate(savedInstanceState)

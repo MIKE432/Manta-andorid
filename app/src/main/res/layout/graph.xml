@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_margin="10dp">
-        <Spinner
+        <ProgressBar
             android:id="@+id/graph_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -17,7 +17,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:visibility="visible"/>
+            android:background="?contentColor"
+            android:visibility="gone"/>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/graph_container"
             app:layout_constraintTop_toTopOf="parent"

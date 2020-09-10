@@ -112,4 +112,8 @@
     <style name="CardViewStyle.Light">
         <item name="cardBackgroundColor">@color/white</item>
     </style>
+
+    <style name="MantaButton" >
+        <item name="android:padding">5dp</item>
+    </style>
 </resources>
