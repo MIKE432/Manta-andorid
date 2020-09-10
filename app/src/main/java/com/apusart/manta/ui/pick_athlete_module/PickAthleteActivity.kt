@@ -35,7 +35,7 @@ import kotlinx.android.synthetic.main.pick_athlete_item.view.*
 import kotlinx.android.synthetic.main.pick_athlete_item.view.pick_athlete_item_image
 import kotlinx.android.synthetic.main.user_activity.*
 
-class PickAthleteActivity: AppCompatActivity() {
+class PickAthleteActivity : AppCompatActivity() {
     private val viewModel: AthletesViewModel by viewModels()
     private lateinit var athletesAdapter: AthletesAdapter
 
@@ -54,7 +54,7 @@ class PickAthleteActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val x = Prefs.getCurrentTheme()
-        setTheme(if(x == 1) R.style.Manta_Theme_Dark else R.style.Manta_Theme_Light)
+        setTheme(if (x == 1) R.style.Manta_Theme_Dark else R.style.Manta_Theme_Light)
         super.onCreate(savedInstanceState)
 
 
@@ -66,14 +66,16 @@ class PickAthleteActivity: AppCompatActivity() {
         viewModel.athletes.observe(this, Observer { athletes ->
             athletesAdapter.submitList(athletes)
 
-            if(Prefs.getPreviousAthlete() != null && athletes.isNotEmpty()) {
-                val athlete: Athlete? = athletesAdapter.currentList.firstOrNull { it.athlete_id == Prefs.getPreviousAthlete()?.athlete_id }
-                val position = athletesAdapter.currentList.indexOf(athlete ?: athletesAdapter.currentList[0])
+            if (Prefs.getPreviousAthlete() != null && athletes.isNotEmpty()) {
+                val athlete: Athlete? =
+                    athletesAdapter.currentList.firstOrNull { it.athlete_id == Prefs.getPreviousAthlete()?.athlete_id }
+                val position =
+                    athletesAdapter.currentList.indexOf(athlete ?: athletesAdapter.currentList[0])
 
                 pick_athlete_athletes_list.scrollToPosition(position)
             }
 
-            if(athletes.isNotEmpty()) {
+            if (athletes.isNotEmpty()) {
                 pick_athlete_scroll_bar.setupWithRecyclerView(pick_athlete_athletes_list, {
                     val item = athletes[it]
 
@@ -101,7 +103,7 @@ class PickAthleteActivity: AppCompatActivity() {
 
         pick_athlete_athletes_list.isMotionEventSplittingEnabled = false
 
-        pick_athlete_athletes_list.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+        pick_athlete_athletes_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -115,8 +117,8 @@ class PickAthleteActivity: AppCompatActivity() {
             val DRAWABLE_RIGHT = 2;
             val DRAWABLE_BOTTOM = 3;
 
-            if(event.getAction() == MotionEvent.ACTION_UP) {
-                if(event.getRawX() >= (pick_athlete_athletes_edit_text.right - Tools.toDp(32))) {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= (pick_athlete_athletes_edit_text.right - Tools.toDp(32))) {
                     pick_athlete_athletes_edit_text.text.clear()
                     v.performClick()
                     return@setOnTouchListener true
@@ -125,7 +127,8 @@ class PickAthleteActivity: AppCompatActivity() {
             return@setOnTouchListener false
         }
 
-        pick_athlete_athletes_edit_text.addTextChangedListener(object: TextWatcher {
+        pick_athlete_athletes_edit_text.addTextChangedListener(object : TextWatcher {
+
             override fun afterTextChanged(s: Editable?) {
 
             }
@@ -141,10 +144,19 @@ class PickAthleteActivity: AppCompatActivity() {
                 pick_athlete_fastscroller_thumb.isVisible = !isThereAText
                 val newList = viewModel.athletes.value?.filter {
                     it.ath_firstname.startsWith(s.toString(), true) or
-                    it.ath_lastname.startsWith(s.toString(), true) or
-                    "${it.ath_firstname} ${it.ath_lastname}".startsWith(s.toString(), true) or
-                    "${it.ath_lastname} ${it.ath_firstname}".startsWith(s.toString(), true)}
-                pick_athlete_athletes_edit_text.setCompoundDrawablesWithIntrinsicBounds(R.drawable.search_icon_drawable,0, if (isThereAText) R.drawable.erase_icon16 else 0, 0)
+                            it.ath_lastname.startsWith(s.toString(), true) or
+                            "${it.ath_firstname} ${it.ath_lastname}".startsWith(
+                                s.toString(),
+                                true
+                            ) or
+                            "${it.ath_lastname} ${it.ath_firstname}".startsWith(s.toString(), true)
+                }
+                pick_athlete_athletes_edit_text.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.search_icon_drawable,
+                    0,
+                    if (isThereAText) R.drawable.erase_icon16 else 0,
+                    0
+                )
                 athletesAdapter.submitList(newList)
             }
 
@@ -154,9 +166,10 @@ class PickAthleteActivity: AppCompatActivity() {
 }
 
 
-class AthletesAdapter(private val activity: Activity): ListAdapter<Athlete, AthleteViewHolder>(diffUtil) {
+class AthletesAdapter(private val activity: Activity) :
+    ListAdapter<Athlete, AthleteViewHolder>(diffUtil) {
 
-    object diffUtil: DiffUtil.ItemCallback<Athlete>() {
+    object diffUtil : DiffUtil.ItemCallback<Athlete>() {
         override fun areItemsTheSame(oldItem: Athlete, newItem: Athlete): Boolean {
             return oldItem == newItem
         }
@@ -188,36 +201,46 @@ class AthletesAdapter(private val activity: Activity): ListAdapter<Athlete, Athl
 
             val now = System.currentTimeMillis()
 
-            if(now - PickAthleteActivity.mLastClick > 1000) {
+            if (now - PickAthleteActivity.mLastClick > 1000) {
                 Prefs.athletePreference(holder.context)
                 Prefs.storeUser(athlete)
                 PickAthleteActivity.mLastClick = now
 
-                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, Pair.create(holder.itemView, "pick_athlete_to_header"))
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    activity,
+                    Pair.create(holder.itemView, "pick_athlete_to_header")
+                )
 
-                startActivity(activity, Intent(activity, UserActivity::class.java), options.toBundle())
+                startActivity(
+                    activity,
+                    Intent(activity, UserActivity::class.java),
+                    options.toBundle()
+                )
             }
-
-
         }
     }
 }
 
-class AthleteViewHolder(viewContainer: View, val context: Context): RecyclerView.ViewHolder(viewContainer) {
+class AthleteViewHolder(viewContainer: View, val context: Context) :
+    RecyclerView.ViewHolder(viewContainer) {
 
     fun bind(item: Athlete) {
         itemView.apply {
-            pick_athlete_name.text = context.getString(R.string.user_name, item.ath_lastname, item.ath_firstname)
-            pick_athlete_licence_no.text = context.getString(R.string.licence_no, if(item.ath_licence_no.toString() == "") "(Brak)" else item.ath_licence_no.toString())
+            pick_athlete_name.text =
+                context.getString(R.string.user_name, item.ath_lastname, item.ath_firstname)
+            pick_athlete_licence_no.text = context.getString(
+                R.string.licence_no,
+                if (item.ath_licence_no.toString() == "") "(Brak)" else item.ath_licence_no.toString()
+            )
             val prevAthlete = Prefs.getPreviousAthlete()
             background = ColorDrawable(resources.getColor(R.color.white))
 
-            if(prevAthlete != null && prevAthlete.athlete_id == item.athlete_id) {
+            if (prevAthlete != null && prevAthlete.athlete_id == item.athlete_id) {
                 background = resources.getDrawable(R.drawable.selected_ahtlete_background)
             }
 
-            if(item.ath_birth_year > 1000)
-                pick_athlete_birth_year.text = "'${item?.ath_birth_year.toString().substring(2,4)}"
+            if (item.ath_birth_year > 1000)
+                pick_athlete_birth_year.text = "'${item?.ath_birth_year.toString().substring(2, 4)}"
             val url = Const.baseUrl + item.ath_image_min_url
 
             item.ath_image_min_url?.let {
