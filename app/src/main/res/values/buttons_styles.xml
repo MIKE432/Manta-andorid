@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MantaButton.Normal.Light">
+        <item name="android:textAppearance">@style/TitleRoboto20Pt.Dark</item>
+        <item name="backgroundTint">@color/secondary_900</item>
+    </style>
+
+    <style name="MantaButton.Normal.Dark">
+        <item name="android:textAppearance">@style/TitleRoboto20Pt.Light</item>
+        <item name="backgroundTint">@color/secondary_100</item>
+    </style>
+
+    <style name="MantaCardButton">
+        <item name="cardCornerRadius">5dp</item>
+    </style>
+
+    <style name="MantaCardButton.Light">
+        <item name="contentColor">@color/secondary_900</item>
+        <item name="cardBackgroundColor">@color/secondary_900</item>
+        <item name="TitleRoboto20Pt">@style/TitleRoboto20Pt.Dark</item>
+        <item name="Roboto14Pt">@style/Roboto14Pt.Dark</item>
+    </style>
+
+    <style name="MantaCardButton.Dark">
+        <item name="contentColor">@color/secondary_100</item>
+        <item name="cardBackgroundColor">@color/secondary_100</item>
+        <item name="TitleRoboto20Pt">@style/TitleRoboto20Pt.Light</item>
+        <item name="Roboto14Pt">@style/Roboto14Pt.Light</item>
+    </style>
+
+
+    <style name="buttonPrimary">
+        <item name="android:background">@drawable/button_primary</item>
+        <item name="android:textAppearance">?buttonTextAppearance</item>
+    </style>
+
+    <style name="buttonSecondary">
+        <item name="android:background">@drawable/button_secondary</item>
+        <item name="android:textAppearance">?buttonTextAppearance</item>
+    </style>
+    <style name="buttonPrimaryOutline">
+        <item name="android:background">@drawable/button_primary_outline</item>
+        <item name="android:textAppearance">?Roboto14Pt</item>
+    </style>
+    <style name="buttonSecondaryOutline">
+        <item name="android:background">@drawable/button_secondary_outline</item>
+        <item name="android:textAppearance">?Roboto14Pt</item>
+    </style>
+
+    <style name="RadioButtonsSet">
+        <item name="android:textAppearance">?Roboto14Pt</item>
+        <item name="buttonTint">?contrastColor</item>
+    </style>
+</resources>

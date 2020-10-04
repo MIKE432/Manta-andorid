@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
+
 import androidx.core.view.isVisible
 import androidx.fragment.app.*
 import androidx.lifecycle.MutableLiveData
@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
@@ -26,9 +27,10 @@ import com.apusart.manta.api.models.Meet
 import com.apusart.manta.api.serivces.MeetService
 import com.apusart.manta.ui.tools.Const
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.meet_fragment.*
+import kotlinx.android.synthetic.main.last_meets_fragment.*
 import kotlinx.android.synthetic.main.meet_list_item.view.*
 import kotlinx.android.synthetic.main.meets_view_pager.*
+
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -56,6 +58,46 @@ class MeetsFragmentViewModel: ViewModel() {
 class MeetsPager: Fragment(R.layout.meets_view_pager) {
     private lateinit var mMeetsAdapter: MeetsAdapter
     private val navArgs by navArgs<MeetsPagerArgs>()
+    private lateinit var mMeetsViewPagerAdapter: MeetsViewPagerAdapter
+
+    private inner class MeetsViewPagerAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {
+        private val COUNT = 2
+        override fun getItem(position: Int): Fragment {
+            return when(position) {
+                0 -> IncomingMeetsFragment()
+                1 -> LastMeetsFragment()
+                else -> throw Exception("Not supported")
+            }
+        }
+
+        override fun getCount(): Int {
+            return COUNT
+        }
+
+        override fun getPageTitle(position: Int): CharSequence? {
+            return when(position) {
+                0 -> "Nadchodzące zawody"
+                1 -> "Przeszłe zawody"
+                else -> throw Exception("Not supported title")
+            }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mMeetsViewPagerAdapter =
+            MeetsViewPagerAdapter(childFragmentManager)
+
+        meets_view_pager.apply {
+            adapter = mMeetsViewPagerAdapter
+        }
+    }
+}
+
+class IncomingMeetsFragment: Fragment(R.layout.incoming_meets_fragment)
+
+class LastMeetsFragment: Fragment(R.layout.last_meets_fragment) {
+    private lateinit var mMeetsAdapter: MeetsAdapter
     private val mMeetsViewModel: MeetsFragmentViewModel by viewModels()
 
 
@@ -67,22 +109,21 @@ class MeetsPager: Fragment(R.layout.meets_view_pager) {
         })
 
         mMeetsViewModel.mLastMeets.observe(viewLifecycleOwner, Observer {
-            meets_list.isVisible = it.isNotEmpty()
+            meets_fragment_last_meets_list.isVisible = it.isNotEmpty()
 
             mMeetsAdapter = MeetsAdapter(findNavController(), requireActivity())
             if(it.isEmpty()) {
-                no_meets_to_display.isVisible = true
-                meets_list.isVisible = false
+                meets_fragment_last_meets_empty_list_info.isVisible = true
+                meets_fragment_last_meets_list.isVisible = false
             } else {
-                no_meets_to_display.isVisible = false
-                meets_list.isVisible = true
+                meets_fragment_last_meets_empty_list_info.isVisible = false
+                meets_fragment_last_meets_list.isVisible = true
 
                 mMeetsAdapter.submitList(it)
-                meets_list.apply {
+
+                meets_fragment_last_meets_list.apply {
                     adapter = mMeetsAdapter
                 }
-
-
             }
         })
 
@@ -93,6 +134,7 @@ class MeetsPager: Fragment(R.layout.meets_view_pager) {
 
 class MeetsAdapter(private val navController: NavController, private val activity: Activity): ListAdapter<Meet, MeetViewHolder>(diffUtil) {
     object diffUtil: DiffUtil.ItemCallback<Meet>() {
+
         override fun areItemsTheSame(oldItem: Meet, newItem: Meet): Boolean {
             return oldItem.meet_id == newItem.meet_id
         }
@@ -135,12 +177,15 @@ class MeetViewHolder(container: View, private val navController: NavController, 
                 meet_list_item_date.text = resources.getString(R.string.meeting_date, mt_from, mt_to)
 
                 meet_list_item_header_main_container.setOnClickListener {
-                    navController.navigate(MeetsPagerDirections.actionMeetsFragmentToMeetFragment(meet_id))
+                    val extras = FragmentNavigatorExtras(
+                        meet_list_item_header_main_container to "last_meet_fragment_main_information_container"
+                    )
+                    navController.navigate(MeetsPagerDirections.actionMeetsFragmentToMeetFragment(meet_id), extras)
                 }
 
                 val areThereAnyPhotos = meet.path != null
 
-                meet_list_item_image_container.setOnClickListener {
+                meet_list_item_image.setOnClickListener {
                     navController.navigate(MeetsPagerDirections.actionMeetsFragmentToMeetFragment(meet_id))
                 }
 

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?background">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="10dp"
+        android:paddingBottom="100dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:id="@+id/article_activity_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="100000"
+            style="?Roboto14Pt"
+            android:layout_margin="10dp"
+            />
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/article_activity_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/article_activity_appbar_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:collapsedTitleTextAppearance="?Roboto14Pt"
+            app:expandedTitleGravity="bottom"
+            app:expandedTitleMargin="5dp"
+            app:maxLines="2"
+            app:title="@string/no_incoming_meet"
+            app:expandedTitleMarginBottom="20dp"
+            app:expandedTitleMarginStart="10dp"
+            app:expandedTitleTextAppearance="?TitleRoboto20Pt"
+            app:collapsedTitleGravity="center"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            <ImageView
+                android:id="@+id/article_activity_article_photo"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/manta_welcome"
+                android:scaleType="centerCrop" />
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat"
+                app:titleTextAppearance="@style/Roboto14Pt.Dark"
+                app:titleTextColor="@color/white"
+                />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

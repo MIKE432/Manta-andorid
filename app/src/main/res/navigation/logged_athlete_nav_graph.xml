@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/logged_athlete_nav_graph.xml"
     app:startDestination="@id/dashboardFragment">
-
     <fragment
         android:id="@+id/articlesFragment"
         android:name="com.apusart.manta.ui.user_module.ArticlesFragment"
@@ -66,9 +65,7 @@
             />
         <action
             android:id="@+id/action_meetsFragment_to_meetFragment"
-            app:destination="@id/meetFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:destination="@id/meetFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

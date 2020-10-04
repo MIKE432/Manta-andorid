@@ -13,6 +13,8 @@ class AthletesViewModel: ViewModel() {
     private val athletesService = AthletesService()
     val inProgress = MutableLiveData(false)
     val mantaAlph = MutableLiveData<List<String>>()
+
+
     fun getAthletes() {
         inProgress.value = true
         viewModelScope.launch {

@@ -14,7 +14,7 @@
         android:roundIcon="@drawable/main_logo"
         android:usesCleartextTraffic="true"
         android:supportsRtl="true"
-        android:theme="@style/Manta.Theme.Light">
+        android:theme="@style/Manta.Theme.Dark">
         <provider
             android:name=".ui.tools.GenericFileProvider"
             android:authorities="${applicationId}.provider"
@@ -31,10 +31,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.apusart.manta.ui.pick_athlete_module.WelcomeActivity" android:screenOrientation="portrait" />
-        <activity android:name=".ui.pick_athlete_module.PickAthleteActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.pick_athlete_module.StartActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.pick_athlete_module.pick_athlete.PickAthleteActivity" android:screenOrientation="portrait" />
         <activity android:name=".UserActivity" android:screenOrientation="portrait" />
-        <activity android:name=".SettingsActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.club_scope_module.ClubScopeActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.club_scope_module.ui.club_articles.article.ArticleActivity" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

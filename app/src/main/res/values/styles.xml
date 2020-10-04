@@ -70,6 +70,13 @@
     <style name="dashboard">
 
     </style>
+    <style name="list_item.default">
+
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
     <style name="dashboard.item" parent="list_item">
         <item name="contentPaddingLeft">5dp</item>
         <item name="contentPaddingRight">5dp</item>
@@ -113,7 +120,10 @@
         <item name="cardBackgroundColor">@color/white</item>
     </style>
 
-    <style name="MantaButton" >
+    <style name="MantaButton.Normal" parent="">
         <item name="android:padding">5dp</item>
+
     </style>
+
+
 </resources>

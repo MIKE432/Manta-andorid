@@ -16,7 +16,7 @@
 
         <TextView
             android:id="@+id/meet_item_meet_title"
-            style="@style/Body2MenuRoboto14Pt"
+            style="?Body2MenuRoboto14Pt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -24,7 +24,6 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-
             tools:text="IV Og\u00f3lnopolskie mistrzostwa O\u0142awy w p\u0142ywaniu" />
 
         <LinearLayout
