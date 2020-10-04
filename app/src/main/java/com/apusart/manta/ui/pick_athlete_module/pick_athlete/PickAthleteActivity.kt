@@ -99,8 +99,6 @@ class PickAthleteActivity: AppCompatActivity() {
             athletesAdapter.submitList(newList)
         })
 
-//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-
         viewModel.inProgress.observe(this, Observer { v ->
             pick_athlete_athletes_list.isVisible = !v
             pick_athlete_progressbar.isVisible = v
@@ -138,32 +136,6 @@ class PickAthleteActivity: AppCompatActivity() {
             }
             return@setOnTouchListener false
         }
-
-//        pick_athlete_athletes_edit_text.addTextChangedListener(object: TextWatcher {
-//            override fun afterTextChanged(s: Editable?) {
-//
-//            }
-//
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//
-//                val isThereAText = s.toString() != ""
-//
-//                pick_athlete_scroll_bar.isVisible = !isThereAText
-//                pick_athlete_fastscroller_thumb.isVisible = !isThereAText
-//                val newList = viewModel.athletes.value?.filter {
-//                    it.ath_firstname.startsWith(s.toString(), true) or
-//                    it.ath_lastname.startsWith(s.toString(), true) or
-//                    "${it.ath_firstname} ${it.ath_lastname}".startsWith(s.toString(), true) or
-//                    "${it.ath_lastname} ${it.ath_firstname}".startsWith(s.toString(), true)}
-//                pick_athlete_athletes_edit_text.setCompoundDrawablesWithIntrinsicBounds(R.drawable.search_icon_drawable,0, if (isThereAText) R.drawable.erase_icon16 else 0, 0)
-//                athletesAdapter.submitList(newList)
-//            }
-//        })
-
     }
 }
 
@@ -181,12 +153,6 @@ class AthletesAdapter(private val activity: Activity): ListAdapter<Athlete, Athl
             return oldItem.equals(newItem)
         }
     }
-
-//    override fun getItemViewType(position: Int): Int {
-//        return when(getItem(position)) {
-//
-//        }
-//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AthleteViewHolder {
         val viewContainer = LayoutInflater.from(parent.context)
