@@ -1,4 +1,4 @@
-package com.apusart.manta.ui.pick_athlete_module
+package com.apusart.manta.ui.pick_athlete_module.pick_athlete
 
 import android.app.Activity
 import android.content.Context
@@ -17,8 +17,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.util.Pair
-import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.apusart.manta.*
 import com.apusart.manta.api.models.Athlete
+import com.apusart.manta.databinding.PickAthleteActivityBinding
 import com.apusart.manta.ui.tools.Const
 import com.apusart.manta.ui.tools.Prefs
 import com.apusart.manta.ui.tools.Tools
@@ -33,12 +34,12 @@ import com.reddit.indicatorfastscroll.FastScrollItemIndicator
 import kotlinx.android.synthetic.main.pick_athlete_activity.*
 import kotlinx.android.synthetic.main.pick_athlete_item.view.*
 import kotlinx.android.synthetic.main.pick_athlete_item.view.pick_athlete_item_image
-import kotlinx.android.synthetic.main.user_activity.*
 
 class PickAthleteActivity: AppCompatActivity() {
     private val viewModel: AthletesViewModel by viewModels()
     private lateinit var athletesAdapter: AthletesAdapter
-
+    private val pickAthleteViewModel: PickAthleteViewModel by viewModels()
+    private lateinit var binding: PickAthleteActivityBinding
 
     companion object {
         var mLastClick: Long = 0
@@ -56,12 +57,12 @@ class PickAthleteActivity: AppCompatActivity() {
         val x = Prefs.getCurrentTheme()
         setTheme(if(x == 1) R.style.Manta_Theme_Dark else R.style.Manta_Theme_Light)
         super.onCreate(savedInstanceState)
-
-
-
-
-        setContentView(R.layout.pick_athlete_activity)
-        athletesAdapter = AthletesAdapter(this)
+        binding = DataBindingUtil.setContentView(this, R.layout.pick_athlete_activity)
+        binding.pickAthleteViewModel = pickAthleteViewModel
+        athletesAdapter =
+            AthletesAdapter(
+                this
+            )
 
         viewModel.athletes.observe(this, Observer { athletes ->
             athletesAdapter.submitList(athletes)
@@ -82,7 +83,20 @@ class PickAthleteActivity: AppCompatActivity() {
 
                 pick_athlete_fastscroller_thumb.setupWithFastScroller(pick_athlete_scroll_bar)
             }
+        })
 
+        pickAthleteViewModel.athleteNameText.observe(this, Observer { s ->
+            val isThereAText = s.toString() != ""
+
+            binding.pickAthleteScrollBar.isVisible = !isThereAText
+            binding.pickAthleteFastscrollerThumb.isVisible = !isThereAText
+            val newList = viewModel.athletes.value?.filter {
+                it.ath_firstname.startsWith(s.toString(), true) or
+                        it.ath_lastname.startsWith(s.toString(), true) or
+                        "${it.ath_firstname} ${it.ath_lastname}".startsWith(s.toString(), true) or
+                        "${it.ath_lastname} ${it.ath_firstname}".startsWith(s.toString(), true)}
+            binding.pickAthleteAthletesEditText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.search_icon_drawable,0, if (isThereAText) R.drawable.erase_icon16 else 0, 0)
+            athletesAdapter.submitList(newList)
         })
 
 //        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
@@ -125,36 +139,38 @@ class PickAthleteActivity: AppCompatActivity() {
             return@setOnTouchListener false
         }
 
-        pick_athlete_athletes_edit_text.addTextChangedListener(object: TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val isThereAText = s.toString() != ""
-
-                pick_athlete_scroll_bar.isVisible = !isThereAText
-                pick_athlete_fastscroller_thumb.isVisible = !isThereAText
-                val newList = viewModel.athletes.value?.filter {
-                    it.ath_firstname.startsWith(s.toString(), true) or
-                    it.ath_lastname.startsWith(s.toString(), true) or
-                    "${it.ath_firstname} ${it.ath_lastname}".startsWith(s.toString(), true) or
-                    "${it.ath_lastname} ${it.ath_firstname}".startsWith(s.toString(), true)}
-                pick_athlete_athletes_edit_text.setCompoundDrawablesWithIntrinsicBounds(R.drawable.search_icon_drawable,0, if (isThereAText) R.drawable.erase_icon16 else 0, 0)
-                athletesAdapter.submitList(newList)
-            }
-
-        })
+//        pick_athlete_athletes_edit_text.addTextChangedListener(object: TextWatcher {
+//            override fun afterTextChanged(s: Editable?) {
+//
+//            }
+//
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//
+//                val isThereAText = s.toString() != ""
+//
+//                pick_athlete_scroll_bar.isVisible = !isThereAText
+//                pick_athlete_fastscroller_thumb.isVisible = !isThereAText
+//                val newList = viewModel.athletes.value?.filter {
+//                    it.ath_firstname.startsWith(s.toString(), true) or
+//                    it.ath_lastname.startsWith(s.toString(), true) or
+//                    "${it.ath_firstname} ${it.ath_lastname}".startsWith(s.toString(), true) or
+//                    "${it.ath_lastname} ${it.ath_firstname}".startsWith(s.toString(), true)}
+//                pick_athlete_athletes_edit_text.setCompoundDrawablesWithIntrinsicBounds(R.drawable.search_icon_drawable,0, if (isThereAText) R.drawable.erase_icon16 else 0, 0)
+//                athletesAdapter.submitList(newList)
+//            }
+//        })
 
     }
 }
 
 
-class AthletesAdapter(private val activity: Activity): ListAdapter<Athlete, AthleteViewHolder>(diffUtil) {
+class AthletesAdapter(private val activity: Activity): ListAdapter<Athlete, AthleteViewHolder>(
+    diffUtil
+) {
 
     object diffUtil: DiffUtil.ItemCallback<Athlete>() {
         override fun areItemsTheSame(oldItem: Athlete, newItem: Athlete): Boolean {

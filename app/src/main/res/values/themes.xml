@@ -18,7 +18,14 @@
     <attr name="topBarColor" format="color" />
     <attr name="tabsTextStyle" format="reference" />
     <attr name="isDarkTheme" format="boolean" />
-
+    <attr name="mantaButtonStyle" format="reference" />
+    <attr name="mantaCardButton" format="reference" />
+    <attr name="contrastColor" format="color" />
+    <attr name="buttonPrimary" format="reference" />
+    <attr name="buttonSecondary" format="reference" />
+    <attr name="buttonPrimaryOutline" format="reference" />
+    <attr name="buttonSecondaryOutline" format="reference" />
+    <attr name="buttonTextAppearance" format="reference" />
     <style name="Manta.Theme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowAnimationStyle">@style/ActivityAnimator</item>
@@ -46,6 +53,10 @@
         <item name="topBarColor">@color/white</item>
         <item name="tabsTextStyle">@style/Body1Roboto14Pt.Dark</item>
         <item name="isDarkTheme">false</item>
+        <item name="buttonTextAppearance">@style/Roboto14Pt.Dark</item>
+        <item name="contrastColor">@color/primary_900</item>
+        <item name="mantaButtonStyle">@style/MantaButton.Normal.Light</item>
+        <item name="mantaCardButton">@style/MantaCardButton.Light</item>
     </style>
 
     <style name="Manta.Theme.Dark">
@@ -69,30 +80,11 @@
         <item name="tabsColor">@color/secondary_50</item>
         <item name="topBarColor">@color/dark_grey</item>
         <item name="tabsTextStyle">@style/Body1Roboto14Pt.Light</item>
+        <item name="buttonTextAppearance">@style/Roboto14Pt.Light</item>
         <item name="isDarkTheme">true</item>
+        <item name="mantaButtonStyle">@style/MantaButton.Normal.Dark</item>
+        <item name="mantaCardButton">@style/MantaCardButton.Dark</item>
+        <item name="contrastColor">@color/secondary_100</item>
     </style>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/black</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowAnimationStyle">@style/ActivityAnimator</item>
-        <item name="cardViewStyle">@style/CardView.Dark</item>
-        <item name="rippleEffectColor">@color/black</item>
-        <item name="contentColor">#FF424242</item>
-        <item name="background">@color/dark_grey</item>
-        <item name="HeadlineRoboto24Pt">@style/HeadlineRoboto24Pt.Dark</item>
-        <item name="TitleRoboto20Pt">@style/TitleRoboto20Pt.Dark</item>
-        <item name="Body2MenuRoboto14Pt">@style/Body2MenuRoboto14Pt.Dark</item>
-        <item name="ButtonRoboto14Pt">@style/ButtonRoboto14Pt.Dark</item>
-        <item name="Roboto14Pt">@style/Roboto14Pt.Dark</item>
-        <item name="Body1Roboto14Pt">@style/Body1Roboto14Pt.Dark</item>
-        <item name="Body3Roboto14Pt">@style/Body3Roboto14Pt.Dark</item>
-        <item name="CaptionRoboto12Pt">@style/CaptionRoboto12Pt.Dark</item>
-        <item name="CaptionRoboto12PtBlack">@style/CaptionRoboto12PtBlack.Dark</item>
-        <item name="iconsTint">@color/white</item>
-        <item name="tabsColor">@color/secondary_200</item>
-        <item name="topBarColor">@color/white</item>
-    </style>
 </resources>

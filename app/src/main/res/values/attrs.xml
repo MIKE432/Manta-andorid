@@ -7,4 +7,9 @@
         <attr name="image" format="reference|color"/>
         <attr name="text" format="string"/>
     </declare-styleable>
+    <declare-styleable name="MantaButton">
+        <attr name="button_title" format="string" />
+        <attr name="button_subtitle" format="string" />
+        <attr name="button_image" format="reference" />
+    </declare-styleable>
 </resources>

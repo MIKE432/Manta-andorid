@@ -43,4 +43,7 @@ interface MantaEndpoints {
 
     @GET("meets/{id}")
     suspend fun getMeetById(@Path("id") id: Int): MeetDetailsResponse
+
+    @GET("articles")
+    suspend fun getArticles(): ArticlesResponse
 }

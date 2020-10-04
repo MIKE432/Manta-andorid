@@ -1,36 +1,28 @@
 package com.apusart.manta
 
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import com.apusart.manta.api.models.Athlete
+import com.apusart.manta.api.models.MantaDatabase
 import com.apusart.manta.ui.Animations
 import com.apusart.manta.ui.MedalStatsViewModel
-import com.apusart.manta.ui.pick_athlete_module.PickAthleteActivity
-import com.apusart.manta.ui.pick_athlete_module.WelcomeActivity
+import com.apusart.manta.ui.pick_athlete_module.pick_athlete.PickAthleteActivity
+import com.apusart.manta.ui.pick_athlete_module.StartActivity
 import com.apusart.manta.ui.tools.Const
 import com.apusart.manta.ui.tools.Prefs
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.settings_fragment.*
 import kotlinx.android.synthetic.main.user_activity.*
-import kotlinx.coroutines.launch
-import java.lang.Exception
 
 
 class InitialActivity: AppCompatActivity() {
@@ -43,7 +35,7 @@ class InitialActivity: AppCompatActivity() {
            startActivity(Intent(this, UserActivity::class.java)
                .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
         } else {
-            startActivity(Intent(this, WelcomeActivity::class.java)
+            startActivity(Intent(this, StartActivity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
         }
         finish()
@@ -52,7 +44,6 @@ class InitialActivity: AppCompatActivity() {
 
 class UserActivityViewModel: ViewModel() {
     val theme = MutableLiveData<Int>()
-
 
     fun setTheme(t: Int) {
         theme.value = t
@@ -80,7 +71,7 @@ class UserActivity: AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-//        overridePendingTransition(R.anim.slide_in_left, 0)
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         val x = Prefs.getCurrentTheme()
 
         if(x != mUserActivityViewModel.theme.value) {
@@ -91,7 +82,7 @@ class UserActivity: AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         Log.d("stop", "stop")
-//        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+
     }
 
     override fun onPause() {
@@ -111,6 +102,7 @@ class UserActivity: AppCompatActivity() {
         setTheme(if(x == 1) R.style.Manta_Theme_Dark else R.style.Manta_Theme_Light)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_activity)
+        MantaDatabase.initialize(this)
         bottom_navigation.applyNavController(findNavController(R.id.logged_athlete_navigation_host))
 
         Prefs.athletePreference(applicationContext)
@@ -145,6 +137,16 @@ class UserActivity: AppCompatActivity() {
             startActivity(Intent(this, PickAthleteActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
         }
 
+        user_menu_logout.setOnClickListener {
+            Prefs.removeUser()
+            startActivity(Intent(this, InitialActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK))
+
+            finish()
+        }
+
+
         user_menu_about.setOnClickListener {
             findNavController(R.id.logged_athlete_navigation_host)
                 .navigate(R.id.about)
@@ -162,7 +164,7 @@ class UserActivity: AppCompatActivity() {
         }
 
         val navController = findNavController(R.id.logged_athlete_navigation_host)
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
 
             when(destination.id) {
                 R.id.profileFragment -> {
@@ -194,7 +196,7 @@ class SettingsActivity: Fragment(R.layout.settings_fragment) {
         super.onViewCreated(view, savedInstanceState)
 
 
-        theme_switcher.setOnCheckedChangeListener { buttonView, isChecked ->
+        theme_switcher.setOnCheckedChangeListener { _, isChecked ->
             Prefs.toggleCurrentTheme(isChecked)
             activity?.recreate()
         }

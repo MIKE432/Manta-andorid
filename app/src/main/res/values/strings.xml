@@ -56,4 +56,25 @@
     <string name="incoming_meet_caps">NAJBLIŻSZE ZAWODY</string>
     <string name="last_meet_caps">OSTATNIE ZAWODY</string>
     <string name="share">Udostępnij</string>
+    <string name="club_scope">Klub</string>
+    <string-array name="course_array">
+        <item>25m</item>
+        <item>50m</item>
+    </string-array>
+    <string-array name="gender_array">
+        <item>Kobiety</item>
+        <item>Mężczyźni</item>
+    </string-array>
+    <string-array name="age_array">
+        <item>10 lat i młodsi</item>
+        <item>11 lat</item>
+        <item>12 lat</item>
+        <item>13 lat</item>
+        <item>14 lat</item>
+        <item>15 lat</item>
+        <item>16 lat</item>
+        <item>17 lat</item>
+        <item>18 lat</item>
+        <item>19 lat i starsi</item>
+    </string-array>
 </resources>

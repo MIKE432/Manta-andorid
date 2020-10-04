@@ -39,3 +39,7 @@ class MeetPhotosResponse(
     val meet: Meet,
     val photos: List<Photo>
 )
+
+class ArticlesResponse(
+    val articles: List<Article>
+)

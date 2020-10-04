@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint android:id="@+id/pick_scope_title1"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            />
+
+        <Constraint android:id="@+id/pick_scope_title2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:alpha="0"
+            motion:layout_constraintTop_toBottomOf="@id/pick_scope_title1"/>
+
+        <Constraint
+            android:id="@+id/pick_scope_title3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@id/pick_scope_title2"
+            android:layout_marginHorizontal="40dp"
+            android:alpha="0"/>
+
+        <Constraint android:id="@+id/pick_scope_club_scope_button"
+            android:alpha="0"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"/>
+
+        <Constraint android:id="@+id/pick_scope_pick_athlete_button"
+            android:alpha="0"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            motion:layout_constraintEnd_toEndOf="parent"
+            />
+    </ConstraintSet>
+
+    <ConstraintSet
+        android:id="@+id/middle"
+        motion:deriveConstraintsFrom="@id/start">
+        <Constraint android:id="@+id/pick_scope_title1"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="1"
+            android:layout_marginHorizontal="40dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintVertical_bias="0.1"
+            />
+
+        <Constraint android:id="@+id/pick_scope_title2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:alpha="1"
+            motion:layout_constraintTop_toBottomOf="@id/pick_scope_title1"/>
+
+        <Constraint
+            android:id="@+id/pick_scope_title3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@id/pick_scope_title2"
+            android:layout_marginHorizontal="40dp"
+            android:alpha="1"/>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end"
+        motion:deriveConstraintsFrom="@id/middle">
+        <Constraint android:id="@+id/pick_scope_club_scope_button"
+            android:alpha="1"
+            motion:layout_constraintTop_toBottomOf="@id/pick_scope_title3"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintVertical_bias="0.3"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_width="match_parent"
+            motion:layout_constraintEnd_toEndOf="parent"/>
+
+        <Constraint android:id="@+id/pick_scope_pick_athlete_button"
+            motion:layout_constraintTop_toBottomOf="@id/pick_scope_club_scope_button"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_width="match_parent"
+            android:alpha="1"/>
+    </ConstraintSet>
+
+
+
+    <Transition
+        motion:constraintSetEnd="@id/middle"
+        motion:constraintSetStart="@id/start"
+        motion:autoTransition="animateToEnd"
+        motion:duration="2000">
+        <KeyFrameSet>
+            <KeyAttribute
+                motion:motionTarget="@+id/pick_scope_title1"
+                motion:framePosition="20"
+                android:alpha="1"/>
+            <KeyAttribute
+                motion:motionTarget="@+id/pick_scope_title2"
+                motion:framePosition="20"
+                android:alpha="0"/>
+            <KeyAttribute
+                motion:motionTarget="@+id/pick_scope_title2"
+                motion:framePosition="30"
+                android:alpha="1"/>
+
+            <KeyAttribute
+                motion:motionTarget="@+id/pick_scope_title3"
+                motion:framePosition="40"
+                android:alpha="0"/>
+            <KeyAttribute
+                motion:motionTarget="@+id/pick_scope_title3"
+                motion:framePosition="50"
+                android:alpha="1"/>
+        </KeyFrameSet>
+    </Transition>
+
+    <Transition
+        motion:constraintSetEnd="@id/end"
+        motion:constraintSetStart="@+id/middle"
+        motion:motionInterpolator="easeIn"
+        motion:autoTransition="animateToEnd"
+        motion:duration="2000">
+        <KeyFrameSet>
+
+            <KeyPosition
+                motion:motionTarget="@+id/pick_scope_club_scope_button"
+                motion:framePosition="20"
+                motion:percentY="1.0"
+                />
+            <KeyAttribute
+                motion:motionTarget="@+id/pick_scope_club_scope_button"
+                motion:framePosition="20"
+                android:alpha="1"
+                />
+
+            <KeyPosition
+                motion:motionTarget="@+id/pick_scope_pick_athlete_button"
+                motion:framePosition="25"
+                motion:percentY="1.0"
+                />
+
+            <KeyAttribute
+                motion:motionTarget="@+id/pick_scope_pick_athlete_button"
+                motion:framePosition="10"
+                android:alpha="0"
+                />
+
+            <KeyAttribute
+                motion:motionTarget="@+id/pick_scope_pick_athlete_button"
+                motion:framePosition="25"
+                android:alpha="1"
+                />
+
+
+        </KeyFrameSet>
+    </Transition>
+</MotionScene>

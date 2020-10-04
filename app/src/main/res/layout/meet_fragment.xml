@@ -18,7 +18,7 @@
             android:id="@+id/last_meet_fragment_main_information_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:transitionName="meet_transition"
             android:background="@drawable/header_section_background">
             <TextView
                 android:layout_marginTop="10dp"

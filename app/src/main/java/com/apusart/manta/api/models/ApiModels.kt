@@ -1,5 +1,8 @@
 package com.apusart.manta.api.models
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 class Athlete(
     val athlete_id: Int,
     val club_id: Int,
@@ -294,4 +297,19 @@ class Photo(
     val path: String,
     val path_thumb_m: String?,
     val path_thumb_s: String?
+)
+
+@Entity
+class Article(
+    @PrimaryKey(autoGenerate = false)
+    val article_id: Int,
+    val season_id: Int?,
+    val title: String,
+    val subtitle: String?,
+    val introtext: String?,
+    val fulltext: String,
+    val created: String?,
+    val category: String,
+    val version: Int,
+    val section: String
 )

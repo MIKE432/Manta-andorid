@@ -6,14 +6,16 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?background">
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
             android:id="@+id/medal_statistics_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?background"
+            android:orientation="vertical"
             >
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/profile_fragment_athlete_medals_statistics_scroll_view"
@@ -46,18 +48,26 @@
                 </androidx.cardview.widget.CardView>
             </androidx.core.widget.NestedScrollView>
 
-            <ProgressBar
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/profile_fragment_athlete_medals_statistics_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:visibility="gone"/>
+                android:visibility="gone">
+                <ProgressBar
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_gravity="center"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
         <com.apusart.manta.ui.tools.EmptyStateComponent
             android:id="@+id/profile_fragment_athlete_medals_statistics_no_medals"
             android:layout_width="match_parent"
@@ -69,5 +79,5 @@
             app:text="Brak trofeów"
             app:image="@drawable/medal_icon"
             android:visibility="gone"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

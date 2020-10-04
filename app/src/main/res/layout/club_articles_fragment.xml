@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?background">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/club_articles_articles_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/article_activity_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:fitsSystemWindows="true">
+        <com.apusart.manta.ui.tools.CollapsibleAppBar
+            android:layout_width="match_parent"
+            app:layoutDescription="@xml/club_articles_fragment_scene"
+            android:layout_height="match_parent"
+            android:minHeight="50dp"
+            android:fitsSystemWindows="false"
+            app:layout_scrollFlags="scroll|enterAlways|snap|exitUntilCollapsed">
+
+            <ImageView
+                android:id="@+id/club_articles_fragment_background"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="@color/colorAccent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/article_background"/>
+
+            <TextView
+                android:id="@+id/club_articles_fragment_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:transformPivotX="0dp"
+                android:transformPivotY="0dp"
+                android:text="Artykuły"
+                style="?HeadlineRoboto24Pt"
+                android:textSize="32sp"
+                android:textColor="@color/secondary_50"
+
+ />
+        </com.apusart.manta.ui.tools.CollapsibleAppBar>
+    </com.google.android.material.appbar.AppBarLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

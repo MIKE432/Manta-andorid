@@ -3,34 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     style="@style/dashboard.item.no_padding"
 
     android:paddingTop="3dp">
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="300dp"
-        android:layout_height="450dp">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/meet_list_item_image_container"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:cardCornerRadius="4dp"
-            app:layout_constraintBottom_toTopOf="@id/meet_list_item_meet_information"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="5dp"
-            >
-            <ImageView
-                android:id="@+id/meet_list_item_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
-                tools:src="@drawable/manta_welcome"
-                android:scaleType="centerCrop" />
-        </androidx.cardview.widget.CardView>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/meet_list_item_meet_information"
@@ -39,100 +19,122 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/meet_list_item_header_main_container"
+                android:id="@+id/meet_list_item_header_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                android:background="@drawable/rounded_corners_ripple"
-                android:paddingHorizontal="5dp">
-                <TextView
-                    android:id="@+id/meet_list_item_meet_name"
-                    android:layout_width="match_parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/meet_list_item_header_main_container"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/meet_list_item_additional_info_container"
-                    style="?Body2MenuRoboto14Pt"
-                    android:gravity="center"
-                    android:lines="2"
-                    tools:text="I Og\u00f3lnopolskie mistrzostwa O\u0142awy w p\u0142ywaniu"/>
-                <LinearLayout
-
-                    android:id="@+id/meet_list_item_additional_info_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/meet_list_item_meet_name"
-                    android:orientation="vertical">
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    android:background="@drawable/rounded_corners_ripple"
+                    app:layout_constraintEnd_toStartOf="@id/meet_list_item_image"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:paddingHorizontal="5dp"
+                    android:transitionName="meet_transition">
+                    <TextView
+                        android:id="@+id/meet_list_item_meet_name"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/meet_list_item_additional_info_container"
+                        style="?Body2MenuRoboto14Pt"
+                        android:gravity="center"
+                        android:lines="2"
+                        tools:text="I Og\u00f3lnopolskie mistrzostwa O\u0142awy w p\u0142ywaniu"/>
+                    <LinearLayout
+
+                        android:id="@+id/meet_list_item_additional_info_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/meet_list_item_meet_name"
+                        android:orientation="vertical">
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <LinearLayout
+                                android:id="@+id/meet_list_item_meet_city_container"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/meet_list_item_course_container"
+                                app:layout_constraintStart_toStartOf="parent"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="3dp"
+                                    style="?CaptionRoboto12Pt"
+                                    android:text="Miejsce: "/>
+                                <TextView
+                                    android:id="@+id/meet_list_item_meet_city"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    style="?CaptionRoboto12PtBlack"
+                                    tools:text="Oława"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/meet_list_item_course_container"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/meet_list_item_meet_city_container"
+                                android:orientation="horizontal"
+                                android:gravity="end">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="3dp"
+                                    style="?CaptionRoboto12Pt"
+                                    android:text="Basen: "/>
+                                <TextView
+                                    android:id="@+id/meet_list_item_course"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    style="?CaptionRoboto12PtBlack"
+                                    tools:text="Oława"/>
+                            </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
                         <LinearLayout
-                            android:id="@+id/meet_list_item_meet_city_container"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/meet_list_item_course_container"
-                            app:layout_constraintStart_toStartOf="parent"
                             android:orientation="horizontal">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="3dp"
                                 style="?CaptionRoboto12Pt"
-                                android:text="Miejsce: "/>
+                                android:text="Termin:"/>
                             <TextView
-                                android:id="@+id/meet_list_item_meet_city"
+                                android:id="@+id/meet_list_item_date"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 style="?CaptionRoboto12PtBlack"
-                                tools:text="Oława"/>
+                                tools:text="12.05.2012"/>
                         </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/meet_list_item_course_container"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/meet_list_item_meet_city_container"
-                            android:orientation="horizontal"
-                            android:gravity="end">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="3dp"
-                                style="?CaptionRoboto12Pt"
-                                android:text="Basen: "/>
-                            <TextView
-                                android:id="@+id/meet_list_item_course"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                style="?CaptionRoboto12PtBlack"
-                                tools:text="Oława"/>
-                        </LinearLayout>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="3dp"
-                            style="?CaptionRoboto12Pt"
-                            android:text="Termin:"/>
-                        <TextView
-                            android:id="@+id/meet_list_item_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="?CaptionRoboto12PtBlack"
-                            tools:text="12.05.2012"/>
                     </LinearLayout>
-                </LinearLayout>
 
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/meet_list_item_image"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_margin="5dp"
+                    app:layout_constraintStart_toEndOf="@id/meet_list_item_header_main_container"
+                    tools:src="@drawable/manta_welcome"
+                    android:scaleType="centerCrop" />
             </androidx.constraintlayout.widget.ConstraintLayout>
             <com.apusart.manta.ui.tools.MultipleButton
                 android:id="@+id/meet_list_item_multiple_button"
-                app:layout_constraintTop_toBottomOf="@id/meet_list_item_header_main_container"
+                app:layout_constraintTop_toBottomOf="@id/meet_list_item_header_container"
                 android:layout_marginTop="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -19,8 +19,12 @@ import androidx.core.content.FileProvider
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.apusart.manta.R
 import com.apusart.manta.api.models.Athlete
+import com.apusart.manta.ui.club_scope_module.ui.club_records.ClubRecordsViewModel
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import java.io.File
@@ -85,7 +89,7 @@ object Const {
         "BT" to "klasyczny",
         "FL" to "motylkowy",
         "ME" to "zmienny",
-         "FR" to "dowolny",
+        "FR" to "dowolny",
         "BK" to "grzbietowy"
     )
 
@@ -93,6 +97,13 @@ object Const {
         "SCM" to "25m",
         "LCM" to "50m"
     )
+
+    val courseFilter = bundleOf(
+        "true" to "SCM",
+        "false" to "LCM"
+    )
+
+
 }
 
 object Tools {
@@ -356,7 +367,7 @@ object Prefs {
 
     fun getCurrentTheme(): Int  {
         mCurrentTheme = settings?.getInt(
-            CURRENT_THEME,0) ?: 0
+            CURRENT_THEME,1) ?: 1
 
         return mCurrentTheme
     }
@@ -439,3 +450,12 @@ open class OnSwipeTouchListener(val ctx: Context): View.OnTouchListener {
 class LoadingScreen: Fragment(R.layout.loading_screen)
 class DevToolFragment: Fragment(R.layout.dev_tools_fragment)
 class GenericFileProvider : FileProvider()
+
+class AppViewModelFactory(private val lifecycleOwner: LifecycleOwner): ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return when(modelClass) {
+            ClubRecordsViewModel::class.java -> ClubRecordsViewModel(lifecycleOwner) as T
+            else -> throw Exception("wrong class")
+        }
+    }
+}

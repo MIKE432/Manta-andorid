@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/club_scope_navigation"
+    app:startDestination="@id/clubArticles">
+    <fragment
+        android:id="@+id/clubArticles"
+        android:name="com.apusart.manta.ui.club_scope_module.ui.club_articles.ClubArticles"
+        android:label="ClubArticles" />
+    <fragment
+        android:id="@+id/clubRecords"
+        android:name="com.apusart.manta.ui.club_scope_module.ui.club_records.ClubRecords"
+        android:label="ClubRecords" >
+        <action
+            android:id="@+id/action_clubRecords_to_clubRecordsFiltersFragment"
+            app:destination="@id/clubRecordsFiltersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/clubMeets"
+        android:name="com.apusart.manta.ui.club_scope_module.ui.club_meets.ClubMeets"
+        android:label="ClubMeets" />
+    <fragment
+        android:id="@+id/clubRecordsFiltersFragment"
+        android:name="com.apusart.manta.ui.club_scope_module.ui.club_records.ClubRecordsFiltersFragment"
+        android:label="ClubRecordsFiltersFragment" />
+</navigation>

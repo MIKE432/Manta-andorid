@@ -3,6 +3,7 @@ package com.apusart.manta.ui.user_module.meets
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,12 @@ class MeetFragment: Fragment(R.layout.meet_fragment) {
     private val mMeetViewModel: MeetViewModel by viewModels()
     private lateinit var mComparedResultAdapter: ComparedResultAdapter
     private val mArgs by navArgs<MeetFragmentArgs>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

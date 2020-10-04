@@ -25,7 +25,6 @@ class ResultsFragment: Fragment(R.layout.results_fragment) {
             adapter = specificSectionAdapter
             currentItem = navArgs.openOnPage
         }
-
     }
 }
 

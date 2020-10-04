@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layoutDescription="@xml/pick_scope_fragment_scene">
+    <ImageView
+        android:id="@+id/pick_scope_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/manta_welcome"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"/>
+    <TextView
+        android:id="@+id/pick_scope_title1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:text="Uczniowski klub pływacki"
+        android:textColor="@color/secondary_300"
+        style="?Body3Roboto14Pt"
+
+        />
+
+    <TextView
+        android:id="@+id/pick_scope_title2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="MANTA"
+        android:textColor="@color/primary_900"
+        android:textSize="35sp"
+        style="?HeadlineRoboto24Pt"
+        android:letterSpacing="1"
+        />
+
+    <TextView
+        android:id="@+id/pick_scope_title3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Jelcz - Laskowice"
+        android:textColor="@color/secondary_300"
+        style="?Body3Roboto14Pt"
+        android:textSize="20sp"
+
+        />
+
+    <com.apusart.manta.ui.tools.Button
+        android:id="@+id/pick_scope_club_scope_button"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_marginHorizontal="40dp"
+        app:button_title="@string/club_scope"
+        app:button_image="@drawable/manta_logo_image32"
+        app:button_subtitle="Przeglądaj zawodników, czytaj artukuły i wiele innych..."
+        />
+
+    <com.apusart.manta.ui.tools.Button
+        android:id="@+id/pick_scope_pick_athlete_button"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_marginHorizontal="40dp"
+        app:button_title="@string/athlete"
+        app:button_image="@drawable/athlete_icon"
+        app:button_subtitle="Bądź na bieżąco z zawodami oraz śledź swoje postępy. "
+        />
+</androidx.constraintlayout.motion.widget.MotionLayout>
