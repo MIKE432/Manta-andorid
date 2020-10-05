@@ -167,8 +167,6 @@ class MeetViewHolder(container: View, private val navController: NavController, 
             meet_list_item_multiple_button.setButtonIcon(1, R.drawable.articles_icon)
             meet_list_item_multiple_button.addButton("Wyniki")
             meet_list_item_multiple_button.setButtonIcon(2, R.drawable.stopwatch_icon)
-            meet_list_item_multiple_button.addButton("Galeria")
-            meet_list_item_multiple_button.setButtonIcon(3, R.drawable.gallery_icon64)
 
             meet.run {
                 meet_list_item_meet_name.text = mt_name
@@ -189,22 +187,17 @@ class MeetViewHolder(container: View, private val navController: NavController, 
                     navController.navigate(MeetsPagerDirections.actionMeetsFragmentToMeetFragment(meet_id))
                 }
 
-
-
                 if(areThereAnyPhotos) {
                     Glide.with(itemView)
                         .load(Const.baseUrl + meet.path)
                         .error(R.drawable.no_photo)
                         .into(meet_list_item_image)
 
-                    meet_list_item_multiple_button.setButtonOnClickListener(3) {
+                    meet_list_item_image.setOnClickListener {
                         Prefs.setPreviousMeetPhoto(0)
                         navController.navigate(MeetsPagerDirections.actionMeetsFragmentToGalleryFragment(meet_id))
                     }
-
                 } else {
-                    meet_list_item_multiple_button.setToInactive(3, R.color.pale_grey_three)
-
                     Glide.with(itemView)
                         .load(R.drawable.no_photo)
                         .into(meet_list_item_image)

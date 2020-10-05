@@ -18,8 +18,7 @@ class ResultsFragment: Fragment(R.layout.results_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        specificSectionAdapter =
-            UserResultsAdapter(childFragmentManager)
+        specificSectionAdapter = UserResultsAdapter(childFragmentManager)
 
         results_fragment_view_pager.apply {
             adapter = specificSectionAdapter

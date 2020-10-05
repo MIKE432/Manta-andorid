@@ -10,14 +10,15 @@
         android:id="@+id/results_fragment_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        style="?Roboto14Pt"
         android:layout_weight="1">
         <androidx.viewpager.widget.PagerTabStrip
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:background="?tabsColor"
+            android:background="@drawable/viewpager_tab_background"
             android:paddingVertical="8dp"
-            style="?tabsTextStyle" />
+            style="@style/Roboto14Pt.Tab" />
 
     </androidx.viewpager.widget.ViewPager>
 

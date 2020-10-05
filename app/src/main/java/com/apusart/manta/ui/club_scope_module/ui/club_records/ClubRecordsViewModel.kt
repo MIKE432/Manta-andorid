@@ -16,14 +16,16 @@ import androidx.lifecycle.viewModelScope
 import com.apusart.manta.api.models.Record
 import com.apusart.manta.api.serivces.MantaService
 import com.apusart.manta.ui.tools.Const
+import com.apusart.manta.ui.tools.RecordListItemData
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class ClubRecordsViewModel(private val lifecycleOwner: LifecycleOwner): ViewModel() {
     private val mantaService = MantaService()
     val ageSpinnerValue: MutableLiveData<Int>
     val isFemale: MutableLiveData<Boolean>
     val isShortCourse: MutableLiveData<Boolean>
-    val recordsData = MutableLiveData<List<Record>>()
+    val recordsData = MutableLiveData<List<RecordListItemData>>()
     var howMuchToIgnore: Int = 0
 
     //filters
@@ -70,13 +72,73 @@ class ClubRecordsViewModel(private val lifecycleOwner: LifecycleOwner): ViewMode
 
     fun getRecords() {
         viewModelScope.launch {
+            try {
+                howMuchToIgnore++
 
-            howMuchToIgnore++
+                val result = mantaService.getRecords(ageSpinnerValue.value?.plus(10), course = Const.courseFilter.getString(isShortCourse.value.toString()), gender = if(isFemale.value != false) "F" else "M")
 
-            val result = mantaService.getRecords(ageSpinnerValue.value?.plus(10), course = Const.courseFilter.getString(isShortCourse.value.toString()), gender = if(isFemale.value != false) "F" else "M")
+                if(--howMuchToIgnore == 0) {
+                    val parsedResult = ArrayList<RecordListItemData>()
 
-            if(--howMuchToIgnore == 0) {
-                recordsData.value = result
+                    val freeStyleList = result.filter { it.style_abbr == "FR" }
+                    val backStrokeStyleList = result.filter { it.style_abbr == "BK" }
+                    val flyStyleList = result.filter { it.style_abbr == "FL" }
+                    val breastStrokeStyleList = result.filter { it.style_abbr == "BT" }
+                    val medleyStyleList = result.filter { it.style_abbr == "ME" }
+
+                    parsedResult.add(RecordListItemData("Dowolny",
+                        freeStyleList.firstOrNull { it.sev_distance == 50 },
+                        freeStyleList.firstOrNull { it.sev_distance == 100 },
+                        freeStyleList.firstOrNull { it.sev_distance == 200 },
+                        freeStyleList.firstOrNull { it.sev_distance == 400 },
+                        freeStyleList.firstOrNull { it.sev_distance == 800 },
+                        freeStyleList.firstOrNull { it.sev_distance == 1500 }
+                    ))
+
+                    parsedResult.add(RecordListItemData("Grzbietowy",
+                        backStrokeStyleList.firstOrNull { it.sev_distance == 50 },
+                        backStrokeStyleList.firstOrNull { it.sev_distance == 100 },
+                        backStrokeStyleList.firstOrNull { it.sev_distance == 200 },
+                        null,
+                        null,
+                        null
+                    ))
+
+                    parsedResult.add(RecordListItemData("Motylkowy",
+                        flyStyleList.firstOrNull { it.sev_distance == 50 },
+                        flyStyleList.firstOrNull { it.sev_distance == 100 },
+                        flyStyleList.firstOrNull { it.sev_distance == 200 },
+                        null,
+                        null,
+                        null
+                    ))
+
+                    parsedResult.add(RecordListItemData("Klasyczny",
+                        breastStrokeStyleList.firstOrNull { it.sev_distance == 50 },
+                        breastStrokeStyleList.firstOrNull { it.sev_distance == 100 },
+                        breastStrokeStyleList.firstOrNull { it.sev_distance == 200 },
+                        null,
+                        null,
+                        null
+                    ))
+
+
+                    parsedResult.add(RecordListItemData("Zmienny",
+                        medleyStyleList.firstOrNull { it.sev_distance == 50 },
+                        medleyStyleList.firstOrNull { it.sev_distance == 100 },
+                        medleyStyleList.firstOrNull { it.sev_distance == 200 },
+                        null,
+                        null,
+                        null
+                    ))
+
+
+                    recordsData.value = parsedResult
+                }
+            } catch(e: Exception) {
+                e.printStackTrace()
+            } finally {
+
             }
 
         }

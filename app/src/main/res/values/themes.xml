@@ -51,7 +51,7 @@
         <item name="iconsTint">@color/black</item>
         <item name="tabsColor">@color/secondary_900</item>
         <item name="topBarColor">@color/white</item>
-        <item name="tabsTextStyle">@style/Body1Roboto14Pt.Dark</item>
+        <item name="tabsTextStyle">@style/Body1Roboto14Pt</item>
         <item name="isDarkTheme">false</item>
         <item name="buttonTextAppearance">@style/Roboto14Pt.Dark</item>
         <item name="contrastColor">@color/primary_900</item>
@@ -79,7 +79,7 @@
         <item name="iconsTint">@color/white</item>
         <item name="tabsColor">@color/secondary_50</item>
         <item name="topBarColor">@color/dark_grey</item>
-        <item name="tabsTextStyle">@style/Body1Roboto14Pt.Light</item>
+        <item name="tabsTextStyle">@style/Body1Roboto14Pt</item>
         <item name="buttonTextAppearance">@style/Roboto14Pt.Light</item>
         <item name="isDarkTheme">true</item>
         <item name="mantaButtonStyle">@style/MantaButton.Normal.Dark</item>

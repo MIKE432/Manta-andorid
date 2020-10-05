@@ -15,7 +15,7 @@ class MedalStatsViewModel: ViewModel() {
     private val mAthletesService = AthletesService()
     val mGeneralMedalStats = MutableLiveData(GeneralMedalStats())
     val mAllMedalStats = MutableLiveData<List<Stats?>>()
-    val isAllMedalStatsRequestInProgress = MutableLiveData(false)
+    val isAllMedalStatsRequestInProgress = MutableLiveData<Boolean>()
 
     fun getGeneralMedalStatsByAthleteId(id: Int, grade: String? = null) {
         viewModelScope.launch {
@@ -60,7 +60,7 @@ class MedalStatsViewModel: ViewModel() {
                 e.printStackTrace()
             }
             finally {
-
+                isAllMedalStatsRequestInProgress.value = false
             }
         }
     }

@@ -163,9 +163,9 @@ class DashBoardFragment: Fragment(R.layout.dashboard_fragment) {
                 achievements.medal_stats_item_silver_medals_stats.visibility = View.VISIBLE
 
             if(it.bronze == 0)
-                achievements.medal_stats_item_bronze_medals_stats.visibility = View.INVISIBLE
+                achievements.medal_stats_item_bronze_stats.visibility = View.INVISIBLE
             else
-                achievements.medal_stats_item_bronze_medals_stats.visibility = View.VISIBLE
+                achievements.medal_stats_item_bronze_stats.visibility = View.VISIBLE
         })
 
         achievements.medals_statistics_for_dashboard_container.setOnClickListener {
